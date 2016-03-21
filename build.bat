@@ -1,5 +1,5 @@
 @REM Set this according to your own environment setup
-SET DEVKITROOT=c:\dev32x
+SET DEVKITROOT=C:\Util\dev32x
 
 
 
