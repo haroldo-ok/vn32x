@@ -30,6 +30,12 @@ freely, subject to the following restrictions:
 
 extern const char* LODEPNG_VERSION_STRING;
 
+// Custom config for 32x
+#define LODEPNG_NO_COMPILE_ENCODER
+#define LODEPNG_NO_COMPILE_DISK
+#define LODEPNG_NO_COMPILE_ANCILLARY_CHUNKS
+#define LODEPNG_COMPILE_ERROR_TEXT
+
 /*
 The following #defines are used to create code sections. They can be disabled
 to disable code sections, which can give faster compile time and smaller binary.

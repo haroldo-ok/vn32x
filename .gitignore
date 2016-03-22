@@ -1,3 +1,5 @@
 /*.o
 /32xcode.bin
 /eightqueens.32x
+/data/*.h
+/data/*.c
