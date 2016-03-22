@@ -212,8 +212,8 @@ void displayAll( int backgroundColour ) {
 	displayBoard();
 
 	vu16* frameBuffer = &MARS_FRAMEBUFFER + 0x100;
-	frameBuffer[0] = RED;
-	frameBuffer[160] = RED;
+	frameBuffer[0] = COLOR(31,0,16);
+	frameBuffer[160] = COLOR(31,0,16);
 	frameBuffer[319] = 0x0404;
 	/*
 	frameBuffer[1] = RED;
@@ -228,7 +228,8 @@ int main() {
 	// Wait for the SH2 to gain access to the VDP
 	while ((MARS_SYS_INTMSK & MARS_SH2_ACCESS_VDP) == 0) {}
 	// Set 8-bit paletted mode, 224 lines
-	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_256;
+//	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_256;
+	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_32K;
 	MARS_VDP_FBCTL = 0;	
 
 	init();

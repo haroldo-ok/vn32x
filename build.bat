@@ -1,3 +1,5 @@
+SETLOCAL
+
 @REM Set this according to your own environment setup
 SET DEVKITROOT=C:\Util\dev32x
 
