@@ -210,6 +210,17 @@ void nextConfiguration() {
 void displayAll( int backgroundColour ) {
 	clearScreen( backgroundColour );
 	displayBoard();
+
+	vu16* frameBuffer = &MARS_FRAMEBUFFER + 0x100;
+	frameBuffer[0] = RED;
+	frameBuffer[160] = RED;
+	frameBuffer[319] = 0x0404;
+	/*
+	frameBuffer[1] = RED;
+	frameBuffer[2] = RED;
+	frameBuffer[3] = RED;
+	*/
+	
 	swapBuffers();
 }
 
