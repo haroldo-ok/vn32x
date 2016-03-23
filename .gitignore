@@ -7,3 +7,5 @@
 /data/gfx/*.pal
 /packfire/*.32x
 /packfire/*.o
+/dpng/*.o
+/dpng/*.32x

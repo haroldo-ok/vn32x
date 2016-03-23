@@ -1,0 +1,671 @@
+Archive member included because of file (symbol)
+
+libpng.a(png.o)               dpng32x.o (_png_create_info_struct)
+libpng.a(pngerror.o)          dpng32x.o (_png_set_longjmp_fn)
+libpng.a(pngget.o)            dpng32x.o (_png_get_IHDR)
+libpng.a(pngmem.o)            libpng.a(png.o) (_png_free)
+libpng.a(pngread.o)           dpng32x.o (_png_destroy_read_struct)
+libpng.a(pngrio.o)            dpng32x.o (_png_set_read_fn)
+libpng.a(pngrtran.o)          dpng32x.o (_png_set_strip_16)
+libpng.a(pngrutil.o)          libpng.a(pngread.o) (_png_read_start_row)
+libpng.a(pngset.o)            libpng.a(pngrutil.o) (_png_set_oFFs)
+libpng.a(pngtrans.o)          libpng.a(pngread.o) (_png_set_bgr)
+libpng.a(msys.o)              libpng.a(pngmem.o) (_MSYS_Free)
+libz.a(crc32.o)               libpng.a(png.o) (_crc32)
+libz.a(inflate.o)             libpng.a(png.o) (_inflateReset)
+libz.a(inftrees.o)            libz.a(inflate.o) (_inflate_table)
+libz.a(inffast.o)             libz.a(inflate.o) (_inflate_fast)
+libz.a(adler32.o)             libz.a(inflate.o) (_adler32)
+libz.a(zutil.o)               libz.a(inflate.o) (_zcfree)
+libc.a(lib_a-abort.o)         libpng.a(pngerror.o) (_abort)
+libc.a(lib_a-memcmp.o)        libpng.a(png.o) (_memcmp)
+libc.a(lib_a-memcpy.o)        libpng.a(pngerror.o) (_memcpy)
+libc.a(lib_a-memset.o)        libpng.a(png.o) (_memset)
+libc.a(lib_a-setjmp.o)        dpng32x.o (_setjmp)
+libc.a(lib_a-signal.o)        libc.a(lib_a-abort.o) (_raise)
+libc.a(lib_a-signalr.o)       libc.a(lib_a-signal.o) (__getpid_r)
+libc.a(lib_a-strlen.o)        libpng.a(pngrutil.o) (_strlen)
+libc.a(lib_a-syscalls.o)      libc.a(lib_a-signalr.o) (__getpid)
+libc.a(lib_a-trap.o)          libc.a(lib_a-syscalls.o) (___trap34)
+libc.a(lib_a-impure.o)        libc.a(lib_a-signal.o) (__impure_ptr)
+libc.a(lib_a-mallocr.o)       libc.a(lib_a-signal.o) (__malloc_r)
+libc.a(lib_a-mlock.o)         libc.a(lib_a-mallocr.o) (___malloc_lock)
+libc.a(lib_a-sbrkr.o)         libc.a(lib_a-mallocr.o) (__sbrk_r)
+libc.a(lib_a-freer.o)         libc.a(lib_a-mallocr.o) (__free_r)
+libgcc.a(_ashiftrt_n.o)       libpng.a(pngrtran.o) (___ashrsi3)
+libgcc.a(_ashiftlt.o)         libpng.a(pngread.o) (___ashlsi3)
+libgcc.a(_lshiftrt.o)         libz.a(inflate.o) (___lshrsi3)
+libgcc.a(_movmem.o)           libpng.a(pngread.o) (___movmem)
+libgcc.a(_mulsi3.o)           libpng.a(png.o) (___mulsi3)
+libgcc.a(_sdivsi3.o)          libpng.a(pngrutil.o) (___sdivsi3)
+libgcc.a(_udivsi3.o)          libpng.a(png.o) (___udivsi3)
+
+Allocating common symbols
+Common symbol       size              file
+
+_g_pos              0x4               dpng32x.o
+_g_baseAddr         0x4               dpng32x.o
+_g_imageSize        0x4               dpng32x.o
+_errno              0x4               libc.a(lib_a-syscalls.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+rom              0x0000000002000000 0x0000000000400000
+ram              0x0000000006000000 0x0000000000040000
+cache            0x00000000c0000000 0x0000000000000800
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x00000000c0000000                __iwram_start = ORIGIN (cache)
+                0x0000000006040000                PROVIDE (__stack, 0x6040000)
+
+.text           0x0000000002000000    0x2ae44
+ *(.text)
+ .text          0x0000000002000000      0x948 sh2_crt0.o
+                0x0000000002000940                _start
+                0x0000000002000944                _end
+ *fill*         0x0000000002000948        0x8 00
+ .text          0x0000000002000950       0xa0 main.o
+                0x0000000002000950                _slave
+                0x0000000002000960                _main
+ .text          0x00000000020009f0      0x300 dpng32x.o
+                0x0000000002000a80                _read_png
+ .text          0x0000000002000cf0    0x13fa4 pngdata.o
+                0x0000000002000cf0                _image
+                0x0000000002014c94                _image_end
+ .text          0x0000000002014c94      0xc34 libpng.a(png.o)
+                0x0000000002014c94                _png_get_io_ptr
+                0x0000000002014ca8                _png_get_copyright
+                0x0000000002014cb8                _png_get_libpng_ver
+                0x0000000002014cc8                _png_get_header_ver
+                0x0000000002014cd8                _png_get_header_version
+                0x0000000002014ce8                _png_access_version_number
+                0x0000000002014cf8                _png_64bit_product
+                0x0000000002014d78                _png_check_cHRM_fixed
+                0x0000000002014ec8                _png_data_freer
+                0x0000000002014f14                _png_check_IHDR
+                0x0000000002015100                _png_set_sig_bytes
+                0x0000000002015138                _png_reset_zstream
+                0x000000000201515c                _png_handle_as_unknown
+                0x00000000020151d4                _png_sig_cmp
+                0x0000000002015234                _png_zfree
+                0x0000000002015244                _png_free_data
+                0x000000000201566c                _png_info_init_3
+                0x00000000020156d0                _png_info_destroy
+                0x000000000201572c                _png_destroy_info_struct
+                0x000000000201577c                _png_create_info_struct
+                0x00000000020157c8                _png_calculate_crc
+                0x0000000002015824                _png_reset_crc
+                0x0000000002015850                _png_zalloc
+ .text          0x00000000020158c8      0x218 libpng.a(pngerror.o)
+                0x00000000020158c8                _png_set_longjmp_fn
+                0x00000000020158f0                _png_warning
+                0x0000000002015938                _png_set_error_fn
+                0x0000000002015950                _png_get_error_ptr
+                0x0000000002015a24                _png_chunk_warning
+                0x0000000002015a74                _png_error
+                0x0000000002015aa8                _png_chunk_error
+ .text          0x0000000002015ae0      0x900 libpng.a(pngget.o)
+                0x0000000002015ae0                _png_get_valid
+                0x0000000002015b00                _png_get_rowbytes
+                0x0000000002015b1c                _png_get_rows
+                0x0000000002015b40                _png_get_image_width
+                0x0000000002015b5c                _png_get_image_height
+                0x0000000002015b78                _png_get_bit_depth
+                0x0000000002015b98                _png_get_color_type
+                0x0000000002015bb8                _png_get_filter_type
+                0x0000000002015bd8                _png_get_interlace_type
+                0x0000000002015bf8                _png_get_compression_type
+                0x0000000002015c18                _png_get_x_pixels_per_meter
+                0x0000000002015c48                _png_get_y_pixels_per_meter
+                0x0000000002015c78                _png_get_pixels_per_meter
+                0x0000000002015ca8                _png_get_x_offset_microns
+                0x0000000002015cdc                _png_get_y_offset_microns
+                0x0000000002015d10                _png_get_x_offset_pixels
+                0x0000000002015d44                _png_get_y_offset_pixels
+                0x0000000002015d78                _png_get_channels
+                0x0000000002015d98                _png_get_signature
+                0x0000000002015db8                _png_get_bKGD
+                0x0000000002015de4                _png_get_cHRM_fixed
+                0x0000000002015e90                _png_get_gAMA_fixed
+                0x0000000002015ec0                _png_get_sRGB
+                0x0000000002015ef0                _png_get_iCCP
+                0x0000000002015f44                _png_get_sPLT
+                0x0000000002015f6c                _png_get_hIST
+                0x0000000002015f9c                _png_get_oFFs
+                0x0000000002015fe8                _png_get_pCAL
+                0x000000000201606c                _png_get_sCAL_s
+                0x00000000020160b0                _png_get_pHYs
+                0x0000000002016108                _png_get_PLTE
+                0x000000000201613c                _png_get_sBIT
+                0x0000000002016168                _png_get_text
+                0x00000000020161a0                _png_get_tIME
+                0x00000000020161cc                _png_get_tRNS
+                0x0000000002016240                _png_get_unknown_chunks
+                0x0000000002016268                _png_get_rgb_to_gray_status
+                0x0000000002016280                _png_get_user_chunk_ptr
+                0x0000000002016298                _png_get_compression_buffer_size
+                0x00000000020162b0                _png_get_user_width_max
+                0x00000000020162c8                _png_get_user_height_max
+                0x00000000020162e0                _png_get_chunk_cache_max
+                0x0000000002016304                _png_get_io_state
+                0x0000000002016314                _png_get_io_chunk_name
+                0x0000000002016324                _png_get_IHDR
+ .text          0x00000000020163e0      0x288 libpng.a(pngmem.o)
+                0x00000000020163e0                _png_set_mem_fn
+                0x00000000020163fc                _png_get_mem_ptr
+                0x0000000002016414                _png_free_default
+                0x0000000002016438                _png_free
+                0x000000000201646c                _png_destroy_struct_2
+                0x00000000020164bc                _png_destroy_struct
+                0x00000000020164d0                _png_malloc_default
+                0x00000000020164fc                _png_malloc
+                0x0000000002016568                _png_malloc_warn
+                0x00000000020165a0                _png_calloc
+                0x00000000020165d8                _png_create_struct_2
+                0x0000000002016654                _png_create_struct
+ .text          0x0000000002016668     0x1888 libpng.a(pngread.o)
+                0x0000000002016668                _png_set_read_status_fn
+                0x000000000201667c                _png_read_destroy
+                0x00000000020168c0                _png_destroy_read_struct
+                0x000000000201697c                _png_read_end
+                0x0000000002016da4                _png_start_read_image
+                0x0000000002016dcc                _png_read_row
+                0x000000000201727c                _png_read_image
+                0x00000000020172f0                _png_read_rows
+                0x00000000020173b8                _png_read_update_info
+                0x0000000002017424                _png_read_info
+                0x000000000201792c                _png_read_png
+                0x0000000002017bbc                _png_create_read_struct_2
+                0x0000000002017ed0                _png_create_read_struct
+ .text          0x0000000002017ef0       0x78 libpng.a(pngrio.o)
+                0x0000000002017ef0                _png_set_read_fn
+                0x0000000002017f40                _png_read_data
+ .text          0x0000000002017f68     0x41d8 libpng.a(pngrtran.o)
+                0x0000000002017f68                _png_set_strip_16
+                0x0000000002017f84                _png_set_strip_alpha
+                0x0000000002017fa4                _png_set_expand
+                0x0000000002017fcc                _png_set_palette_to_rgb
+                0x0000000002017ff4                _png_set_expand_gray_1_2_4_to_8
+                0x0000000002018018                _png_set_tRNS_to_alpha
+                0x0000000002018038                _png_set_gray_to_rgb
+                0x0000000002018058                _png_set_read_user_transform_fn
+                0x000000000201807c                _png_init_read_transformations
+                0x00000000020184a8                _png_read_transform_info
+                0x00000000020186ec                _png_do_unpack
+                0x0000000002018884                _png_do_unshift
+                0x0000000002018ad4                _png_do_chop
+                0x0000000002018b5c                _png_do_read_swap_alpha
+                0x0000000002018cc0                _png_do_read_invert_alpha
+                0x0000000002018da0                _png_do_read_filler
+                0x0000000002019040                _png_do_gray_to_rgb
+                0x00000000020191d0                _png_do_rgb_to_gray
+                0x000000000201989c                _png_build_grayscale_palette
+                0x0000000002019918                _png_do_gamma
+                0x0000000002019dbc                _png_do_expand_palette
+                0x000000000201a074                _png_do_expand
+                0x000000000201a528                _png_do_background
+                0x000000000201b9d0                _png_set_rgb_to_gray_fixed
+                0x000000000201bacc                _png_set_crc_action
+                0x000000000201bbe4                _png_do_read_transformations
+ .text          0x000000000201c140     0x3f20 libpng.a(pngrutil.o)
+                0x000000000201c140                _png_get_uint_31
+                0x000000000201c188                _png_read_start_row
+                0x000000000201c51c                _png_crc_error
+                0x000000000201c5d0                _png_read_filter_row
+                0x000000000201c7c0                _png_do_read_interlace
+                0x000000000201cc1c                _png_combine_row
+                0x000000000201cf3c                _png_check_chunk_name
+                0x000000000201cfcc                _png_decompress_chunk
+                0x000000000201d300                _png_crc_read
+                0x000000000201d34c                _png_crc_finish
+                0x000000000201d42c                _png_read_finish_row
+                0x000000000201d710                _png_handle_unknown
+                0x000000000201d944                _png_handle_iTXt
+                0x000000000201dc10                _png_handle_zTXt
+                0x000000000201de50                _png_handle_tEXt
+                0x000000000201e084                _png_handle_tIME
+                0x000000000201e190                _png_handle_sCAL
+                0x000000000201e3e0                _png_handle_pCAL
+                0x000000000201e744                _png_handle_oFFs
+                0x000000000201e864                _png_handle_pHYs
+                0x000000000201e980                _png_handle_hIST
+                0x000000000201eac0                _png_handle_bKGD
+                0x000000000201ec98                _png_handle_tRNS
+                0x000000000201ee80                _png_handle_sPLT
+                0x000000000201f1c4                _png_handle_iCCP
+                0x000000000201f460                _png_handle_sRGB
+                0x000000000201f614                _png_handle_cHRM
+                0x000000000201f8f4                _png_handle_sBIT
+                0x000000000201fa68                _png_handle_gAMA
+                0x000000000201fbb0                _png_handle_IEND
+                0x000000000201fc10                _png_handle_PLTE
+                0x000000000201fdc8                _png_handle_IHDR
+                0x000000000201ffd8                _png_read_chunk_header
+ .text          0x0000000002020060     0x124c libpng.a(pngset.o)
+                0x0000000002020060                _png_set_oFFs
+                0x000000000202008c                _png_set_pHYs
+                0x00000000020200b4                _png_set_sRGB
+                0x00000000020200d8                _png_set_unknown_chunk_location
+                0x0000000002020108                _png_set_read_user_chunk_fn
+                0x0000000002020120                _png_set_invalid
+                0x000000000202013c                _png_set_user_limits
+                0x0000000002020154                _png_set_chunk_cache_max
+                0x0000000002020184                _png_set_compression_buffer_size
+                0x00000000020201d0                _png_set_rows
+                0x0000000002020220                _png_set_keep_unknown_chunks
+                0x000000000202036c                _png_set_tIME
+                0x00000000020203bc                _png_set_sBIT
+                0x00000000020203f0                _png_set_bKGD
+                0x0000000002020424                _png_set_unknown_chunks
+                0x0000000002020574                _png_set_tRNS
+                0x00000000020206a4                _png_set_hIST
+                0x000000000202076c                _png_set_gAMA_fixed
+                0x00000000020207e0                _png_set_sPLT
+                0x0000000002020974                _png_set_text_2
+                0x0000000002020c28                _png_set_iCCP
+                0x0000000002020d2c                _png_set_sCAL_s
+                0x0000000002020e08                _png_set_text
+                0x0000000002020e38                _png_set_PLTE
+                0x0000000002020f08                _png_set_pCAL
+                0x0000000002021098                _png_set_IHDR
+                0x00000000020211ac                _png_set_cHRM_fixed
+                0x0000000002021228                _png_set_sRGB_gAMA_and_cHRM
+ .text          0x00000000020212ac      0x6b0 libpng.a(pngtrans.o)
+                0x00000000020212ac                _png_set_bgr
+                0x00000000020212c4                _png_set_swap
+                0x00000000020212f0                _png_set_packing
+                0x000000000202131c                _png_set_packswap
+                0x0000000002021348                _png_set_shift
+                0x0000000002021374                _png_set_interlace_handling
+                0x00000000020213a4                _png_set_filler
+                0x0000000002021414                _png_set_add_alpha
+                0x0000000002021448                _png_set_swap_alpha
+                0x0000000002021468                _png_set_invert_alpha
+                0x0000000002021488                _png_set_invert_mono
+                0x00000000020214a0                _png_do_invert
+                0x0000000002021530                _png_do_swap
+                0x0000000002021584                _png_do_packswap
+                0x00000000020215dc                _png_do_strip_filler
+                0x0000000002021834                _png_do_bgr
+                0x000000000202192c                _png_set_user_transform_info
+                0x0000000002021948                _png_get_user_transform_ptr
+ .text          0x000000000202195c      0x170 libpng.a(msys.o)
+                0x00000000020219b0                _MSYS_Free
+                0x00000000020219cc                _MSYS_Init
+                0x00000000020219f4                _MSYS_Alloc
+                0x0000000002021aa0                _MSYS_Compact
+ .text          0x0000000002021acc      0x72c libz.a(crc32.o)
+                0x0000000002021acc                _get_crc_table
+                0x0000000002021adc                _crc32
+                0x0000000002022130                _crc32_combine
+ .text          0x00000000020221f8     0x1c84 libz.a(inflate.o)
+                0x00000000020221f8                _inflateReset
+                0x0000000002022250                _inflatePrime
+                0x00000000020222b4                _inflateInit2_
+                0x0000000002022384                _inflateInit_
+                0x000000000202239c                _inflateEnd
+                0x00000000020223e0                _inflateGetHeader
+                0x0000000002022474                _inflateSync
+                0x0000000002022560                _inflateSyncPoint
+                0x000000000202258c                _inflateCopy
+                0x00000000020227f0                _inflateSetDictionary
+                0x00000000020228b8                _inflate
+ .text          0x0000000002023e7c      0x4f4 libz.a(inftrees.o)
+                0x0000000002023e7c                _inflate_table
+ .text          0x0000000002024370      0x520 libz.a(inffast.o)
+                0x0000000002024370                _inflate_fast
+ .text          0x0000000002024890      0x414 libz.a(adler32.o)
+                0x0000000002024890                _adler32
+                0x0000000002024be4                _adler32_combine
+ .text          0x0000000002024ca4       0xb8 libz.a(zutil.o)
+                0x0000000002024ca4                _zlibVersion
+                0x0000000002024cb4                _zlibCompileFlags
+                0x0000000002024cc0                _zError
+                0x0000000002024cd8                _zcfree
+                0x0000000002024cec                _zcalloc
+ .text          0x0000000002024d5c       0x1c libc.a(lib_a-abort.o)
+                0x0000000002024d5c                _abort
+ .text          0x0000000002024d78       0x2c libc.a(lib_a-memcmp.o)
+                0x0000000002024d78                _memcmp
+ .text          0x0000000002024da4       0x94 libc.a(lib_a-memcpy.o)
+                0x0000000002024da4                _memcpy
+ .text          0x0000000002024e38       0x40 libc.a(lib_a-memset.o)
+                0x0000000002024e38                _memset
+ .text          0x0000000002024e78       0x38 libc.a(lib_a-setjmp.o)
+                0x0000000002024e78                _setjmp
+                0x0000000002024e90                _longjmp
+ .text          0x0000000002024eb0      0x1f4 libc.a(lib_a-signal.o)
+                0x0000000002024eb0                __raise_r
+                0x0000000002024f30                _raise
+                0x0000000002024f4c                __init_signal_r
+                0x0000000002024f94                __init_signal
+                0x0000000002024fac                ___sigtramp_r
+                0x0000000002025010                ___sigtramp
+                0x000000000202502c                __signal_r
+                0x0000000002025084                _signal
+ .text          0x00000000020250a4       0x4c libc.a(lib_a-signalr.o)
+                0x00000000020250a4                __getpid_r
+                0x00000000020250b4                __kill_r
+ .text          0x00000000020250f0       0x20 libc.a(lib_a-strlen.o)
+                0x00000000020250f0                _strlen
+ .text          0x0000000002025110      0x34c libc.a(lib_a-syscalls.o)
+                0x0000000002025110                __link
+                0x000000000202511c                __fstat
+                0x000000000202512e                __unlink
+                0x000000000202513a                _isatty
+                0x0000000002025146                __getpid
+                0x0000000002025152                __raise
+                0x000000000202515c                __times
+                0x0000000002025168                __gettimeofday
+                0x0000000002025190                __pipe
+                0x00000000020251a4                __execv
+                0x00000000020251bc                __execve
+                0x00000000020251d8                __wait
+                0x00000000020251ec                __fork
+                0x0000000002025200                __utime
+                0x000000000202521c                __chown
+                0x0000000002025238                __chmod
+                0x0000000002025250                __stat
+                0x000000000202526c                __kill
+                0x0000000002025288                __exit
+                0x00000000020252a0                __creat
+                0x00000000020252bc                __open
+                0x00000000020252d8                __close
+                0x00000000020252f0                __write
+                0x000000000202530c                __lseek
+                0x0000000002025328                __read
+                0x00000000020253c4                ___setup_argv_and_call_main
+                0x00000000020253fc                __sbrk
+ .text          0x000000000202545c       0x14 libc.a(lib_a-trap.o)
+                0x000000000202545c                ___trap34
+ .text          0x0000000002025470        0x0 libc.a(lib_a-impure.o)
+ .text          0x0000000002025470      0x504 libc.a(lib_a-mallocr.o)
+                0x0000000002025470                __malloc_r
+ .text          0x0000000002025974       0x14 libc.a(lib_a-mlock.o)
+                0x0000000002025974                ___malloc_lock
+                0x000000000202597e                ___malloc_unlock
+ .text          0x0000000002025988       0x38 libc.a(lib_a-sbrkr.o)
+                0x0000000002025988                __sbrk_r
+ .text          0x00000000020259c0      0x2b8 libc.a(lib_a-freer.o)
+                0x00000000020259c0                __malloc_trim_r
+                0x0000000002025a88                __free_r
+ .text          0x0000000002025c78       0x84 libgcc.a(_ashiftrt_n.o)
+                0x0000000002025c78                ___ashrsi3
+ .text          0x0000000002025cfc       0x8c libgcc.a(_ashiftlt.o)
+                0x0000000002025cfc                ___ashlsi3
+ .text          0x0000000002025d88       0x8c libgcc.a(_lshiftrt.o)
+                0x0000000002025d88                ___lshrsi3
+ .text          0x0000000002025e14       0x78 libgcc.a(_movmem.o)
+                0x0000000002025e14                ___movmem
+                0x0000000002025e14                ___movstr
+                0x0000000002025e48                ___movstrSI64
+                0x0000000002025e48                ___movmemSI64
+                0x0000000002025e4c                ___movstrSI60
+                0x0000000002025e4c                ___movmemSI60
+                0x0000000002025e50                ___movstrSI56
+                0x0000000002025e50                ___movmemSI56
+                0x0000000002025e54                ___movstrSI52
+                0x0000000002025e54                ___movmemSI52
+                0x0000000002025e58                ___movstrSI48
+                0x0000000002025e58                ___movmemSI48
+                0x0000000002025e5c                ___movmemSI44
+                0x0000000002025e5c                ___movstrSI44
+                0x0000000002025e60                ___movstrSI40
+                0x0000000002025e60                ___movmemSI40
+                0x0000000002025e64                ___movmemSI36
+                0x0000000002025e64                ___movstrSI36
+                0x0000000002025e68                ___movmemSI32
+                0x0000000002025e68                ___movstrSI32
+                0x0000000002025e6c                ___movstrSI28
+                0x0000000002025e6c                ___movmemSI28
+                0x0000000002025e70                ___movmemSI24
+                0x0000000002025e70                ___movstrSI24
+                0x0000000002025e74                ___movstrSI20
+                0x0000000002025e74                ___movmemSI20
+                0x0000000002025e78                ___movstrSI16
+                0x0000000002025e78                ___movmemSI16
+                0x0000000002025e7c                ___movstrSI12
+                0x0000000002025e7c                ___movmemSI12
+                0x0000000002025e80                ___movmemSI8
+                0x0000000002025e80                ___movstrSI8
+                0x0000000002025e84                ___movmemSI4
+                0x0000000002025e84                ___movstrSI4
+ .text          0x0000000002025e8c       0x22 libgcc.a(_mulsi3.o)
+                0x0000000002025e8c                ___mulsi3
+ .text          0x0000000002025eae       0x9e libgcc.a(_sdivsi3.o)
+                0x0000000002025eae                ___sdivsi3
+ .text          0x0000000002025f4c       0x6e libgcc.a(_udivsi3.o)
+                0x0000000002025f6e                ___udivsi3
+                0x0000000002025fbc                . = ALIGN (0x4)
+ *fill*         0x0000000002025fba        0x2 00
+                0x0000000002025fbc                __CTOR_LIST__ = .
+                0x0000000002025fbc        0x4 LONG 0x0 (((__CTOR_END__ - __CTOR_LIST__) / 0x4) - 0x2)
+ *(.ctors)
+                0x0000000002025fc0        0x4 LONG 0x0
+                0x0000000002025fc4                __CTOR_END__ = .
+                0x0000000002025fc4                __DTOR_LIST__ = .
+                0x0000000002025fc4        0x4 LONG 0x0 (((__DTOR_END__ - __DTOR_LIST__) / 0x4) - 0x2)
+ *(.dtors)
+                0x0000000002025fc8        0x4 LONG 0x0
+                0x0000000002025fcc                __DTOR_END__ = .
+ *(.rodata*)
+ .rodata        0x0000000002025fcc      0x1c0 main.o
+                0x0000000002025fcc                _LINE_TABLE
+ .rodata.str1.4
+                0x000000000202618c       0x1c dpng32x.o
+ .rodata.str1.4
+                0x00000000020261a8      0x434 libpng.a(png.o)
+ .rodata        0x00000000020265dc        0x8 libpng.a(png.o)
+ .rodata        0x00000000020265e4       0x10 libpng.a(pngerror.o)
+ .rodata.str1.4
+                0x00000000020265f4       0x10 libpng.a(pngmem.o)
+ .rodata.str1.4
+                0x0000000002026604      0x1e8 libpng.a(pngread.o)
+ .rodata        0x00000000020267ec      0x190 libpng.a(pngread.o)
+ .rodata.str1.4
+                0x000000000202697c       0x94 libpng.a(pngrio.o)
+ .rodata.str1.4
+                0x0000000002026a10       0x94 libpng.a(pngrtran.o)
+ .rodata.str1.4
+                0x0000000002026aa4     0x1054 libpng.a(pngrutil.o)
+ .rodata        0x0000000002027af8       0xf4 libpng.a(pngrutil.o)
+ .rodata.str1.4
+                0x0000000002027bec      0x290 libpng.a(pngset.o)
+ .rodata        0x0000000002027e7c      0x300 libpng.a(pngtrans.o)
+ .rodata        0x000000000202817c     0x2000 libz.a(crc32.o)
+ .rodata.str1.4
+                0x000000000202a17c      0x1c0 libz.a(inflate.o)
+ .rodata        0x000000000202a33c      0x8a6 libz.a(inflate.o)
+ *fill*         0x000000000202abe2        0x2 00
+ .rodata        0x000000000202abe4      0x12c libz.a(inftrees.o)
+                0x000000000202abe4                _inflate_copyright
+ .rodata.str1.4
+                0x000000000202ad10       0x54 libz.a(inffast.o)
+ .rodata.str1.4
+                0x000000000202ad64       0x8c libz.a(zutil.o)
+ .rodata        0x000000000202adf0       0x28 libz.a(zutil.o)
+                0x000000000202adf0                _z_errmsg
+ .rodata.str1.4
+                0x000000000202ae18       0x1c libc.a(lib_a-syscalls.o)
+ .rodata.align4
+                0x000000000202ae34        0x4 libc.a(lib_a-impure.o)
+                0x000000000202ae34                __global_impure_ptr
+ .rodata.str1.4
+                0x000000000202ae38        0x4 libc.a(lib_a-impure.o)
+                0x000000000202ae3c                __INIT_SECTION__ = .
+ *(.init)
+                0x000000000202ae3c        0x4 LONG 0xb0009
+                0x000000000202ae40                __FINI_SECTION__ = .
+ *(.fini)
+                0x000000000202ae40        0x4 LONG 0xb0009
+ *(.lit)
+                0x000000000202ae44                _etext = .
+                0x000000000202ae44                __data_lma = .
+
+.data           0x0000000006000000      0xae4 load address 0x000000000202ae44
+                0x0000000006000000                _data = .
+ *(.shdata)
+ *(.data)
+ .data          0x0000000006000000      0x2d0 sh2_crt0.o
+                0x0000000006000240                mstart
+                0x0000000006000244                sstart
+ .data          0x00000000060002d0        0x0 main.o
+ .data          0x00000000060002d0        0x0 dpng32x.o
+ .data          0x00000000060002d0        0x0 pngdata.o
+ .data          0x00000000060002d0        0x0 libpng.a(png.o)
+ .data          0x00000000060002d0        0x0 libpng.a(pngerror.o)
+ .data          0x00000000060002d0        0x0 libpng.a(pngget.o)
+ .data          0x00000000060002d0        0x0 libpng.a(pngmem.o)
+ .data          0x00000000060002d0        0x0 libpng.a(pngread.o)
+ .data          0x00000000060002d0        0x0 libpng.a(pngrio.o)
+ .data          0x00000000060002d0        0x0 libpng.a(pngrtran.o)
+ .data          0x00000000060002d0        0x0 libpng.a(pngrutil.o)
+ .data          0x00000000060002d0        0x0 libpng.a(pngset.o)
+ .data          0x00000000060002d0        0x0 libpng.a(pngtrans.o)
+ .data          0x00000000060002d0        0x0 libpng.a(msys.o)
+ .data          0x00000000060002d0        0x0 libz.a(crc32.o)
+ .data          0x00000000060002d0        0x0 libz.a(inflate.o)
+ .data          0x00000000060002d0        0x0 libz.a(inftrees.o)
+ .data          0x00000000060002d0        0x0 libz.a(inffast.o)
+ .data          0x00000000060002d0        0x0 libz.a(adler32.o)
+ .data          0x00000000060002d0        0x0 libz.a(zutil.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-abort.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-memcmp.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-memcpy.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-memset.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-setjmp.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-signal.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-signalr.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-strlen.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-syscalls.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-trap.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-impure.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-mallocr.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-mlock.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-sbrkr.o)
+ .data          0x00000000060002d0        0x0 libc.a(lib_a-freer.o)
+ .data          0x00000000060002d0        0x0 libgcc.a(_ashiftrt_n.o)
+ .data          0x00000000060002d0        0x0 libgcc.a(_ashiftlt.o)
+ .data          0x00000000060002d0        0x0 libgcc.a(_lshiftrt.o)
+ .data          0x00000000060002d0        0x0 libgcc.a(_movmem.o)
+ .data          0x00000000060002d0        0x0 libgcc.a(_mulsi3.o)
+ .data          0x00000000060002d0        0x0 libgcc.a(_sdivsi3.o)
+ .data          0x00000000060002d0        0x0 libgcc.a(_udivsi3.o)
+ *(.data.align1)
+ *(.data.align2)
+ *(.data.align4)
+ .data.align4   0x00000000060002d0      0x404 libc.a(lib_a-impure.o)
+                0x00000000060002d0                __impure_ptr
+ .data.align4   0x00000000060006d4      0x410 libc.a(lib_a-mallocr.o)
+                0x00000000060006d4                ___malloc_av_
+                0x0000000006000adc                ___malloc_trim_threshold
+                0x0000000006000ae0                ___malloc_sbrk_base
+                0x0000000006000ae4                _edata = .
+                0x0000000000000ae4                _sdata = SIZEOF (.data)
+                0x0000000006000ae4                __iwram_lma = (0x6000000 + SIZEOF (.data))
+
+.bss            0x0000000006000ae4      0x7d8 load address 0x000000000202b928
+                0x0000000006000ae4                _bstart = .
+ *(.shbss)
+ *(.bss)
+ .bss           0x0000000006000ae4        0x0 sh2_crt0.o
+ .bss           0x0000000006000ae4        0x0 main.o
+ .bss           0x0000000006000ae4      0x780 dpng32x.o
+ .bss           0x0000000006001264        0x0 pngdata.o
+ .bss           0x0000000006001264        0x0 libpng.a(png.o)
+ .bss           0x0000000006001264        0x0 libpng.a(pngerror.o)
+ .bss           0x0000000006001264        0x0 libpng.a(pngget.o)
+ .bss           0x0000000006001264        0x0 libpng.a(pngmem.o)
+ .bss           0x0000000006001264        0x0 libpng.a(pngread.o)
+ .bss           0x0000000006001264        0x0 libpng.a(pngrio.o)
+ .bss           0x0000000006001264        0x0 libpng.a(pngrtran.o)
+ .bss           0x0000000006001264        0x0 libpng.a(pngrutil.o)
+ .bss           0x0000000006001264        0x0 libpng.a(pngset.o)
+ .bss           0x0000000006001264        0x0 libpng.a(pngtrans.o)
+ .bss           0x0000000006001264        0xc libpng.a(msys.o)
+ .bss           0x0000000006001270        0x0 libz.a(crc32.o)
+ .bss           0x0000000006001270        0x0 libz.a(inflate.o)
+ .bss           0x0000000006001270        0x0 libz.a(inftrees.o)
+ .bss           0x0000000006001270        0x0 libz.a(inffast.o)
+ .bss           0x0000000006001270        0x0 libz.a(adler32.o)
+ .bss           0x0000000006001270        0x4 libz.a(zutil.o)
+ .bss           0x0000000006001274        0x0 libc.a(lib_a-abort.o)
+ .bss           0x0000000006001274        0x0 libc.a(lib_a-memcmp.o)
+ .bss           0x0000000006001274        0x0 libc.a(lib_a-memcpy.o)
+ .bss           0x0000000006001274        0x0 libc.a(lib_a-memset.o)
+ .bss           0x0000000006001274        0x0 libc.a(lib_a-setjmp.o)
+ .bss           0x0000000006001274        0x0 libc.a(lib_a-signal.o)
+ .bss           0x0000000006001274        0x0 libc.a(lib_a-signalr.o)
+ .bss           0x0000000006001274        0x0 libc.a(lib_a-strlen.o)
+ .bss           0x0000000006001274        0x4 libc.a(lib_a-syscalls.o)
+ .bss           0x0000000006001278        0x0 libc.a(lib_a-trap.o)
+ .bss           0x0000000006001278        0x0 libc.a(lib_a-impure.o)
+ .bss           0x0000000006001278       0x34 libc.a(lib_a-mallocr.o)
+                0x0000000006001278                ___malloc_top_pad
+                0x000000000600127c                ___malloc_max_sbrked_mem
+                0x0000000006001280                ___malloc_max_total_mem
+                0x0000000006001284                ___malloc_current_mallinfo
+ .bss           0x00000000060012ac        0x0 libc.a(lib_a-mlock.o)
+ .bss           0x00000000060012ac        0x0 libc.a(lib_a-sbrkr.o)
+ .bss           0x00000000060012ac        0x0 libc.a(lib_a-freer.o)
+ .bss           0x00000000060012ac        0x0 libgcc.a(_ashiftrt_n.o)
+ .bss           0x00000000060012ac        0x0 libgcc.a(_ashiftlt.o)
+ .bss           0x00000000060012ac        0x0 libgcc.a(_lshiftrt.o)
+ .bss           0x00000000060012ac        0x0 libgcc.a(_movmem.o)
+ .bss           0x00000000060012ac        0x0 libgcc.a(_mulsi3.o)
+ .bss           0x00000000060012ac        0x0 libgcc.a(_sdivsi3.o)
+ .bss           0x00000000060012ac        0x0 libgcc.a(_udivsi3.o)
+ *(COMMON)
+ COMMON         0x00000000060012ac        0xc dpng32x.o
+                0x00000000060012ac                _g_pos
+                0x00000000060012b0                _g_baseAddr
+                0x00000000060012b4                _g_imageSize
+ COMMON         0x00000000060012b8        0x4 libc.a(lib_a-syscalls.o)
+                0x00000000060012b8                _errno
+ *(.eh_fram)
+ *(.eh_frame)
+                0x00000000060012bc                _bend = .
+                0x00000000060012bc                _bss_end = .
+LOAD sh2_crt0.o
+LOAD main.o
+LOAD dpng32x.o
+LOAD pngdata.o
+LOAD libpng.a
+LOAD libz.a
+LOAD libc.a
+LOAD libgcc.a
+OUTPUT(showpng.32x binary)
+
+.comment        0x0000000000000000      0x318
+ .comment       0x0000000000000000       0x12 main.o
+ .comment       0x0000000000000012       0x12 dpng32x.o
+ .comment       0x0000000000000024       0x1c libpng.a(png.o)
+ .comment       0x0000000000000040       0x1c libpng.a(pngerror.o)
+ .comment       0x000000000000005c       0x1c libpng.a(pngget.o)
+ .comment       0x0000000000000078       0x1c libpng.a(pngmem.o)
+ .comment       0x0000000000000094       0x1c libpng.a(pngread.o)
+ .comment       0x00000000000000b0       0x1c libpng.a(pngrio.o)
+ .comment       0x00000000000000cc       0x1c libpng.a(pngrtran.o)
+ .comment       0x00000000000000e8       0x1c libpng.a(pngrutil.o)
+ .comment       0x0000000000000104       0x1c libpng.a(pngset.o)
+ .comment       0x0000000000000120       0x1c libpng.a(pngtrans.o)
+ .comment       0x000000000000013c       0x1c libpng.a(msys.o)
+ .comment       0x0000000000000158       0x1c libz.a(crc32.o)
+ .comment       0x0000000000000174       0x1c libz.a(inflate.o)
+ .comment       0x0000000000000190       0x1c libz.a(inftrees.o)
+ .comment       0x00000000000001ac       0x1c libz.a(inffast.o)
+ .comment       0x00000000000001c8       0x1c libz.a(adler32.o)
+ .comment       0x00000000000001e4       0x1c libz.a(zutil.o)
+ .comment       0x0000000000000200       0x1c libc.a(lib_a-abort.o)
+ .comment       0x000000000000021c       0x1c libc.a(lib_a-memcmp.o)
+ .comment       0x0000000000000238       0x1c libc.a(lib_a-signal.o)
+ .comment       0x0000000000000254       0x1c libc.a(lib_a-signalr.o)
+ .comment       0x0000000000000270       0x1c libc.a(lib_a-syscalls.o)
+ .comment       0x000000000000028c       0x1c libc.a(lib_a-impure.o)
+ .comment       0x00000000000002a8       0x1c libc.a(lib_a-mallocr.o)
+ .comment       0x00000000000002c4       0x1c libc.a(lib_a-mlock.o)
+ .comment       0x00000000000002e0       0x1c libc.a(lib_a-sbrkr.o)
+ .comment       0x00000000000002fc       0x1c libc.a(lib_a-freer.o)
