@@ -5,3 +5,5 @@
 /data/*.c
 /data/gfx/*.pat
 /data/gfx/*.pal
+/packfire/*.32x
+/packfire/*.o
