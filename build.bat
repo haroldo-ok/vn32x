@@ -11,10 +11,8 @@ SET MAKE_MODE=unix
 
 sh-elf-as --small -o crt0.o crt0.s
 sh-elf-gcc -c -O1 -m1 -o %ROMNAME%.o %ROMNAME%.c
-sh-elf-gcc -c -O1 -m1 -o hw_32x.o hw_32x.c
-sh-elf-gcc -c -O1 -m1 -o font.o font.c
 sh-elf-gcc -c -O1 -m1 -o gfx.o data\gfx.c
-sh-elf-ld -T 32x.ld -relax -small -e _start --oformat binary -o 32xcode.bin crt0.o %ROMNAME%.o hw_32x.o font.o gfx.o libc.a libgcc.a
+sh-elf-ld -T 32x.ld -relax -small -e _start --oformat binary -o 32xcode.bin crt0.o %ROMNAME%.o gfx.o libc.a libgcc.a
 m68k-elf-as -m68000 --register-prefix-optional -o 32x_68k_crt0.o 32x_68k_crt0.s
 m68k-elf-ld -Tmd.ld --oformat binary -o %ROMNAME%.32x 32x_68k_crt0.o
 

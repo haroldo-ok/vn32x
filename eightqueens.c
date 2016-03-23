@@ -20,7 +20,6 @@
 #include "data\gfx.h"
 
 /* Create a 5:5:5 RGB color with the MSB set */
-#define COLOR(r,g,b)    (((r)&0x1F)|((g)&0x1F)<<5|((b)&0x1F)<<10|0x8000)
 #define abs(x) ((x)<0 ? -(x) : (x))
 
 #define BLACK 0x0000
@@ -229,8 +228,18 @@ void displayAll( int backgroundColour ) {
 void test() {
 	vu16 i;
 	vu16* frameBuffer = &MARS_FRAMEBUFFER + 0x100;
-
-	Hw32xInit(MARS_VDP_MODE_32K, MARS_VDP_MODE_32K);
+	
+	while (1) {
+		clearScreen(0);
+		frameBuffer = &MARS_FRAMEBUFFER;
+		for (i = 0; i < 244; i++) {
+			frameBuffer[i] = i * 320;
+		}
+		for (i = 0; i < 0x8000; i++) {
+			frameBuffer[i + 0x100] = i;
+		}
+		swapBuffers();		
+	}
 }
 
 int main() {
