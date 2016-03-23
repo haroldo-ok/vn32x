@@ -16,6 +16,8 @@
  
 #include <stdlib.h>
 #include "32x.h"
+#include "lodepng.h"
+#include "data\gfx.h"
 
 /* Create a 5:5:5 RGB color with the MSB set */
 #define COLOR(r,g,b)    (((r)&0x1F)|((g)&0x1F)<<5|((b)&0x1F)<<10|0x8000)
@@ -224,6 +226,15 @@ void displayAll( int backgroundColour ) {
 	swapBuffers();
 }
 
+void lodpngtest() {
+	unsigned char *out;
+	unsigned w, h;
+	
+	lodepng_decode_memory(&out, &w, &h,
+			test_png, test_png_size,
+			LCT_PALETTE, 8);
+}
+
 int main() {
 	// Wait for the SH2 to gain access to the VDP
 	while ((MARS_SYS_INTMSK & MARS_SH2_ACCESS_VDP) == 0) {}
@@ -233,6 +244,8 @@ int main() {
 	MARS_VDP_FBCTL = 0;	
 
 	init();
+	
+	//lodpngtest(); // CRASHES
 	
     while( 1 ) {
 		nextConfiguration();
