@@ -3,3 +3,5 @@
 /eightqueens.32x
 /data/*.h
 /data/*.c
+/data/gfx/*.pat
+/data/gfx/*.pal

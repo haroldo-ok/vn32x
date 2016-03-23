@@ -16,7 +16,7 @@
  
 #include <stdlib.h>
 #include "32x.h"
-#include "hw_32x.h"
+#include "unpackfire_tiny.h"
 #include "data\gfx.h"
 
 /* Create a 5:5:5 RGB color with the MSB set */
@@ -229,6 +229,8 @@ void test() {
 	vu16 i;
 	vu16* frameBuffer = &MARS_FRAMEBUFFER + 0x100;
 	
+	malloc(3);
+	
 	while (1) {
 		clearScreen(0);
 		frameBuffer = &MARS_FRAMEBUFFER;
@@ -239,6 +241,7 @@ void test() {
 			frameBuffer[i + 0x100] = i;
 		}
 		swapBuffers();		
+//		unpackfire_tiny(test_pat, frameBuffer + 0x100);
 	}
 }
 
@@ -246,8 +249,8 @@ int main() {
 	// Wait for the SH2 to gain access to the VDP
 	while ((MARS_SYS_INTMSK & MARS_SH2_ACCESS_VDP) == 0) {}
 	// Set 8-bit paletted mode, 224 lines
-//	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_256;
-	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_32K;
+	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_256;
+//	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_32K;
 	MARS_VDP_FBCTL = 0;	
 
 	init();
