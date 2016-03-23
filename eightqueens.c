@@ -16,7 +16,7 @@
  
 #include <stdlib.h>
 #include "32x.h"
-#include "lodepng.h"
+#include "hw_32x.h"
 #include "data\gfx.h"
 
 /* Create a 5:5:5 RGB color with the MSB set */
@@ -226,13 +226,11 @@ void displayAll( int backgroundColour ) {
 	swapBuffers();
 }
 
-void lodpngtest() {
-	unsigned char *out;
-	unsigned w, h;
-	
-	lodepng_decode_memory(&out, &w, &h,
-			test_png, test_png_size,
-			LCT_PALETTE, 8);
+void test() {
+	vu16 i;
+	vu16* frameBuffer = &MARS_FRAMEBUFFER + 0x100;
+
+	Hw32xInit(MARS_VDP_MODE_32K, MARS_VDP_MODE_32K);
 }
 
 int main() {
@@ -245,9 +243,8 @@ int main() {
 
 	init();
 	
-	//lodpngtest(); // CRASHES
-	
     while( 1 ) {
+		test();
 		nextConfiguration();
 
 		if( g_currentConfigurationIsSolution ) {
