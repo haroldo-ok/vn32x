@@ -9,3 +9,4 @@
 /packfire/*.o
 /dpng/*.o
 /dpng/*.32x
+/dpng/*.map

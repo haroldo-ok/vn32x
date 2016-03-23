@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "32x.h"
 #include "dpng32x.h"
+#include "hw_32x.h"
 
 
 extern char image, image_end;
@@ -28,11 +29,6 @@ const u16 LINE_TABLE[] = {
 	62656,62976,63296,63616,63936,64256,64576,64896,65216};
 
 
-void slave()
-{
-	while (1) {}
-}
-
 
 int main()
 {
@@ -44,7 +40,8 @@ int main()
 	while ((MARS_SYS_INTMSK & MARS_SH2_ACCESS_VDP) == 0) {}
 
 	// Set 15-bit direct color mode, 224 lines
-	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_32K;
+	//MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_32K;
+	Hw32xInit(MARS_VDP_MODE_32K, 0);
 
 	MARS_VDP_FBCTL = currentFB;
 
@@ -62,6 +59,9 @@ int main()
 			frameBuffer16[i] = LINE_TABLE[i];
 		}
 
+	//	HwMdPuts("The game is tied", 0x0000, 20-8, 3);
+		Hw32xScreenSetXY(1, 1);
+		Hw32xScreenPuts("This is a test");
      }
 
 	return 0;
