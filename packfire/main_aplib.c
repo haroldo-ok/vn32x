@@ -76,15 +76,17 @@ int main()
 
 		// Set up the line table
 		lineOffs = 0x100;
-		for (i = 0; i < 202; i++)
-		{
+		for (i = 11; i < 213; i++) {
 			frameBuffer16[i] = lineOffs;
 			lineOffs += 320;
 		}
-		
-		for (i = 202; i < 256; i++)
-		{
-			frameBuffer16[i] = 203 * 320;
+
+		lineOffs = 203 * 320;
+		for (i = 0; i < 11; i++) {
+			frameBuffer16[i] = lineOffs;
+		}
+		for (i = 213; i < 256; i++) {
+			frameBuffer16[i] = lineOffs;
 		}
      }
 
