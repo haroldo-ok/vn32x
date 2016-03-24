@@ -36,6 +36,7 @@ int main()
 	uint16 currentFB=0;
 	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
 	int i;
+	char *test_str = "This is a test!!";
 
 	// Wait for the SH2 to gain access to the VDP
 	while ((MARS_SYS_INTMSK & MARS_SH2_ACCESS_VDP) == 0) {}
@@ -44,27 +45,27 @@ int main()
 	//MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_32K;
 	Hw32xInit(MARS_VDP_MODE_32K, 0);
 
-	MARS_VDP_FBCTL = currentFB;
+//	MARS_VDP_FBCTL = currentFB;
+	Hw32xScreenFlip(1);
+	
 
-    for(;;)
-    {
-		MARS_VDP_FBCTL = currentFB ^ 1;
-		while ((MARS_VDP_FBCTL & MARS_VDP_FS) == currentFB) {}
-		currentFB ^= 1;
 
-		read_png(&image, (&image_end)-(&image), frameBuffer16+0x100);
-		read_png(&image2, (&image2_end)-(&image2), frameBuffer16+0x100);
-
-		// Set up the line table
+	for(;;) {
+		Hw32xScreenFlip(1);
+		
 		for (i = 0; i < 224; i++)
 		{
 			frameBuffer16[i] = LINE_TABLE[i];
 		}
+		read_png(&image, (&image_end)-(&image), frameBuffer16+0x100);
+		read_png(&image2, (&image2_end)-(&image2), frameBuffer16+0x100);
 
-	//	HwMdPuts("The game is tied", 0x0000, 20-8, 3);
 		Hw32xScreenSetXY(1, 1);
-		Hw32xScreenPuts("This is a test");
-     }
+		Hw32xScreenPrintData(test_str, strlen(test_str));
+		
+//
+		Hw32xScreenFlip(1);
+	}
 
 	return 0;
 }
