@@ -9,6 +9,7 @@
 
 
 extern char image, image_end;
+extern char image2, image2_end;
 
 
 // Line table for scaling the 320x204 frame buffer to a 320x224 screen
@@ -52,6 +53,7 @@ int main()
 		currentFB ^= 1;
 
 		read_png(&image, (&image_end)-(&image), frameBuffer16+0x100);
+		read_png(&image2, (&image2_end)-(&image2), frameBuffer16+0x100);
 
 		// Set up the line table
 		for (i = 0; i < 224; i++)

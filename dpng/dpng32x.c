@@ -63,8 +63,9 @@ int read_png(char *baseAddr, unsigned int imageSize, vu16 *dest)
    png_infop info_ptr;
    png_uint_32 width, height;
    int bit_depth, color_type, interlace_type;
-   static u16 scanlineBuffer[320*3];
+   static u16 scanlineBuffer[320*4];
    int pass,row,x,y;
+   int x4,r,g,b,a,a0;
    vu16 *dest2;
 
 	g_baseAddr = baseAddr;
@@ -125,7 +126,7 @@ int read_png(char *baseAddr, unsigned int imageSize, vu16 *dest)
    /* Strip alpha bytes from the input data without combining with the
     * background (not recommended).
     */
-   png_set_strip_alpha(png_ptr);
+//   png_set_strip_alpha(png_ptr);
 
    /* Extract multiple pixels with bit depths of 1, 2, and 4 from a single
     * byte into separate bytes (useful for paletted and grayscale images).
@@ -159,7 +160,23 @@ int read_png(char *baseAddr, unsigned int imageSize, vu16 *dest)
          dest2 = dest;
 	     for (x = 0; x < width; x++)
 	     {
-		 	*dest2++ = (row_pointer[x+x+x] >> 3) + ((row_pointer[x+x+x+1] >> 3)<<5) + ((row_pointer[x+x+x+2] >> 3)<<10);
+			x4 = x << 2;
+			a = row_pointer[x4+3];
+			a0 = 255 - a;
+			if (a) {
+				if (a == 255) {
+					// Fully opaque
+					*dest2 = (row_pointer[x4] >> 3) + ((row_pointer[x4+1] >> 3)<<5) + ((row_pointer[x4+2] >> 3)<<10);				
+				} else {
+					// Semi transparent
+					r = ( (*dest2 & 0x1F) * a0 + (row_pointer[x4] >> 3) * a ) / 255;
+					g = ( ((*dest2 >> 5) & 0x1F) * a0 + (row_pointer[x4+1] >> 3) * a ) / 255;
+					b = ( ((*dest2 >> 10) & 0x1F) * a0 + (row_pointer[x4+2] >> 3) * a ) / 255;
+					
+					*dest2 = r + (g << 5) + (b << 10);					
+				}
+			}
+			dest2++;
 		 }
 		 dest += 320;
 
