@@ -36,7 +36,7 @@ int main()
 	while ((MARS_SYS_INTMSK & MARS_SH2_ACCESS_VDP) == 0) {}
 
 	// Set 8-bit paletted color mode, 224 lines
-	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_256;
+	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_32K;
 
 	numColors = 128;
 	for (i = 0; i < numColors; i++)
@@ -53,26 +53,40 @@ int main()
 		while ((MARS_VDP_FBCTL & MARS_VDP_FS) == currentFB) {}
 		currentFB ^= 1;
 
-		aplib_decrunch(&maruko, frameBuffer16 + 0x100);
+		aplib_decrunch(&maruko, temp_buffer + 0x100);
+		
+		for (i = 0; i != 202; i++) {
+			for (j = 0; j != 320; j++) {
+				if (temp_buffer[i * 128 + j] != temp_buffer[0]) {
+					frameBuffer16[i * 320 + j + 0x100] = pal16[temp_buffer[i * 320 + j]];
+				}
+			}			
+		}
+
 		aplib_decrunch(&test, temp_buffer);
 		
 		for (i = 0; i != 128; i++) {
 			for (j = 0; j != 128; j++) {
 				if (temp_buffer[i * 128 + j] != temp_buffer[0]) {
-					frameBuffer8[i * 320 + j + 0x200] = temp_buffer[i * 128 + j] + numColors;
+					frameBuffer16[i * 320 + j + 0x100] = pal16b[temp_buffer[i * 128 + j]];
 				}
 			}			
 		}
 		
-		frameBuffer8[t + 0x200] = t;
+		frameBuffer16[t + 0x100] = t;
 		t++;
 
 		// Set up the line table
 		lineOffs = 0x100;
-		for (i = 0; i < 256; i++)
+		for (i = 0; i < 202; i++)
 		{
 			frameBuffer16[i] = lineOffs;
-			lineOffs += 160;
+			lineOffs += 320;
+		}
+		
+		for (i = 202; i < 256; i++)
+		{
+			frameBuffer16[i] = 203 * 320;
 		}
      }
 
