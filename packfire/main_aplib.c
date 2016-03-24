@@ -53,13 +53,11 @@ int main()
 		while ((MARS_VDP_FBCTL & MARS_VDP_FS) == currentFB) {}
 		currentFB ^= 1;
 
-		aplib_decrunch(&maruko, temp_buffer + 0x100);
+		aplib_decrunch(&maruko, temp_buffer);
 		
 		for (i = 0; i != 202; i++) {
 			for (j = 0; j != 320; j++) {
-				if (temp_buffer[i * 128 + j] != temp_buffer[0]) {
-					frameBuffer16[i * 320 + j + 0x100] = pal16[temp_buffer[i * 320 + j]];
-				}
+				frameBuffer16[i * 320 + j + 0x100] = pal16[temp_buffer[i * 320 + j]];
 			}			
 		}
 
@@ -73,7 +71,7 @@ int main()
 			}			
 		}
 		
-		frameBuffer16[t + 0x100] = t;
+		//frameBuffer16[t + 0x100] = t;
 		t++;
 
 		// Set up the line table
