@@ -9,17 +9,17 @@
 .globl _test_palette_end
 
 _maruko:
-.incbin "maruko.apx"
+.incbin "build/maruko.apx"
 _maruko_end:
 
 _palette:
-.incbin "maruko.pal"
+.incbin "build/maruko.pal"
 _palette_end:
 
 _test:
-.incbin "test.apx"
+.incbin "build/test.apx"
 _test_end:
 
 _test_palette:
-.incbin "test.pal"
+.incbin "build/test.pal"
 _test_palette_end:

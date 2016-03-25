@@ -1,12 +1,7 @@
 /*.o
 /32xcode.bin
-/eightqueens.32x
-/data/*.h
-/data/*.c
-/data/gfx/*.pat
-/data/gfx/*.pal
-/packfire/*.32x
-/packfire/*.o
-/dpng/*.o
-/dpng/*.32x
-/dpng/*.map
+/*.32x
+/*.map
+/*.apx
+/*.pal
+/build
