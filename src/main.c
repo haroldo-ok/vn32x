@@ -11,7 +11,7 @@
 extern vu16 maruko[], test[];
 int numColors;
 
-unsigned char temp_buffer[FBF_WIDTH * FBF_HEIGHT];
+unsigned char tempImgBuffer[FBF_WIDTH * FBF_HEIGHT];
 
 void slave()
 {
@@ -27,15 +27,30 @@ void drawApgImage(int x, int y, vu16 *apg) {
 	int palSize = apg[3];
 	vu16 *pal = apg + 4;
 	vu16 *image = pal + palSize;
+	
+	unsigned char *srcLin, *srcCol;
+	vu16 *dstLin, *dstCol;
+	unsigned char color;
 
-	aplib_decrunch(image, temp_buffer);
+	aplib_decrunch(image, tempImgBuffer);
+	
+	srcLin = tempImgBuffer;
+	dstLin = frameBuffer16 + y * FBF_WIDTH + x + 0x100;
 	
 	for (i = 0; i != height; i++) {
+		srcCol = srcLin;
+		dstCol = dstLin;
+		
 		for (j = 0; j != width; j++) {
-			if (temp_buffer[i * width + j] != transparency) {
-				frameBuffer16[(i + y) * FBF_WIDTH + (j + x) + 0x100] = pal[temp_buffer[i * width + j]];
+			color = *srcCol;
+			if (color != transparency) {
+				*dstCol = pal[color];
 			}
-		}			
+			srcCol++; dstCol++;
+		}
+
+		srcLin += width;
+		dstLin += FBF_WIDTH;
 	}
 }
 
