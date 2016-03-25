@@ -1,4 +1,6 @@
+SRCDIR := src
 OBJDIR := build
+IMGDIR := img
 	
 RSCS := $(addprefix $(OBJDIR)/,\
 	m68k_crt0.bin m68k_crt1.bin\
@@ -8,19 +10,19 @@ OBJS := $(addprefix $(OBJDIR)/,\
 	sh2_crt0.o\
 	aplib_decrunch.o image.o main.o)
 
-$(OBJDIR)/m68k_%.o : m68k_%.s
+$(OBJDIR)/m68k_%.o : $(SRCDIR)/m68k_%.s
 	m68k-elf-as -m68000 --register-prefix-optional -o $@ $<
 	
 $(OBJDIR)/m68k_%.bin : $(OBJDIR)/m68k_%.o
 	m68k-elf-ld -Tmd.ld --oformat binary -o $@ $<
 
-$(OBJDIR)/%.o : %.s
+$(OBJDIR)/%.o : $(SRCDIR)/%.s
 	sh-elf-as -o $@ $<
 
-$(OBJDIR)/%.o : %.c
+$(OBJDIR)/%.o : $(SRCDIR)/%.c
 	sh-elf-gcc -c -O2 -o $@ $<
 
-$(OBJDIR)/%.apx : img/%.png
+$(OBJDIR)/%.apx : $(IMGDIR)/%.png
 	sixpack.exe -image -pack -v -target 32x -codec aplib -format l8 -q 256 -o $@ $<
 	
 all: $(OBJS)
