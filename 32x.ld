@@ -1,149 +1,108 @@
-/* Sega Saturn Linker Script by Anders Montonen		*/
-/* based on Jeff Frohwein's GBA script				*/
-/*  v0.1 - First release							*/
-/*													*/
-/* This file is released into the public domain		*/
-/* for any use without restrictions placed			*/
-/* upon it.											*/
-
-/* This linker script sets up code to run from		*/
-/* 0x06004000, as is the norm.						*/
-
-/* TODO:											*/
-/* - loram support									*/
-/* - overlay support								*/
-/* - use MEMORY directive for a cleaner script?		*/
-/* - dual CPU support?								*/
-/* - verify that C++ is working						*/
-
-/* OUTPUT_FORMAT("elf32-sh") */
 OUTPUT_ARCH(sh)
-ENTRY(_start)
+SEARCH_DIR(.)
 
-__text_start = 0x6000000;
-__stack_bottom = 0x0603E800;
-__stack_top	= 0x0603F000;
-_stack = __stack_top;
+/*
+ * Setup the memory map of the SEGA 32X.
+ * stack grows down from high memory.
+ *
+ * The memory map look like this:
+ * +--------------------+ <- low memory
+ * | .text              |
+ * |        _etext      |
+ * |        ctor list   | the ctor and dtor lists are for
+ * |        dtor list   | C++ support
+ * +--------------------+
+ * | .data              | initialized data goes here
+ * |        _data       |
+ * |        _edata      |
+ * +--------------------+
+ * | .bss               |
+ * |        _bstart     | start of bss, cleared by crt0
+ * |        _bend       | start of heap, used by sbrk()
+ * +--------------------+
+ * .                    .
+ * .                    .
+ * .                    .
+ * |        __stack     | top of stack
+ * +--------------------+
+ */
+
+MEMORY
+{
+    rom : ORIGIN = 0x02000000, LENGTH = 0x00400000
+    ram : ORIGIN = 0x06000000, LENGTH = 0x00040000
+    cache : ORIGIN = 0xC0000000, LENGTH = 0x00000800
+}
+
+/*
+ * allocate the stack to be at the top of memory, since the stack
+ * grows down
+ */
+
+__iwram_start	=	ORIGIN(cache);
+
+PROVIDE (__stack = 0x06040000);
 
 SECTIONS
 {
-	.text __text_start :
-	{
-		*(.text.*)
-		*(.gnu.warning)
-		*(.gnu.linkonce.t*)
-		. = ALIGN(2);
-	} = 0
-	__text_end = .;
-	
-	.rodata :
-	{
-		*(.rodata)
-		*all.rodata*(*)
-		*(.roda)
-		*(.rodata.*)
-		*(.gnu.linkonce.r*)
-		SORT(CONSTRUCTORS)
-		. = ALIGN(4);
-	} = 0
-	
-	/* C++ support */
-	.tors :
-	{
-		__CTOR_LIST__ = .;
-		LONG((__CTOR_END__ - __CTOR_LIST__) / 4 - 2)
-		___ctors = . ;
-		*(.ctors)
-		___ctors_end = . ;
-		LONG(0)
-		__CTOR_END__ = .;
-		__DTOR_LIST__ = .;
-		LONG((__DTOR_END__ - __DTOR_LIST__) / 4 - 2)
-		___dtors = . ;
-		*(.dtors)
-		___dtors_end = . ;
-		LONG(0)
-		__DTOR_END__ = .;
-	} = 0
-/*	
-	.eh_frame :
-	{
-		KEEP(*(.eh_frame))
-		. = ALIGN(4)
-	} = 0
+  .text 0x02000000:
+  {
+    *(.text)
+    . = ALIGN(0x4);
+     __CTOR_LIST__ = .;
+    LONG((__CTOR_END__ - __CTOR_LIST__) / 4 - 2)
+    *(.ctors)
+    LONG(0)
+    __CTOR_END__ = .;
+    __DTOR_LIST__ = .;
+    LONG((__DTOR_END__ - __DTOR_LIST__) / 4 - 2)
+    *(.dtors)
+     LONG(0)
+    __DTOR_END__ = .;
+    *(.rodata*)
 
-	.gcc_except_table :
-	{
-		*(.gcc_except_table)
-		. = ALIGN(4)
-	} = 0
-*/
-	.data ALIGN(4) : /* AT (__data_lma) */
-	{
-		__data_start = ABSOLUTE(.);
-		*(.data)
-		*(.data.*)
-		*(.gnu.linkonce.d*)
-		CONSTRUCTORS
-		. = ALIGN(4);
-	} = 0
-	
-	__data_end = .;
+    __INIT_SECTION__ = . ;
+    *(.init)
+    LONG (0x000B0009)    /* rts ; nop */
 
-	.bss ALIGN(4) :
-	{
-		__bss_start = ABSOLUTE(.);
-		__bss_start__ = ABSOLUTE(.);
-		*(.dynbss)
-		*(.gnu.linkonce.b*)
-		*(COMMON)
-		. = ALIGN(4);
-	}
-	
-	__bss_end = .;
-	__bss_end__ = .;
+    __FINI_SECTION__ = . ;
+    *(.fini)
+    LONG (0x000B0009)    /* rts ; nop */
 
-	.stack __stack_bottom : { _stack = .; *(.stack) }
+    *(.lit)
+    _etext = .;
+  } > rom
 
-	.stack __stack_bottom :
-	{
-		*(.stack)
-		. = ALIGN(4);
-	} = 0xdeaddead
-	
-	_end = .;
-	__end__ = _end;
-	PROVIDE (end = _end);
-	
-	/* Stabs debugging sections.  */
-	.stab 0 : { *(.stab) }
-	.stabstr 0 : { *(.stabstr) }
-	.stab.excl 0 : { *(.stab.excl) }
-	.stab.exclstr 0 : { *(.stab.exclstr) }
-	.stab.index 0 : { *(.stab.index) }
-	.stab.indexstr 0 : { *(.stab.indexstr) }
-	.comment 0 : { *(.comment) }
-	/* DWARF debug sections. */
-	/* Symbols in the DWARF debugging sections are relative to the beginning */
-	/* of the section so we begin them at 0.  */
-	/* DWARF 1 */
-	.debug          0 : { *(.debug) }
-	.line           0 : { *(.line) }
-	/* GNU DWARF 1 extensions */
-	.debug_srcinfo  0 : { *(.debug_srcinfo) }
-	.debug_sfnames  0 : { *(.debug_sfnames) }
-	/* DWARF 1.1 and DWARF 2 */
-	.debug_aranges  0 : { *(.debug_aranges) }
-	.debug_pubnames 0 : { *(.debug_pubnames) }
-	/* DWARF 2 */
-	.debug_info     0 : { *(.debug_info) }
-	.debug_abbrev   0 : { *(.debug_abbrev) }
-	.debug_line     0 : { *(.debug_line) }
-	.debug_frame    0 : { *(.debug_frame) }
-	.debug_str      0 : { *(.debug_str) }
-	.debug_loc      0 : { *(.debug_loc) }
-	.debug_macinfo  0 : { *(.debug_macinfo) }
+  __data_lma = . ;
+  .data 0x06000000 :  AT(ADDR(.text) + SIZEOF(.text))
+  {
+    _data = . ;
+    *(.shdata)
+    *(.data)
+    _edata = . ;
+  } > ram
 
-	/* These must appear regardless of  .  */
+  _sdata = SIZEOF (.data);
+
+  __iwram_lma = 0x06000000 + SIZEOF (.data);
+
+ /*.iwram __iwram_start : AT ( ADDR (.text) + SIZEOF (.text) + SIZEOF (.data))
+  {
+    _iwram = . ;
+    *(.iwram)
+    __iwram_end = . ;
+  } > cache */
+  
+
+  .bss 0x06000000 + SIZEOF (.data):
+  {
+    _bstart = . ;
+    *(.shbss)
+    *(.bss)
+    *(COMMON)
+    *(.eh_fram)
+    *(.eh_frame)
+    _bend =  . ;
+  } > ram
+
 }
-
