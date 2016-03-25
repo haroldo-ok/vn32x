@@ -9,6 +9,7 @@ extern char maruko,maruko_end;
 extern char palette,palette_end;
 extern char test,test_end;
 extern char test_palette,test_palette_end;
+extern vu16 test_apg[];
 int numColors;
 
 unsigned char temp_buffer[320 * 224];
@@ -17,6 +18,21 @@ unsigned char temp_buffer[320 * 224];
 void slave()
 {
 	while (1) {}
+}
+
+void drawImage(vu16 *image, vu16 *pal) {
+	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
+	int i, j;
+
+	aplib_decrunch(image, temp_buffer);
+	
+	for (i = 0; i != 128; i++) {
+		for (j = 0; j != 128; j++) {
+			if (temp_buffer[i * 128 + j] != temp_buffer[0]) {
+				frameBuffer16[i * 320 + j + 0x100] = pal[temp_buffer[i * 128 + j]];
+			}
+		}			
+	}
 }
 
 
@@ -61,15 +77,7 @@ int main()
 			}			
 		}
 
-		aplib_decrunch(&test, temp_buffer);
-		
-		for (i = 0; i != 128; i++) {
-			for (j = 0; j != 128; j++) {
-				if (temp_buffer[i * 128 + j] != temp_buffer[0]) {
-					frameBuffer16[i * 320 + j + 0x100] = pal16b[temp_buffer[i * 128 + j]];
-				}
-			}			
-		}
+		drawImage(&test, pal16b);
 		
 		//frameBuffer16[t + 0x100] = t;
 		t++;

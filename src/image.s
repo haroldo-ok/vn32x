@@ -23,3 +23,6 @@ _test_end:
 _test_palette:
 .incbin "build/test.pal"
 _test_palette_end:
+
+_test_apg:
+.incbin "build/test.apg"
