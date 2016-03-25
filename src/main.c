@@ -5,11 +5,7 @@
 #include "32x.h"
 #include "aplib_decrunch.h"
 
-extern char maruko,maruko_end;
-extern char palette,palette_end;
-extern char test,test_end;
-extern char test_palette,test_palette_end;
-extern vu16 test_apg[];
+extern vu16 maruko[], test[];
 int numColors;
 
 unsigned char temp_buffer[320 * 224];
@@ -34,8 +30,8 @@ void drawApgImage(vu16 *apg) {
 	
 	for (i = 0; i != height; i++) {
 		for (j = 0; j != width; j++) {
-			if (temp_buffer[i * 128 + j] != transparency) {
-				frameBuffer16[i * 320 + j + 0x100] = pal[temp_buffer[i * 128 + j]];
+			if (temp_buffer[i * width + j] != transparency) {
+				frameBuffer16[i * 320 + j + 0x100] = pal[temp_buffer[i * width + j]];
 			}
 		}			
 	}
@@ -48,9 +44,6 @@ int main()
 	uint16 lineOffs;
 	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
 	unsigned char *frameBuffer8 = &MARS_FRAMEBUFFER;
-	vu16 *cram16 = &MARS_CRAM;
-	vu16 *pal16 = (vu16*)&palette;
-	vu16 *pal16b = (vu16*)&test_palette;
 
 	int i, j, t;
 
@@ -60,12 +53,14 @@ int main()
 	// Set 8-bit paletted color mode, 224 lines
 	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_32K;
 
+	/*
 	numColors = 128;
 	for (i = 0; i < numColors; i++)
 	{
 		cram16[i] = pal16[i] & 0x7FFF;
 		cram16[i + numColors] = pal16b[i] & 0x7FFF;
 	}
+	*/
 
 	MARS_VDP_FBCTL = currentFB;
 
@@ -75,6 +70,7 @@ int main()
 		while ((MARS_VDP_FBCTL & MARS_VDP_FS) == currentFB) {}
 		currentFB ^= 1;
 
+		/*
 		aplib_decrunch(&maruko, temp_buffer);
 		
 		for (i = 0; i != 202; i++) {
@@ -82,8 +78,10 @@ int main()
 				frameBuffer16[i * 320 + j + 0x100] = pal16[temp_buffer[i * 320 + j]];
 			}			
 		}
+		*/
 
-		drawApgImage(test_apg);
+		drawApgImage(maruko);
+		drawApgImage(test);
 		
 		//frameBuffer16[t + 0x100] = t;
 		t++;
