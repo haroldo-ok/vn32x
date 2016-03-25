@@ -1,0 +1,656 @@
+# SEGA 32X startup code for the 68000
+# By Devster, Paul W Lee and Charles Doty
+# Merging and GNU AS adjustments by Mic
+
+.text
+	dc.l	0x01000000,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0
+	dc.l	0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0
+	dc.l	0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0
+	dc.l	0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0
+	dc.l	0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0
+	dc.l	0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0
+	dc.l	0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0
+	dc.l	0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0,0x000003F0
+	.ascii	"SEGA GENESIS    "
+	.ascii	"(C)SEGA 2008.SEP"
+	.ascii	"32X GAME        "
+	.ascii	"                "
+	.ascii	"                "
+	.ascii	"32X GAME        "
+	.ascii	"                "
+	.ascii	"                "
+	.ascii	"GM MK-0000 -00"
+	dc.w	0x0000
+	.ascii	"J6              "
+	dc.l	0x00000000,0x003FFFFF
+	dc.l	0x00E00000,0x00FFFFFF
+	.ascii	"                "
+	.ascii	"                "
+	.ascii	"                "
+	.ascii	"                "
+	.ascii	"JUE             "
+
+#	Reset Code
+	jmp	__start
+	.=.+(0x200+1*6)-.
+
+#	Bus Error
+	rte
+	.=.+(0x200+2*6)-.
+
+#	Address Error
+	rte
+	.=.+(0x200+3*6)-.
+
+#	Illegal Instruction
+	rte
+	.=.+(0x200+4*6)-.
+
+#	Divide by 0
+	rte
+	.=.+(0x200+5*6)-.
+
+#	CHK Instruction
+	rte
+	.=.+(0x200+6*6)-.
+
+#	TRAPV Instruction
+	rte
+	.=.+(0x200+7*6)-.
+
+#	Privilege Violation
+	rte
+	.=.+(0x200+8*6)-.
+
+#	Trace
+	rte
+	.=.+(0x200+9*6)-.
+
+#	Line 1010 Emulator
+	rte
+	.=.+(0x200+10*6)-.
+
+#	Line 1111 Emulator
+	rte
+	.=.+(0x200+23*6)-.
+
+#	Spurious Interrupt
+	rte
+	.=.+(0x200+24*6)-.
+
+#	Level 1 Interrupt
+	rte
+	.=.+(0x200+25*6)-.
+
+#	Level 2 Interrupt (TH)
+	rte
+	.=.+(0x200+26*6)-.
+
+#	Level 3 Interrupt
+	rte
+	.=.+(0x200+27*6)-.
+
+#	Level 4 Interrupt (H-Blank)
+	rte
+	.=.+(0x200+28*6)-.
+
+#	Level 5 Interrupt
+	rte
+	.=.+(0x200+29*6)-.
+
+#	Level 6 Interrupt (V-Blank)
+	rte
+	.=.+(0x200+30*6)-.
+
+#	Level 7 Interrupt
+	rte
+	.=.+(0x200+31*6)-.
+
+#	Trap #0 Instruction
+	rte
+	.=.+(0x200+32*6)-.
+
+#	Trap #1 Instruction
+	rte
+	.=.+(0x200+33*6)-.
+
+#	Trap #2 Instruction
+	rte
+	.=.+(0x200+34*6)-.
+
+#	Trap #3 Instruction
+	rte
+	.=.+(0x200+35*6)-.
+
+#	Trap #4 Instruction
+	rte
+	.=.+(0x200+36*6)-.
+
+#	Trap #5 Instruction
+	rte
+	.=.+(0x200+37*6)-.
+
+#	Trap #6 Instruction
+	rte
+	.=.+(0x200+38*6)-.
+
+#	Trap #7 Instruction
+	rte
+	.=.+(0x200+39*6)-.
+
+#	Trap #8 Instruction
+	rte
+	.=.+(0x200+40*6)-.
+
+#	Trap #9 Instruction
+	rte
+	.=.+(0x200+41*6)-.
+
+#	Trap #10 Instruction
+	rte
+	.=.+(0x200+42*6)-.
+
+#	Trap #11 Instruction
+	rte
+	.=.+(0x200+43*6)-.
+
+#	Trap #12 Instruction
+	rte
+	.=.+(0x200+44*6)-.
+
+#	Trap #13 Instruction
+	rte
+	.=.+(0x200+45*6)-.
+
+#	Trap #14 Instruction
+	rte
+	.=.+(0x200+46*6)-.
+
+#	Trap #15 Instruction
+	rte
+	.=.+(0x200+47*6)-.
+
+__32xcode:
+#	align	4
+#__32x_source:
+#	.include "sh2m_code.s"
+#	dc.b	0xAF,0xFE,0x00,0x09		/* 32x forever loop code */
+#__slave_sh2_start:
+#	dc.b	0xAF,0xFE,0x00,0x09		/* 32x forever loop code */
+#__32x_source_end:
+__32xcode_end:
+
+	ds.b	186-(__32xcode_end-__32xcode)
+	dc.l	__32x_source					/* Source */
+	dc.l	0x00000000					/* Destination */
+	dc.l	__32x_source_end-__32x_source			/* Size */
+	dc.l	0x06000004					/* Master SH2 Jump */
+	dc.l	0x06000000					/* Slave SH2 Jump	$18E */
+	dc.l	0x00000000					/* Master SH2 VBR */
+	dc.l	0x00000000					/* Slave SH2 VBR */
+	dc.w	0x287C,0xFFFF,0xFFC0,0x23FC,0x0000,0x0000,0x00A1,0x5128
+	dc.w	0x46FC,0x2700,0x4BF9,0x00A1,0x0000,0x7001,0x0CAD,0x4D41
+	dc.w	0x5253,0x30EC,0x6600,0x03E6,0x082D,0x0007,0x5101,0x67F8
+	dc.w	0x4AAD,0x0008,0x6710,0x4A6D,0x000C,0x670A,0x082D,0x0000
+	dc.w	0x5101,0x6600,0x03B8,0x102D,0x0001,0x0200,0x000F,0x6706
+	dc.w	0x2B78,0x055A,0x4000,0x7200,0x2C41,0x4E66,0x41F9,0x0000
+	dc.w	0x04D4,0x6100,0x0152,0x6100,0x0176,0x47F9,0x0000,0x04E8
+	dc.w	0x43F9,0x00A0,0x0000,0x45F9,0x00C0,0x0011,0x3E3C,0x0100
+	dc.w	0x7000,0x3B47,0x1100,0x3B47,0x1200,0x012D,0x1100,0x66FA
+	dc.w	0x7425,0x12DB,0x51CA,0xFFFC,0x3B40,0x1200,0x3B40,0x1100
+	dc.w	0x3B47,0x1200,0x149B,0x149B,0x149B,0x149B,0x41F9,0x0000
+	dc.w	0x04C0,0x43F9,0x00FF,0x0000,0x22D8,0x22D8,0x22D8,0x22D8
+	dc.w	0x22D8,0x22D8,0x22D8,0x22D8,0x41F9,0x00FF,0x0000,0x4ED0
+	dc.w	0x1B7C,0x0001,0x5101,0x41F9,0x0000,0x06BC,0xD1FC,0x0088
+	dc.w	0x0000,0x4ED0,0x0404,0x303C,0x076C,0x0000,0x0000,0xFF00
+	dc.w	0x8137,0x0002,0x0100,0x0000,0xAF01,0xD91F,0x1127,0x0021
+	dc.w	0x2600,0xF977,0xEDB0,0xDDE1,0xFDE1,0xED47,0xED4F,0xD1E1
+	dc.w	0xF108,0xD9C1,0xD1E1,0xF1F9,0xF3ED,0x5636,0xE9E9,0x9FBF
+	dc.w	0xDFFF,0x4D41,0x5253,0x2049,0x6E69,0x7469,0x616C,0x2026
+	dc.w	0x2053,0x6563,0x7572,0x6974,0x7920,0x5072,0x6F67,0x7261
+	dc.w	0x6D20,0x2020,0x2020,0x2020,0x2020,0x2043,0x6172,0x7472
+	dc.w	0x6964,0x6765,0x2056,0x6572,0x7369,0x6F6E,0x2020,0x2020
+	dc.w	0x436F,0x7079,0x7269,0x6768,0x7420,0x5345,0x4741,0x2045
+	dc.w	0x4E54,0x4552,0x5052,0x4953,0x4553,0x2C4C,0x5444,0x2E20
+	dc.w	0x3139,0x3934,0x2020,0x2020,0x2020,0x2020,0x2020,0x2020
+	dc.w	0x2020,0x2020,0x2020,0x2020,0x2020,0x2020,0x2020,0x2020
+	dc.w	0x2020,0x2020,0x2020,0x524F,0x4D20,0x5665,0x7273,0x696F
+	dc.w	0x6E20,0x312E,0x3000,0x48E7,0xC040,0x43F9,0x00C0,0x0004
+	dc.w	0x3011,0x303C,0x8000,0x323C,0x0100,0x3E3C,0x0012,0x1018
+	dc.w	0x3280,0xD041,0x51CF,0xFFF8,0x4CDF,0x0203,0x4E75,0x48E7
+	dc.w	0x81C0,0x41F9,0x0000,0x063E,0x43F9,0x00C0,0x0004,0x3298
+	dc.w	0x3298,0x3298,0x3298,0x3298,0x3298,0x3298,0x2298,0x3341
+	dc.w	0xFFFC,0x3011,0x0800,0x0001,0x66F8,0x3298,0x3298,0x7000
+	dc.w	0x22BC,0xC000,0x0000,0x7E0F,0x3340,0xFFFC,0x3340,0xFFFC
+	dc.w	0x3340,0xFFFC,0x3340,0xFFFC,0x51CF,0xFFEE,0x22BC,0x4000
+	dc.w	0x0010,0x7E09,0x3340,0xFFFC,0x3340,0xFFFC,0x3340,0xFFFC
+	dc.w	0x3340,0xFFFC,0x51CF,0xFFEE,0x4CDF,0x0381,0x4E75,0x8114
+	dc.w	0x8F01,0x93FF,0x94FF,0x9500,0x9600,0x9780,0x4000,0x0080
+	dc.w	0x8104,0x8F02,0x48E7,0xC140,0x43F9,0x00A1,0x5180,0x08A9
+	dc.w	0x0007,0xFF80,0x66F8,0x3E3C,0x00FF,0x7000,0x7200,0x337C
+	dc.w	0x00FF,0x0004,0x3341,0x0006,0x3340,0x0008,0x4E71,0x0829
+	dc.w	0x0001,0x000B,0x66F8,0x0641,0x0100,0x51CF,0xFFE8,0x4CDF
+	dc.w	0x0283,0x4E75,0x48E7,0x8180,0x41F9,0x00A1,0x5200,0x08A8
+	dc.w	0x0007,0xFF00,0x66F8,0x3E3C,0x001F,0x20C0,0x20C0,0x20C0
+	dc.w	0x20C0,0x51CF,0xFFF6,0x4CDF,0x0181,0x4E75,0x41F9,0x00FF
+	dc.w	0x0000,0x3E3C,0x07FF,0x7000,0x20C0,0x20C0,0x20C0,0x20C0
+	dc.w	0x20C0,0x20C0,0x20C0,0x20C0,0x51CF,0xFFEE,0x3B7C,0x0000
+	dc.w	0x1200,0x7E0A,0x51CF,0xFFFE,0x43F9,0x00A1,0x5100,0x7000
+	dc.w	0x2340,0x0020,0x2340,0x0024,0x1B7C,0x0003,0x5101,0x2E79
+	dc.w	0x0088,0x0000,0x0891,0x0007,0x66FA,0x7000,0x3340,0x0002
+	dc.w	0x3340,0x0004,0x3340,0x0006,0x2340,0x0008,0x2340,0x000C
+	dc.w	0x3340,0x0010,0x3340,0x0030,0x3340,0x0032,0x3340,0x0038
+	dc.w	0x3340,0x0080,0x3340,0x0082,0x08A9,0x0000,0x008B,0x66F8
+	dc.w	0x6100,0xFF12,0x08E9,0x0000,0x008B,0x67F8,0x6100,0xFF06
+	dc.w	0x08A9,0x0000,0x008B,0x6100,0xFF3C,0x303C,0x0040,0x2229
+	dc.w	0x0020,0x0C81,0x5351,0x4552,0x6700,0x0092,0x303C,0x0080
+	dc.w	0x2229,0x0020,0x0C81,0x5344,0x4552,0x6700,0x0080,0x21FC
+	dc.w	0x0088,0x02A2,0x0070,0x303C,0x0002,0x7200,0x122D,0x0001
+	dc.w	0x1429,0x0080,0xE14A,0x8242,0x0801,0x000F,0x660A,0x0801
+	dc.w	0x0006,0x6700,0x0058,0x6008,0x0801,0x0006,0x6600,0x004E
+	dc.w	0x7020,0x41F9,0x0088,0x0000,0x3C28,0x018E,0x4A46,0x6700
+	dc.w	0x0010,0x3429,0x0028,0x0C42,0x0000,0x67F6,0xB446,0x662C
+	dc.w	0x7000,0x2340,0x0028,0x2340,0x002C,0x3E14,0x2C7C,0xFFFF
+	dc.w	0xFFC0,0x4CD6,0x7FF9,0x44FC,0x0000,0x6014,0x43F9,0x00A1
+	dc.w	0x5100,0x3340,0x0006,0x303C,0x8000,0x6004,0x44FC,0x0001
+__start:
+* bra __start
+
+        tst.l   0xa10008
+	bne     SkipJoyDetect                               
+        tst.w   0xa1000c
+SkipJoyDetect:
+	bne     SkipSetup
+        lea     Table,%a5                       
+        movem.w (%a5)+,%d5-%d7
+        movem.l (%a5)+,%a0-%a4                       
+* Check Version Number                      
+        move.b  -0x10ff(%a1),%d0
+        andi.b  #0x0f,%d0                             
+	beq     WrongVersion                                   
+* Sega Security Code (SEGA)   
+        move.l  #0x53454741,0x2f00(%a1)
+WrongVersion:
+        move.w  (%a4),%d0
+        moveq   #0x00,%d0                                
+        movea.l %d0,%a6                                  
+        move    %a6,%usp
+* Set VDP registers
+        moveq   #0x17,%d1
+FillLoop:                           
+        move.b  (%a5)+,%d5
+        move.w  %d5,(%a4)                              
+        add.w   %d7,%d5                                 
+        dbra    %d1,FillLoop                           
+        move.l  (%a5)+,(%a4)                            
+        move.w  %d0,(%a3)                                 
+        move.w  %d7,(%a1)                                 
+        move.w  %d7,(%a2)                                 
+L0250:
+        btst    %d0,(%a1)
+	bne     L0250                                   
+* Put initial values into a00000                
+        moveq   #0x25,%d2
+Filla:                                 
+        move.b  (%a5)+,(%a0)+
+        dbra    %d2,Filla
+        move.w  %d0,(%a2)                                 
+        move.w  %d0,(%a1)                                 
+        move.w  %d7,(%a2)                                 
+L0262:
+        move.l  %d0,-(%a6)
+        dbra    %d6,L0262                            
+        move.l  (%a5)+,(%a4)                              
+        move.l  (%a5)+,(%a4)                              
+* Put initial values into c00000                  
+        moveq   #0x1f,%d3
+Filc0:                             
+        move.l  %d0,(%a3)
+        dbra    %d3,Filc0
+        move.l  (%a5)+,(%a4)                              
+* Put initial values into c00000                 
+        moveq   #0x13,%d4
+Fillc1:                            
+        move.l  %d0,(%a3)
+        dbra    %d4,Fillc1
+* Put initial values into c00011                 
+        moveq   #0x03,%d5
+Fillc2:                            
+        move.b  (%a5)+,0x0011(%a3)        
+        dbra    %d5,Fillc2                            
+        move.w  %d0,(%a2)                                 
+        movem.l (%a6),%d0-%d7/%a0-%a6                    
+        move    #0x2700,%sr                           
+SkipSetup:
+	bra     Continue
+Table:
+        dc.w    0x8000, 0x3fff, 0x0100, 0x00a0, 0x0000, 0x00a1, 0x1100, 0x00a1
+        dc.w    0x1200, 0x00c0, 0x0000, 0x00c0, 0x0004, 0x0414, 0x302c, 0x0754
+        dc.w    0x0000, 0x0000, 0x0000, 0x812b, 0x0001, 0x0100, 0x00ff, 0xff00                                   
+        dc.w    0x0080, 0x4000, 0x0080, 0xaf01, 0xd91f, 0x1127, 0x0021, 0x2600
+        dc.w    0xf977, 0xedb0, 0xdde1, 0xfde1, 0xed47, 0xed4f, 0xd1e1, 0xf108                                   
+        dc.w    0xd9c1, 0xd1e1, 0xf1f9, 0xf3ed, 0x5636, 0xe9e9, 0x8104, 0x8f01                
+        dc.w    0xc000, 0x0000, 0x4000, 0x0010, 0x9fbf, 0xdfff                                
+
+Continue:
+        tst.w    0x00C00004
+
+* set stack pointer
+*        clr.l   %a7
+        move.w   #0,%a7
+
+* user mode
+        move.w  #0x2300,%sr
+
+* clear Genesis RAM
+        lea     0xff0000,%a0
+        moveq   #0,%d0
+clrram: move.w  #0,(%a0)+
+        subq.w  #2,%d0
+	bne     clrram
+
+*----------------------------------------------------------        
+*
+*       Load driver into the Z80 memory
+*
+*----------------------------------------------------------        
+
+* halt the Z80
+        move.w  #0x100,0xa11100
+* reset it
+        move.w  #0x100,0xa11200
+
+        lea     Z80Driver,%a0
+        lea     0xa00000,%a1
+        move.l  #Z80DriverEnd,%d0
+        move.l  #Z80Driver,%d1
+        sub.l   %d1,%d0
+Z80loop:
+        move.b  (%a0)+,(%a1)+
+        subq.w  #1,%d0
+	bne     Z80loop
+
+* enable the Z80
+        move.w  #0x0,0xa11100
+
+*----------------------------------------------------------        
+*        jmp      main
+
+main:
+	move.w	0xA15100,d0
+	or.w	#0x8000,d0
+	move.w	d0,0xA15100
+forever:	
+	jmp	forever
+	
+INT:    
+	rte
+
+HBL:
+*        addq.l   #1,htimer 
+	rte
+
+VBL:
+*        addq.l   #1,vtimer 
+	rte
+
+*------------------------------------------------
+*
+*       Get a random number.  This routine
+*       was found in TOS.
+*
+*       Output
+*       ------
+*       d0 = random number
+*
+*------------------------------------------------
+
+ 
+*------------------------------------------------
+*
+* Copyright (c) 1988 by Sozobon, Limited.  Author: Johann Ruegg
+*
+* Permission is granted to anyone to use this software for any purpose
+* on any computer system, and to redistribute it freely, with the
+* following restrictions:
+* 1) No charge may be made other than reasonable charges for reproduction.
+* 2) Modified versions must be clearly marked as such.
+* 3) The authors are not responsible for any harmful consequences
+*    of using this software, even if they result from defects in it.
+*
+*------------------------------------------------
+
+ldiv:
+        move.l  4(%a7),%d0
+	bpl     ld1
+        neg.l   %d0
+ld1:
+        move.l  8(%a7),%d1
+	bpl     ld2
+        neg.l   %d1
+        eor.b   #0x80,4(%a7)
+ld2:
+	bsr     i_ldiv          /* d0 = d0/d1 */
+        tst.b   4(%a7)
+	bpl     ld3
+        neg.l   %d0
+ld3:
+	rts
+
+lmul:
+        move.l  4(%a7),%d0
+	bpl     lm1
+        neg.l   %d0
+lm1:
+        move.l  8(%a7),%d1
+	bpl     lm2
+        neg.l   %d1
+        eor.b   #0x80,4(%a7)
+lm2:
+	bsr     i_lmul          /* d0 = d0*d1 */
+        tst.b   4(%a7)
+	bpl     lm3
+        neg.l   %d0
+lm3:
+	rts
+
+lrem:
+        move.l  4(%a7),%d0
+	bpl     lr1
+        neg.l   %d0
+lr1:
+        move.l  8(%a7),%d1
+	bpl     lr2
+        neg.l   %d1
+lr2:
+	bsr     i_ldiv          /* d1 = d0%d1 */
+        move.l  %d1,%d0
+        tst.b   4(%a7)
+	bpl     lr3
+        neg.l   %d0
+lr3:
+	rts
+
+ldivu:
+        move.l  4(%a7),%d0
+        move.l  8(%a7),%d1
+	bsr     i_ldiv
+	rts
+
+lmulu:
+        move.l  4(%a7),%d0
+        move.l  8(%a7),%d1
+	bsr     i_lmul
+	rts
+
+lremu:
+        move.l  4(%a7),%d0
+        move.l  8(%a7),%d1
+	bsr     i_ldiv
+        move.l  %d1,%d0
+	rts
+*
+* A in d0, B in d1, return A*B in d0
+*
+i_lmul:
+        move.l  %d3,%a2           /* save d3 */
+        move.w  %d1,%d2
+        mulu    %d0,%d2           /* d2 = Al * Bl */
+
+        move.l  %d1,%d3
+        swap    %d3
+        mulu    %d0,%d3           /* d3 = Al * Bh */
+
+        swap    %d0
+        mulu    %d1,%d0           /* d0 = Ah * Bl */
+
+        add.l   %d3,%d0           /* d0 = (Ah*Bl + Al*Bh) */
+        swap    %d0
+        clr.w   %d0              /* d0 = (Ah*Bl + Al*Bh) << 16 */
+
+        add.l   %d2,%d0           /* d0 = A*B */
+        move.l  %a2,%d3           /* restore d3 */
+	rts
+*
+*A in d0, B in d1, return A/B in d0, A%B in d1
+*
+i_ldiv:
+        tst.l   %d1
+	bne     nz1
+
+*       divide by zero
+*       divu    #0,%d0           /* cause trap */
+        move.l  #0x80000000,%d0
+        move.l  %d0,%d1
+	rts
+nz1:
+        move.l  %d3,%a2           /* save d3 */
+        cmp.l   %d1,%d0
+	bhi     norm
+	beq     is1
+*       A<B, so ret 0, rem A
+        move.l  %d0,%d1
+        clr.l   %d0
+        move.l  %a2,%d3           /* restore d3 */
+	rts
+*       A==B, so ret 1, rem 0
+is1:
+        moveq.l #1,%d0
+        clr.l   %d1
+        move.l  %a2,%d3           /* restore d3 */
+	rts
+*       A>B and B is not 0
+norm:
+        cmp.l   #1,%d1
+	bne     not1
+*       B==1, so ret A, rem 0
+        clr.l   %d1
+        move.l  %a2,%d3           /* restore d3 */
+	rts
+*  check for A short (implies B short also)
+not1:
+        cmp.l   #0xffff,%d0
+	bhi     slow
+*  A short and B short -- use 'divu'
+        divu    %d1,%d0           /* d0 = REM:ANS */
+        swap    %d0              /* d0 = ANS:REM */
+        clr.l   %d1
+        move.w  %d0,%d1           /* d1 = REM */
+        clr.w   %d0
+        swap    %d0
+        move.l  %a2,%d3           /* restore d3 */
+	rts
+* check for B short
+slow:
+        cmp.l   #0xffff,%d1
+	bhi     slower
+* A long and B short -- use special stuff from gnu
+        move.l  %d0,%d2
+        clr.w   %d2
+        swap    %d2
+        divu    %d1,%d2           /* d2 = REM:ANS of Ahi/B */
+        clr.l   %d3
+        move.w  %d2,%d3           /* d3 = Ahi/B */
+        swap    %d3
+
+        move.w  %d0,%d2           /* d2 = REM << 16 + Alo */
+        divu    %d1,%d2           /* d2 = REM:ANS of stuff/B */
+
+        move.l  %d2,%d1
+        clr.w   %d1
+        swap    %d1              /* d1 = REM */
+
+        clr.l   %d0
+        move.w  %d2,%d0
+        add.l   %d3,%d0           /* d0 = ANS */
+        move.l  %a2,%d3           /* restore d3 */
+	rts
+*       A>B, B > 1
+slower:
+        move.l  #1,%d2
+        clr.l   %d3
+moreadj:
+        cmp.l   %d0,%d1
+	bhs     adj
+        add.l   %d2,%d2
+        add.l   %d1,%d1
+	bpl     moreadj
+* we shifted B until its >A or sign bit set
+* we shifted #1 (d2) along with it
+adj:
+        cmp.l   %d0,%d1
+	bhi     ltuns
+        or.l    %d2,%d3
+        sub.l   %d1,%d0
+ltuns:
+        lsr.l   #1,%d1
+        lsr.l   #1,%d2
+	bne     adj
+* d3=answer, d0=rem
+        move.l  %d0,%d1
+        move.l  %d3,%d0
+        move.l  %a2,%d3           /* restore d3 */
+	rts
+*----------------------------------------------------------        
+*
+*       Z80 Sound Driver
+*
+*----------------------------------------------------------        
+Z80Driver:
+          dc.b  0xc3,0x46,0x00,0x00,0x00,0x00,0x00,0x00
+          dc.b  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+          dc.b  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+          dc.b  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+          dc.b  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+          dc.b  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+          dc.b  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+          dc.b  0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+          dc.b  0x00,0x00,0x00,0x00,0x00,0x00,0xf3,0xed
+          dc.b  0x56,0x31,0x00,0x20,0x3a,0x39,0x00,0xb7
+          dc.b  0xca,0x4c,0x00,0x21,0x3a,0x00,0x11,0x40
+          dc.b  0x00,0x01,0x06,0x00,0xed,0xb0,0x3e,0x00
+          dc.b  0x32,0x39,0x00,0x3e,0xb4,0x32,0x02,0x40
+          dc.b  0x3e,0xc0,0x32,0x03,0x40,0x3e,0x2b,0x32
+          dc.b  0x00,0x40,0x3e,0x80,0x32,0x01,0x40,0x3a
+          dc.b  0x43,0x00,0x4f,0x3a,0x44,0x00,0x47,0x3e
+          dc.b  0x06,0x3d,0xc2,0x81,0x00,0x21,0x00,0x60
+          dc.b  0x3a,0x41,0x00,0x07,0x77,0x3a,0x42,0x00
+          dc.b  0x77,0x0f,0x77,0x0f,0x77,0x0f,0x77,0x0f
+          dc.b  0x77,0x0f,0x77,0x0f,0x77,0x0f,0x77,0x3a
+          dc.b  0x40,0x00,0x6f,0x3a,0x41,0x00,0xf6,0x80
+          dc.b  0x67,0x3e,0x2a,0x32,0x00,0x40,0x7e,0x32
+          dc.b  0x01,0x40,0x21,0x40,0x00,0x7e,0xc6,0x01
+          dc.b  0x77,0x23,0x7e,0xce,0x00,0x77,0x23,0x7e
+          dc.b  0xce,0x00,0x77,0x3a,0x39,0x00,0xb7,0xc2
+          dc.b  0x4c,0x00,0x0b,0x78,0xb1,0xc2,0x7f,0x00
+          dc.b  0x3a,0x45,0x00,0xb7,0xca,0x4c,0x00,0x3d
+          dc.b  0x3a,0x45,0x00,0x06,0xff,0x0e,0xff,0xc3
+          dc.b  0x7f,0x00
+Z80DriverEnd:
+
+.align 2
+__32x_source:
+.incbin "32xcode.bin"
+__32x_source_end:
+
+

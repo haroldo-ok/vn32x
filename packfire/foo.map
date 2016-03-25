@@ -1,0 +1,93 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+_numColors          0x4               main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+rom              0x0000000002000000 0x0000000000400000
+ram              0x0000000006000000 0x0000000000040000
+cache            0x00000000c0000000 0x0000000000000800
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x00000000c0000000                __iwram_start = ORIGIN (cache)
+                0x0000000006040000                PROVIDE (__stack, 0x6040000)
+
+.text           0x0000000002000000     0x8424
+ *(.text)
+ .text          0x0000000002000000      0x944 sh2_crt0.o
+                0x0000000002000940                _start
+ *fill*         0x0000000002000944        0xc 00
+ .text          0x0000000002000950       0xf0 main.o
+                0x0000000002000950                _slave
+                0x0000000002000960                _main
+ .text          0x0000000002000a40     0x78e0 image.o
+                0x0000000002000a40                _maruko
+                0x0000000002008240                _maruko_end
+                0x0000000002008240                _palette
+                0x0000000002008320                _palette_end
+ .text          0x0000000002008320       0xec unpackfire_tiny.o
+                0x0000000002008320                _unpackfire_tiny
+                0x000000000200840c                unpackfire_tiny_end
+                0x000000000200840c                . = ALIGN (0x4)
+                0x000000000200840c                __CTOR_LIST__ = .
+                0x000000000200840c        0x4 LONG 0x0 (((__CTOR_END__ - __CTOR_LIST__) / 0x4) - 0x2)
+ *(.ctors)
+                0x0000000002008410        0x4 LONG 0x0
+                0x0000000002008414                __CTOR_END__ = .
+                0x0000000002008414                __DTOR_LIST__ = .
+                0x0000000002008414        0x4 LONG 0x0 (((__DTOR_END__ - __DTOR_LIST__) / 0x4) - 0x2)
+ *(.dtors)
+                0x0000000002008418        0x4 LONG 0x0
+                0x000000000200841c                __DTOR_END__ = .
+ *(.rodata*)
+                0x000000000200841c                __INIT_SECTION__ = .
+ *(.init)
+                0x000000000200841c        0x4 LONG 0xb0009
+                0x0000000002008420                __FINI_SECTION__ = .
+ *(.fini)
+                0x0000000002008420        0x4 LONG 0xb0009
+ *(.lit)
+                0x0000000002008424                _etext = .
+                0x0000000002008424                __data_lma = .
+
+.data           0x0000000006000000      0x2d0 load address 0x0000000002008424
+                0x0000000006000000                _data = .
+ *(.shdata)
+ *(.data)
+ .data          0x0000000006000000      0x2d0 sh2_crt0.o
+                0x0000000006000240                mstart
+                0x0000000006000244                sstart
+ .data          0x00000000060002d0        0x0 main.o
+ .data          0x00000000060002d0        0x0 image.o
+ .data          0x00000000060002d0        0x0 unpackfire_tiny.o
+                0x00000000060002d0                _edata = .
+                0x00000000000002d0                _sdata = SIZEOF (.data)
+                0x00000000060002d0                __iwram_lma = (0x6000000 + SIZEOF (.data))
+
+.bss            0x00000000060002d0        0x4 load address 0x00000000020086f4
+                0x00000000060002d0                _bstart = .
+ *(.shbss)
+ *(.bss)
+ .bss           0x00000000060002d0        0x0 sh2_crt0.o
+ .bss           0x00000000060002d0        0x0 main.o
+ .bss           0x00000000060002d0        0x0 image.o
+ .bss           0x00000000060002d0        0x0 unpackfire_tiny.o
+ *(COMMON)
+ COMMON         0x00000000060002d0        0x4 main.o
+                0x00000000060002d0                _numColors
+ *(.eh_fram)
+ *(.eh_frame)
+                0x00000000060002d4                _bend = .
+LOAD sh2_crt0.o
+LOAD main.o
+LOAD image.o
+LOAD unpackfire_tiny.o
+OUTPUT(test_packfire.32x binary)
+
+.comment        0x0000000000000000       0x12
+ .comment       0x0000000000000000       0x12 main.o
