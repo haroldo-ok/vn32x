@@ -20,7 +20,7 @@ $(OBJDIR)/%.o : %.s
 $(OBJDIR)/%.o : %.c
 	sh-elf-gcc -c -O2 -o $@ $<
 
-$(OBJDIR)/%.apx : %.png
+$(OBJDIR)/%.apx : img/%.png
 	sixpack.exe -image -pack -v -target 32x -codec aplib -format l8 -q 256 -o $@ $<
 	
 all: $(OBJS)
