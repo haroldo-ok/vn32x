@@ -7,6 +7,7 @@
 .globl _test_end
 .globl _test_palette
 .globl _test_palette_end
+.globl _test_apg
 
 _maruko:
 .incbin "build/maruko.apx"

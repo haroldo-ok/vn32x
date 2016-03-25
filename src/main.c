@@ -20,15 +20,21 @@ void slave()
 	while (1) {}
 }
 
-void drawImage(vu16 *image, vu16 *pal) {
+void drawApgImage(vu16 *apg) {
 	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
 	int i, j;
+	int width = apg[0];
+	int height = apg[1];
+	int transparency = apg[2];
+	int palSize = apg[3];
+	vu16 *pal = apg + 4;
+	vu16 *image = pal + palSize;
 
 	aplib_decrunch(image, temp_buffer);
 	
-	for (i = 0; i != 128; i++) {
-		for (j = 0; j != 128; j++) {
-			if (temp_buffer[i * 128 + j] != temp_buffer[0]) {
+	for (i = 0; i != height; i++) {
+		for (j = 0; j != width; j++) {
+			if (temp_buffer[i * 128 + j] != transparency) {
 				frameBuffer16[i * 320 + j + 0x100] = pal[temp_buffer[i * 128 + j]];
 			}
 		}			
@@ -77,7 +83,7 @@ int main()
 			}			
 		}
 
-		drawImage(&test, pal16b);
+		drawApgImage(test_apg);
 		
 		//frameBuffer16[t + 0x100] = t;
 		t++;
