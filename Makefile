@@ -14,7 +14,7 @@ $(OBJDIR)/m68k_%.o : $(SRCDIR)/m68k_%.s
 	m68k-elf-as -m68000 --register-prefix-optional -o $@ $<
 	
 $(OBJDIR)/m68k_%.bin : $(OBJDIR)/m68k_%.o
-	m68k-elf-ld -Tmd.ld --oformat binary -o $@ $<
+	m68k-elf-ld -T$(SRCDIR)/md.ld --oformat binary -o $@ $<
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.s
 	sh-elf-as -o $@ $<
@@ -26,7 +26,7 @@ $(OBJDIR)/%.apx : $(IMGDIR)/%.png
 	sixpack.exe -image -pack -v -target 32x -codec aplib -format l8 -q 256 -o $@ $<
 	
 all: $(OBJS)
-	sh-elf-ld -T 32x.ld -e _start --oformat binary -o test_aplib.32x $(OBJS)
+	sh-elf-ld -T $(SRCDIR)/32x.ld -e _start --oformat binary -o test_aplib.32x $(OBJS)
 
 $(OBJS): | $(RSCS) $(OBJDIR)
 
