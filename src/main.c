@@ -30,18 +30,35 @@ void drawApgImage(int x, int y, vu16 *apg) {
 	
 	unsigned char *srcLin, *srcCol;
 	vu16 *dstLin, *dstCol;
+	int visibleW, visibleH;
 	unsigned char color;
+	
+	if (x <= -width || x >= FBF_WIDTH + width || y <= -height || y >= FBF_HEIGHT + height) {
+		// Image is fully outside the screen.
+		return;
+	}
 
 	aplib_decrunch(image, tempImgBuffer);
 	
-	srcLin = tempImgBuffer;
-	dstLin = frameBuffer16 + y * FBF_WIDTH + x + 0x100;
+	srcLin = tempImgBuffer;		
+	dstLin = frameBuffer16 + 0x100;	
+	visibleW = width;
+	visibleH = height;
 	
-	for (i = 0; i != height; i++) {
+	if (y < 0) {
+		srcLin -= y * width;
+		visibleH += y;
+	} else {
+		dstLin += y * FBF_WIDTH;		
+	}
+	
+	dstLin += x;
+		
+	for (i = 0; i != visibleH; i++) {
 		srcCol = srcLin;
 		dstCol = dstLin;
 		
-		for (j = 0; j != width; j++) {
+		for (j = 0; j != visibleW; j++) {
 			color = *srcCol;
 			if (color != transparency) {
 				*dstCol = pal[color];
@@ -95,7 +112,8 @@ int main()
 		currentFB ^= 1;
 
 		drawApgImage(0, 0, maruko);
-		drawApgImage(t, 32, test);
+//		drawApgImage(t, FBF_HEIGHT - 64, test);
+		drawApgImage(0, 8 - t, test);
 		
 		//frameBuffer16[t + 0x100] = t;
 		t++;
