@@ -66,6 +66,12 @@ void drawApgImage(int x, int y, vu16 *apg) {
 	} else {
 		dstLin += x;		
 	}
+	
+	outside = x + visibleW - FBF_WIDTH;
+	if (outside > 0) {
+		// Image partly outside the left
+		visibleW -= outside;
+	}
 		
 	for (i = 0; i != visibleH; i++) {
 		srcCol = srcLin;
@@ -127,7 +133,7 @@ int main()
 		drawApgImage(0, 0, maruko);
 //		drawApgImage(t, FBF_HEIGHT - 64, test);
 //		drawApgImage(t, FBF_HEIGHT - 120 + t, test);
-		drawApgImage(8 - t, 32, test);
+		drawApgImage(FBF_WIDTH - 130 + t, 32, test);
 		
 		//frameBuffer16[t + 0x100] = t;
 		t++;
