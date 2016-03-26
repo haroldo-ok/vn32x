@@ -30,7 +30,7 @@ void drawApgImage(int x, int y, vu16 *apg) {
 	
 	unsigned char *srcLin, *srcCol;
 	vu16 *dstLin, *dstCol;
-	int visibleW, visibleH;
+	int visibleW, visibleH, outside;
 	unsigned char color;
 	
 	if (x <= -width || x >= FBF_WIDTH + width || y <= -height || y >= FBF_HEIGHT + height) {
@@ -46,10 +46,17 @@ void drawApgImage(int x, int y, vu16 *apg) {
 	visibleH = height;
 	
 	if (y < 0) {
+		// Image partly outside the top
 		srcLin -= y * width;
 		visibleH += y;
 	} else {
 		dstLin += y * FBF_WIDTH;		
+	}
+	
+	outside = y + visibleH - FBF_HEIGHT;
+	if (outside > 0) {
+		// Image partly outside the bottom
+		visibleH -= outside;
 	}
 	
 	dstLin += x;
@@ -113,7 +120,7 @@ int main()
 
 		drawApgImage(0, 0, maruko);
 //		drawApgImage(t, FBF_HEIGHT - 64, test);
-		drawApgImage(0, 8 - t, test);
+		drawApgImage(t, FBF_HEIGHT - 120 + t, test);
 		
 		//frameBuffer16[t + 0x100] = t;
 		t++;
