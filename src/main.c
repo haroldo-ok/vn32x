@@ -106,8 +106,13 @@ int drawChar(char ch, int x, int y, vu16 color) {
 	vu16 *img = (void *) o16;
 	vu16 charX, charW, incrO, incrD;
 	int i, j;
-	unsigned char *o;
+	unsigned char *o, opacity, transp, bg;
+	vu16 r0, g0, b0, r, g, b;
 	vu16 *d;
+	
+	r0 = color & 0x1F;
+	g0 = (color >> 5) & 0x1F;
+	b0 = (color >> 10) & 0x1F;
 	
 	o = (void *) img;
 	o += imgSize + ((ch - 32) << 2);
@@ -125,8 +130,28 @@ int drawChar(char ch, int x, int y, vu16 color) {
 //	*d = o < default_font + 1790 * 16 + 6 ? color : 0;
 	for (i = 0; i != imgH; i++) {
 		for (j = 0; j != charW; j++) {
-			if (*o) {
-				*d = color;				
+			opacity = *o;
+			if (opacity) {
+				if (opacity == 255) {
+					*d = color;				
+				} else {
+					opacity++;
+					transp = 256 - opacity;
+					bg = *d;
+					
+					r = bg & 0x1F;
+					g = (bg >> 5) & 0x1F;
+					b = (bg >> 10) & 0x1F;
+					
+					r = (r0 * opacity + r * transp);
+					g = (g0 * opacity + g * transp);
+					b = (b0 * opacity + b * transp);
+					r >>= 8;
+					g >>= 8;
+					b >>= 8;
+					
+					*d = COLOR(r, g, b);
+				}
 			}
 			o++; d++;
 		}		
