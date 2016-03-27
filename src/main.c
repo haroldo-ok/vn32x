@@ -118,7 +118,8 @@ int drawChar(char ch, int x, int y, vu16 color) {
 	incrO = imgW - charW;
 	incrD = FBF_WIDTH - charW;
 	
-	o = img + charX;
+	o = (void *) img;
+	o += charX;
 	d = &MARS_FRAMEBUFFER + (y * FBF_WIDTH) + x + 0x100;
 
 //	*d = o < default_font + 1790 * 16 + 6 ? color : 0;
@@ -132,6 +133,8 @@ int drawChar(char ch, int x, int y, vu16 color) {
 		o += incrO;
 		d += incrD;
 	}
+	*d++ = charX == 547 ? color : 0;
+	*d++ = charW == 9 ? color : 0;
 	
 	return 0;
 }
