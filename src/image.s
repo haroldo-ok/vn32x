@@ -1,13 +1,13 @@
 .text
-.globl _maruko
-.globl _test
+.globl _bedday
+.globl _pose
 .globl _text_frame
 
-_maruko:
-.incbin "build/maruko.apg"
+_bedday:
+.incbin "build/bedday.apg"
 
-_test:
-.incbin "build/test.apg"
+_pose:
+.incbin "build/pose.apg"
 
 _text_frame:
 .incbin "build/text_frame.apg"
