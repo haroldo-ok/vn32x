@@ -5,30 +5,121 @@
 #include "32x.h"
 #include "aplib_decrunch.h"
 
-extern char maruko,maruko_end;
-extern char palette,palette_end;
-extern char test,test_end;
-extern char test_palette,test_palette_end;
+#define FBF_WIDTH 320
+#define FBF_HEIGHT 202
+
+extern vu16 maruko[], test[], text_frame[];
 int numColors;
 
-unsigned char temp_buffer[320 * 224];
-
+unsigned char tempImgBuffer[FBF_WIDTH * FBF_HEIGHT];
 
 void slave()
 {
 	while (1) {}
 }
 
+void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
+	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
+	int i, j;
+	int width = apg[0];
+	int height = apg[1];
+	int transparency = apg[2];
+	int palSize = apg[3];
+	vu16 *pal = apg + 4;
+	vu16 *image = pal + palSize;
+	
+	unsigned char *srcLin, *srcCol;
+	vu16 *dstLin, *dstCol;
+	int visibleW, visibleH, outside;
+	unsigned char color;
+	unsigned int rgb;
+	
+	if (x <= -width || x >= FBF_WIDTH + width || y <= -height || y >= FBF_HEIGHT + height) {
+		// Image is fully outside the screen.
+		return;
+	}
+
+	aplib_decrunch(image, tempImgBuffer);
+	
+	srcLin = tempImgBuffer;		
+	dstLin = frameBuffer16 + 0x100;	
+	visibleW = width;
+	visibleH = height;
+	
+	if (y < 0) {
+		// Image partly outside the top
+		srcLin -= y * width;
+		visibleH += y;
+	} else {
+		dstLin += y * FBF_WIDTH;		
+	}
+	
+	outside = y + visibleH - FBF_HEIGHT;
+	if (outside > 0) {
+		// Image partly outside the bottom
+		visibleH -= outside;
+	}
+	
+	if (x < 0) {
+		// Image partly outside the left
+		srcLin -= x;
+		visibleW += x;
+	} else {
+		dstLin += x;		
+	}
+	
+	outside = x + visibleW - FBF_WIDTH;
+	if (outside > 0) {
+		// Image partly outside the left
+		visibleW -= outside;
+	}
+		
+	for (i = 0; i != visibleH; i++) {
+		srcCol = srcLin;
+		dstCol = dstLin;
+		
+		for (j = 0; j != visibleW; j++) {
+			color = *srcCol;
+			if (color != transparency) {
+				if (semiTransparent) {
+					// 'original color' * 0.25 + 'new color' * 0.75
+					rgb = (pal[color] >> 1) & 0x3DEF; // 'new color' * 0.5
+					*dstCol = ((*dstCol >> 2) & 0x1CE7) + rgb + ((rgb >> 1) & 0x1CE7);
+				} else {
+					*dstCol = pal[color];
+				}
+			}
+			srcCol++; dstCol++;
+		}
+
+		srcLin += width;
+		dstLin += FBF_WIDTH;
+	}
+}
+
+int setupLineTable() {
+	int i, lineOffs;
+	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
+	
+	// Set up the line table
+	lineOffs = 0x100;
+	for (i = 11; i < 213; i++) {
+		frameBuffer16[i] = lineOffs;
+		lineOffs += FBF_WIDTH;
+	}
+
+	lineOffs = (FBF_HEIGHT + 1) * FBF_WIDTH;
+	for (i = 0; i < 11; i++) {
+		frameBuffer16[i] = lineOffs;
+	}
+	for (i = 213; i < 256; i++) {
+		frameBuffer16[i] = lineOffs;
+	}	
+}
 
 int main()
 {
 	uint16 currentFB=0;
-	uint16 lineOffs;
-	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
-	unsigned char *frameBuffer8 = &MARS_FRAMEBUFFER;
-	vu16 *cram16 = &MARS_CRAM;
-	vu16 *pal16 = (vu16*)&palette;
-	vu16 *pal16b = (vu16*)&test_palette;
 
 	int i, j, t;
 
@@ -38,13 +129,6 @@ int main()
 	// Set 8-bit paletted color mode, 224 lines
 	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_32K;
 
-	numColors = 128;
-	for (i = 0; i < numColors; i++)
-	{
-		cram16[i] = pal16[i] & 0x7FFF;
-		cram16[i + numColors] = pal16b[i] & 0x7FFF;
-	}
-
 	MARS_VDP_FBCTL = currentFB;
 
     for(;;)
@@ -53,41 +137,13 @@ int main()
 		while ((MARS_VDP_FBCTL & MARS_VDP_FS) == currentFB) {}
 		currentFB ^= 1;
 
-		aplib_decrunch(&maruko, temp_buffer);
+		drawApgImage(0, 0, maruko, 0);
+		drawApgImage(t, 32, test, 0);
+		drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
 		
-		for (i = 0; i != 202; i++) {
-			for (j = 0; j != 320; j++) {
-				frameBuffer16[i * 320 + j + 0x100] = pal16[temp_buffer[i * 320 + j]];
-			}			
-		}
-
-		aplib_decrunch(&test, temp_buffer);
-		
-		for (i = 0; i != 128; i++) {
-			for (j = 0; j != 128; j++) {
-				if (temp_buffer[i * 128 + j] != temp_buffer[0]) {
-					frameBuffer16[i * 320 + j + 0x100] = pal16b[temp_buffer[i * 128 + j]];
-				}
-			}			
-		}
-		
-		//frameBuffer16[t + 0x100] = t;
 		t++;
 
-		// Set up the line table
-		lineOffs = 0x100;
-		for (i = 11; i < 213; i++) {
-			frameBuffer16[i] = lineOffs;
-			lineOffs += 320;
-		}
-
-		lineOffs = 203 * 320;
-		for (i = 0; i < 11; i++) {
-			frameBuffer16[i] = lineOffs;
-		}
-		for (i = 213; i < 256; i++) {
-			frameBuffer16[i] = lineOffs;
-		}
+		setupLineTable();
      }
 
 	return 0;

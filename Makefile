@@ -4,7 +4,7 @@ IMGDIR := img
 	
 RSCS := $(addprefix $(OBJDIR)/,\
 	m68k_crt0.bin m68k_crt1.bin\
-	maruko.apx test.apx)
+	maruko.apg test.apg text_frame.apg)
 
 OBJS := $(addprefix $(OBJDIR)/,\
 	sh2_crt0.o\
@@ -24,10 +24,14 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 
 $(OBJDIR)/%.apx : $(IMGDIR)/%.png
 	sixpack.exe -image -pack -v -target 32x -codec aplib -format l8 -q 256 -o $@ $<
+
+$(OBJDIR)/%.apg : $(IMGDIR)/%.png
+	sixpack.exe -image -pack -v -target 32x -codec aplib -format l8 -q 256 -o $@tmp $<
+	apg $@ $< $@tmp
 	
 all: $(OBJS)
 	sh-elf-ld -T $(SRCDIR)/32x.ld -e _start --oformat binary -o test_aplib.32x $(OBJS)
-
+	
 $(OBJS): | $(RSCS) $(OBJDIR)
 
 $(RSCS): | $(OBJDIR)
