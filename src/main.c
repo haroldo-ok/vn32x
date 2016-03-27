@@ -9,6 +9,7 @@
 #define FBF_HEIGHT 202
 
 extern vu16 bedday[], pose[], text_frame[];
+extern unsigned char default_font[];
 int numColors;
 
 unsigned char tempImgBuffer[FBF_WIDTH * FBF_HEIGHT];
@@ -97,6 +98,91 @@ void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
 	}
 }
 
+int drawChar(char ch, int x, int y, vu16 color) {
+	vu16 *o16 = (void *) default_font;
+	vu16 imgW  = *o16++;
+	vu16 imgH  = *o16++;
+	vu16 imgSize = *o16++;
+	vu16 *img = (void *) o16;
+	vu16 charX, charW, incrO, incrD;
+	int i, j;
+	unsigned char *o, opacity, transp, bg;
+	vu16 r0, g0, b0, r, g, b;
+	vu16 *d;
+	
+	r0 = color & 0x1F;
+	g0 = (color >> 5) & 0x1F;
+	b0 = (color >> 10) & 0x1F;
+	
+	o = (void *) img;
+	o += imgSize + ((vu16) (ch - 32) << 2);
+	o16 = (void *) o;
+	
+	charX = *o16++;
+	charW = *o16++;
+	incrO = imgW - charW;
+	incrD = FBF_WIDTH - charW;
+	
+	o = (void *) img;
+	o += charX;
+	d = &MARS_FRAMEBUFFER + (y * FBF_WIDTH) + x + 0x100;
+
+	for (i = 0; i != imgH; i++) {
+		for (j = 0; j != charW; j++) {
+			opacity = *o;
+			if (opacity) {
+				if (opacity == 255) {
+					*d = color;				
+				} else {
+					opacity++;
+					transp = 256 - opacity;
+					bg = *d;
+					
+					r = bg & 0x1F;
+					g = (bg >> 5) & 0x1F;
+					b = (bg >> 10) & 0x1F;
+					
+					r = r0 * opacity + r * transp;
+					g = g0 * opacity + g * transp;
+					b = b0 * opacity + b * transp;
+					r >>= 8;
+					g >>= 8;
+					b >>= 8;
+					
+					*d = COLOR(r, g, b);
+				}
+			}
+			o++; d++;
+		}		
+		o += incrO;
+		d += incrD;
+	}
+	
+	return charW;
+}
+
+vu16 fontHeight() {
+	vu16 *o16 = (void *) default_font;
+	o16++; // Skips the width
+	return *o16++; // Returns the height
+}
+
+int drawText(char *s, int x, int y, vu16 color) {
+	char *o, ch;
+	int tx = x, ty = y;
+	
+	for (o = s; *o; o++) {
+		ch = *o;
+		if (ch == '\n') {
+			tx += drawChar('X', 0, 0, 0x1F);			
+			tx = x;
+			ty += fontHeight(); 
+		} else {
+			tx += drawChar(*o, tx, ty, color);			
+		}
+	}
+}
+
 int setupLineTable() {
 	int i, lineOffs;
 	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
@@ -140,6 +226,12 @@ int main()
 		drawApgImage(0, 0, bedday, 0);
 		drawApgImage(80, 0, pose, 0);
 		drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
+		
+		drawChar('A', t, 0, 0x1F);
+		drawChar('B', 16, 0, 0x1F);
+		drawChar('C', 32, 0, 0x1F);
+		drawText("Test", 8, 126, 0);
+		drawText("Here's some text.\nIt spans multiple lines.", 8, 142, 0x7FFF);
 		
 		t++;
 
