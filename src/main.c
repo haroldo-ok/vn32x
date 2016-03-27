@@ -115,7 +115,7 @@ int drawChar(char ch, int x, int y, vu16 color) {
 	b0 = (color >> 10) & 0x1F;
 	
 	o = (void *) img;
-	o += imgSize + ((ch - 32) << 2);
+	o += imgSize + ((vu16) (ch - 32) << 2);
 	o16 = (void *) o;
 	
 	charX = *o16++;
@@ -127,7 +127,6 @@ int drawChar(char ch, int x, int y, vu16 color) {
 	o += charX;
 	d = &MARS_FRAMEBUFFER + (y * FBF_WIDTH) + x + 0x100;
 
-//	*d = o < default_font + 1790 * 16 + 6 ? color : 0;
 	for (i = 0; i != imgH; i++) {
 		for (j = 0; j != charW; j++) {
 			opacity = *o;
@@ -143,9 +142,9 @@ int drawChar(char ch, int x, int y, vu16 color) {
 					g = (bg >> 5) & 0x1F;
 					b = (bg >> 10) & 0x1F;
 					
-					r = (r0 * opacity + r * transp);
-					g = (g0 * opacity + g * transp);
-					b = (b0 * opacity + b * transp);
+					r = r0 * opacity + r * transp;
+					g = g0 * opacity + g * transp;
+					b = b0 * opacity + b * transp;
 					r >>= 8;
 					g >>= 8;
 					b >>= 8;
@@ -158,10 +157,30 @@ int drawChar(char ch, int x, int y, vu16 color) {
 		o += incrO;
 		d += incrD;
 	}
-	*d++ = charX == 547 ? color : 0;
-	*d++ = charW == 9 ? color : 0;
 	
-	return 0;
+	return charW;
+}
+
+vu16 fontHeight() {
+	vu16 *o16 = (void *) default_font;
+	o16++; // Skips the width
+	return *o16++; // Returns the height
+}
+
+int drawText(char *s, int x, int y, vu16 color) {
+	char *o, ch;
+	int tx = x, ty = y;
+	
+	for (o = s; *o; o++) {
+		ch = *o;
+		if (ch == '\n') {
+			tx += drawChar('X', 0, 0, 0x1F);			
+			tx = x;
+			ty += fontHeight(); 
+		} else {
+			tx += drawChar(*o, tx, ty, color);			
+		}
+	}
 }
 
 int setupLineTable() {
@@ -208,9 +227,11 @@ int main()
 		drawApgImage(80, 0, pose, 0);
 		drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
 		
-		drawChar('A', 0, 0, 0x1F);
+		drawChar('A', t, 0, 0x1F);
 		drawChar('B', 16, 0, 0x1F);
 		drawChar('C', 32, 0, 0x1F);
+		drawText("Test", 8, 126, 0);
+		drawText("Here's some text.\nIt spans multiple lines.", 8, 142, 0x7FFF);
 		
 		t++;
 
