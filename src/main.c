@@ -73,7 +73,7 @@ void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
 		// Image partly outside the left
 		visibleW -= outside;
 	}
-		
+
 	for (i = 0; i != visibleH; i++) {
 		srcCol = srcLin;
 		dstCol = dstLin;
@@ -138,7 +138,7 @@ int main()
 		currentFB ^= 1;
 
 		drawApgImage(0, 0, bedday, 0);
-		drawApgImage(1, 1, pose, 0);
+		drawApgImage(80, 0, pose, 0);
 		drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
 		
 		t++;
