@@ -4,7 +4,8 @@ IMGDIR := img
 	
 RSCS := $(addprefix $(OBJDIR)/,\
 	m68k_crt0.bin m68k_crt1.bin\
-	bedday.apg pose.apg text_frame.apg)
+	bedday.apg pose.apg text_frame.apg\
+	font_dejavu_sans.bmf)
 
 OBJS := $(addprefix $(OBJDIR)/,\
 	sh2_crt0.o\
@@ -28,6 +29,9 @@ $(OBJDIR)/%.apx : $(IMGDIR)/%.png
 $(OBJDIR)/%.apg : $(IMGDIR)/%.png
 	sixpack.exe -image -pack -v -target 32x -codec aplib -format l8 -q 256 -o $@tmp $<
 	apg $@ $< $@tmp
+
+$(OBJDIR)/%.bmf : $(IMGDIR)/src/%.fnt
+	font_conv $@ $<
 	
 all: $(OBJS)
 	sh-elf-ld -T $(SRCDIR)/32x.ld -e _start --oformat binary -o test_aplib.32x $(OBJS)
