@@ -8,7 +8,7 @@
 #define FBF_WIDTH 320
 #define FBF_HEIGHT 202
 
-extern vu16 maruko[], test[], text_frame[];
+extern vu16 bedday[], test[], text_frame[];
 int numColors;
 
 unsigned char tempImgBuffer[FBF_WIDTH * FBF_HEIGHT];
@@ -137,7 +137,7 @@ int main()
 		while ((MARS_VDP_FBCTL & MARS_VDP_FS) == currentFB) {}
 		currentFB ^= 1;
 
-		drawApgImage(0, 0, maruko, 0);
+		drawApgImage(0, 0, bedday, 0);
 		drawApgImage(t, 32, test, 0);
 		drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
 		
