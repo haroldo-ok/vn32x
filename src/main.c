@@ -9,6 +9,7 @@
 #define FBF_HEIGHT 202
 
 extern vu16 bedday[], pose[], text_frame[];
+extern unsigned char default_font[];
 int numColors;
 
 unsigned char tempImgBuffer[FBF_WIDTH * FBF_HEIGHT];
@@ -97,6 +98,44 @@ void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
 	}
 }
 
+int drawChar(char ch, int x, int y, vu16 color) {
+	vu16 *o16 = (void *) default_font;
+	vu16 imgW  = *o16++;
+	vu16 imgH  = *o16++;
+	vu16 imgSize = *o16++;
+	vu16 *img = (void *) o16;
+	vu16 charX, charW, incrO, incrD;
+	int i, j;
+	unsigned char *o;
+	vu16 *d;
+	
+	o = (void *) img;
+	o += imgSize + ((ch - 32) << 2);
+	o16 = (void *) o;
+	
+	charX = *o16++;
+	charW = *o16++;
+	incrO = imgW - charW;
+	incrD = FBF_WIDTH - charW;
+	
+	o = img + charX;
+	d = &MARS_FRAMEBUFFER + (y * FBF_WIDTH) + x + 0x100;
+
+//	*d = o < default_font + 1790 * 16 + 6 ? color : 0;
+	for (i = 0; i != imgH; i++) {
+		for (j = 0; j != charW; j++) {
+			if (*o) {
+				*d = color;				
+			}
+			o++; d++;
+		}		
+		o += incrO;
+		d += incrD;
+	}
+	
+	return 0;
+}
+
 int setupLineTable() {
 	int i, lineOffs;
 	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
@@ -140,6 +179,10 @@ int main()
 		drawApgImage(0, 0, bedday, 0);
 		drawApgImage(80, 0, pose, 0);
 		drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
+		
+		drawChar('A', 0, 0, 0x1F);
+		drawChar('B', 16, 0, 0x1F);
+		drawChar('C', 32, 0, 0x1F);
 		
 		t++;
 
