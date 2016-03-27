@@ -8,7 +8,7 @@
 #define FBF_WIDTH 320
 #define FBF_HEIGHT 202
 
-extern vu16 maruko[], test[];
+extern vu16 maruko[], test[], text_frame[];
 int numColors;
 
 unsigned char tempImgBuffer[FBF_WIDTH * FBF_HEIGHT];
@@ -18,7 +18,7 @@ void slave()
 	while (1) {}
 }
 
-void drawApgImage(int x, int y, vu16 *apg) {
+void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
 	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
 	int i, j;
 	int width = apg[0];
@@ -32,6 +32,7 @@ void drawApgImage(int x, int y, vu16 *apg) {
 	vu16 *dstLin, *dstCol;
 	int visibleW, visibleH, outside;
 	unsigned char color;
+	unsigned int rgb;
 	
 	if (x <= -width || x >= FBF_WIDTH + width || y <= -height || y >= FBF_HEIGHT + height) {
 		// Image is fully outside the screen.
@@ -80,7 +81,13 @@ void drawApgImage(int x, int y, vu16 *apg) {
 		for (j = 0; j != visibleW; j++) {
 			color = *srcCol;
 			if (color != transparency) {
-				*dstCol = pal[color];
+				if (semiTransparent) {
+					// 'original color' * 0.25 + 'new color' * 0.75
+					rgb = (pal[color] >> 1) & 0x3DEF; // 'new color' * 0.5
+					*dstCol = ((*dstCol >> 2) & 0x1CE7) + rgb + ((rgb >> 1) & 0x1CE7);
+				} else {
+					*dstCol = pal[color];
+				}
 			}
 			srcCol++; dstCol++;
 		}
@@ -130,12 +137,10 @@ int main()
 		while ((MARS_VDP_FBCTL & MARS_VDP_FS) == currentFB) {}
 		currentFB ^= 1;
 
-		drawApgImage(0, 0, maruko);
-//		drawApgImage(t, FBF_HEIGHT - 64, test);
-//		drawApgImage(t, FBF_HEIGHT - 120 + t, test);
-		drawApgImage(FBF_WIDTH - 130 + t, 32, test);
+		drawApgImage(0, 0, maruko, 0);
+		drawApgImage(t, 32, test, 0);
+		drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
 		
-		//frameBuffer16[t + 0x100] = t;
 		t++;
 
 		setupLineTable();
