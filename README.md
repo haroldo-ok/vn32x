@@ -10,12 +10,12 @@ Implemented so far
 * Scripts for converting images to the proper format;
 * 32K color mode;
 * Image rendering with cropping and optional translucency;
-* Antialised variable width font text rendering.
+* Antialised variable width font text rendering;
+* Word wrapping for the text.
 
 Not implemented, but planned
 ----------------------------
 
-* Word wrapping for the text;
 * Joystick input;
 * Word wrapping for the text boxes;
 * Menus;
