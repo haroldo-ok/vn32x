@@ -199,6 +199,79 @@ int drawText(char *s, int x, int y, vu16 color) {
 	}
 }
 
+char *drawWrappedTextLine(char *s, int x, int y, int w, vu16 color) {
+	char *o, ch;
+	int tx = x;
+	
+	char *startOfLine, *endOfLine;
+	char currW, bestW, charW, spaceW;
+	
+	startOfLine = s;
+	
+	currW = 0;
+	bestW = 0;
+
+	// Skips initial spaces for current line
+	spaceW = fontWidth(' ');
+	for (o = startOfLine; *o == ' '; o++) {
+		tx += spaceW;
+		currW += spaceW;
+		bestW = currW;
+	}
+	startOfLine = o;
+	
+	if (!*o || currW >= w) {
+		return 0;
+	}
+	
+	endOfLine = startOfLine;
+	for (o = startOfLine; *o && currW <= w; o++) {
+		ch = *o;
+		drawChar(ch, currW, y - 100, 0x1F);
+		if (ch == ' ') {
+			currW += spaceW;
+			if (currW <= w) {
+				endOfLine = o;
+				bestW = currW;
+			}
+		} else {
+			currW += fontWidth(ch);
+		}
+	}
+	
+	if (endOfLine == startOfLine && currW) {
+		endOfLine = o;
+		bestW = currW;		
+	}
+
+	endOfLine++;
+	for (o = startOfLine; o < endOfLine; o++) {
+		tx += drawChar(*o, tx, y, color);
+	}
+
+	// Skips spaces at end of line.
+	while (*endOfLine == ' ') {
+		endOfLine++;
+	}
+	
+	return *endOfLine ? endOfLine : 0;
+}
+
+char *drawWrappedText(char *s, int x, int y, int w, int h, vu16 color) {
+	char *o = s;
+	int fh = fontHeight();
+	int ty = y;
+	int maxY = y + h;
+	
+	while (o && *o && ty + fh <= maxY) {
+		o = drawWrappedTextLine(o, x, ty, w, color);
+		ty += fh;
+//		drawChar(o ? 'X' : 'Y', x, ty, color);
+	}
+	
+	return o;
+}
+
 int setupLineTable() {
 	int i, lineOffs;
 	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
@@ -247,7 +320,8 @@ int main()
 		drawChar('B', 16, 0, 0x1F);
 		drawChar('C', 32 + fontWidth('C'), 0, 0x1F);
 		drawText("Test", 8, 126, 0);
-		drawText("Here's some text.\nIt spans multiple lines.", 8, 142, 0x7FFF);
+//		drawWrappedText("Here's some text. It's so long, it spans multiple lines.\nLine breaks are supported, too.", 8, 142, 304, 48, 0x7FFF);
+		drawWrappedText("Here's some text. It's so long, it spans multiple lines.", 8, 142, 304, 48, 0x7FFF);
 		
 		t++;
 
