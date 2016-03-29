@@ -161,6 +161,22 @@ int drawChar(char ch, int x, int y, vu16 color) {
 	return charW;
 }
 
+vu16 fontWidth(char ch) {
+	vu16 *o16 = (void *) default_font;
+	o16 += 2; // Skip imgW and imgH
+	vu16 imgSize = *o16++;
+	vu16 *img = (void *) o16;
+	unsigned char *o;
+
+	o = (void *) img;
+	o += imgSize + ((vu16) (ch - 32) << 2);
+	o16 = (void *) o;
+	
+	o16++; // Skip charX
+	
+	return *o16++; // Return charW
+}
+
 vu16 fontHeight() {
 	vu16 *o16 = (void *) default_font;
 	o16++; // Skips the width
@@ -229,7 +245,7 @@ int main()
 		
 		drawChar('A', t, 0, 0x1F);
 		drawChar('B', 16, 0, 0x1F);
-		drawChar('C', 32, 0, 0x1F);
+		drawChar('C', 32 + fontWidth('C'), 0, 0x1F);
 		drawText("Test", 8, 126, 0);
 		drawText("Here's some text.\nIt spans multiple lines.", 8, 142, 0x7FFF);
 		
