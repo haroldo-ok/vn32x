@@ -226,7 +226,7 @@ char *drawWrappedTextLine(char *s, int x, int y, int w, vu16 color) {
 
 	// Scans words that fit the maximum width
 	endOfLine = startOfLine;
-	for (o = startOfLine; *o && currW <= w; o++) {
+	for (o = startOfLine; *o && *o != '\n' && currW <= w; o++) {
 		ch = *o;
 		if (ch == ' ') {
 			currW += spaceW;
@@ -248,16 +248,20 @@ char *drawWrappedTextLine(char *s, int x, int y, int w, vu16 color) {
 	// Renders the line of text
 	for (o = startOfLine; o <= endOfLine; o++) {
 		ch = *o;
-		if (ch) {
+		if (ch && ch != '\n') {
 			tx += drawChar(ch, tx, y, color);			
 		}
 	}
-
+	
 	// Skips spaces at end of line.
 	while (*endOfLine == ' ') {
 		endOfLine++;
 	}
 
+	// Skips one line break, if necessary.
+	if (*endOfLine == '\n') {
+		endOfLine++;
+	}
 	return *endOfLine ? endOfLine : 0;
 }
 
@@ -324,8 +328,7 @@ int main()
 		drawChar('B', 16, 0, 0x1F);
 		drawChar('C', 32 + fontWidth('C'), 0, 0x1F);
 		drawText("Test", 8, 126, 0);
-//		drawWrappedText("Here's some text. It's so long, it spans multiple lines.\nLine breaks are supported, too.", 8, 142, 304, 48, 0x7FFF);
-		drawWrappedText("Here's some text. It's so long, it spans multiple lines. Testing word wrapping.", 8, 142, 304, 48, 0x7FFF);
+		drawWrappedText("Here's some text. It's so long, it spans multiple lines. Testing word wrapping.\nLine breaks are supported, too.", 8, 142, 304, 48, 0x7FFF);
 		
 		t++;
 
