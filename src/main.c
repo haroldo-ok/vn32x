@@ -318,7 +318,7 @@ int main()
 
 	MARS_VDP_FBCTL = currentFB;
 
-    for(;;)
+    for(; !(readJoypad1() & SEGA_CTRL_LEFT);)
     {
 		MARS_VDP_FBCTL = currentFB ^ 1;
 		while ((MARS_VDP_FBCTL & MARS_VDP_FS) == currentFB) {}
