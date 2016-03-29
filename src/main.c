@@ -300,6 +300,10 @@ int setupLineTable() {
 	}	
 }
 
+vu16 readJoypad1() {
+	return MARS_SYS_COMM8;
+}
+
 int main()
 {
 	uint16 currentFB=0;
