@@ -12,18 +12,65 @@ extern vu16 bedday[], pose[], text_frame[];
 extern unsigned char default_font[];
 int numColors;
 
-unsigned char tempImgBuffer[FBF_WIDTH * FBF_HEIGHT];
+#define CACHE_SIZE (128*1024)
+#define CACHE_END (tempImgBuffer + CACHE_SIZE)
+#define CACHE_ENTRY_COUNT 4
+
+typedef struct _cacheEntry {
+	unsigned char *compressed, *uncompressed;
+	vu16 size;
+} cacheEntry;
+
+unsigned char tempImgBuffer[CACHE_SIZE];
+cacheEntry imgCacheEntries[CACHE_ENTRY_COUNT];
+unsigned char usedCacheEntries;
 
 void slave()
 {
 	while (1) {}
 }
 
+/** Very simple and naive cache scheme */
+unsigned char *cachedImage(unsigned char *compressed, vu16 size) {
+	cacheEntry *entry;
+	unsigned char *nextFree;
+	int i;
+	
+	for (i = 0; i < usedCacheEntries; i++) {
+		entry = imgCacheEntries + i;
+		if (entry->compressed == compressed) {
+			return entry->uncompressed;
+		}
+	}
+	
+	if (usedCacheEntries) {
+		entry = imgCacheEntries + usedCacheEntries - 1;
+		nextFree = entry->uncompressed + entry->size;
+		// If either maximum slots or maximum RAM has been reached, clear compression cache
+		if (usedCacheEntries && (usedCacheEntries >= CACHE_ENTRY_COUNT || nextFree + size >= CACHE_END)) {
+			usedCacheEntries = 0;
+			nextFree = tempImgBuffer;
+		}
+	} else {
+		// Cache is currently empty
+		nextFree = tempImgBuffer;
+	}
+	
+	entry = imgCacheEntries + usedCacheEntries;
+	entry->compressed = compressed;
+	entry->uncompressed = nextFree;
+	entry->size = size;
+	aplib_decrunch(compressed, nextFree);
+	usedCacheEntries++;
+	
+	return nextFree;
+}
+
 void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
 	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
 	int i, j;
-	int width = apg[0];
-	int height = apg[1];
+	vu16 width = apg[0];
+	vu16 height = apg[1];
 	int transparency = apg[2];
 	int palSize = apg[3];
 	vu16 *pal = apg + 4;
@@ -40,9 +87,7 @@ void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
 		return;
 	}
 
-	aplib_decrunch(image, tempImgBuffer);
-	
-	srcLin = tempImgBuffer;		
+	srcLin = cachedImage(image, width * height);
 	dstLin = frameBuffer16 + 0x100;	
 	visibleW = width;
 	visibleH = height;
@@ -307,6 +352,7 @@ vu16 readJoypad1() {
 int main()
 {
 	uint16 currentFB=0;
+	usedCacheEntries = 0;
 
 	int i, j, t;
 
