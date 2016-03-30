@@ -8,7 +8,7 @@
 #define FBF_WIDTH 320
 #define FBF_HEIGHT 202
 
-extern vu16 bedday[], pose[], text_frame[];
+extern vu16 bedday[], pose[], text_frame[], next_page_icon[];
 extern unsigned char default_font[];
 int numColors;
 
@@ -358,6 +358,7 @@ int main()
 	
 	vu16 joy;
 	char *textToDisplay = 0, *nextText;
+	int blinkControl = 0;
 
 	// Wait for the SH2 to gain access to the VDP
 	while ((MARS_SYS_INTMSK & MARS_SH2_ACCESS_VDP) == 0) {}
@@ -378,6 +379,11 @@ int main()
 		drawApgImage(0, 0, bedday, 0);
 		drawApgImage(80, 0, pose, 0);
 		drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
+		
+		if ((blinkControl & 0x03) < 2) {
+			drawApgImage(FBF_WIDTH - 24, FBF_HEIGHT - 20, next_page_icon, 1);			
+		}
+		blinkControl++;
 		
 		drawChar('A', t, 0, 0x1F);
 		drawChar('B', 16, 0, 0x1F);
