@@ -397,6 +397,7 @@ int main()
 		
 		if (joy & SEGA_CTRL_A) {
 			textToDisplay = nextText;
+			while (readJoypad1() & SEGA_CTRL_A);
 		}
 		
 		t++;
