@@ -11,13 +11,13 @@ Implemented so far
 * 32K color mode;
 * Image rendering with cropping and optional translucency;
 * Antialised variable width font text rendering;
-* Word wrapping for the text.
+* Word wrapping for the text;
+* Joypad input;
+* Word wrapping for the text boxes.
 
 Not implemented, but planned
 ----------------------------
 
-* Joystick input;
-* Word wrapping for the text boxes;
 * Menus;
 * Create an easy to use library to implement the graphical novels;
 * Implement a tool to automatically generate C source code from Ren'Py scripts;
