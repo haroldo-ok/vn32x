@@ -14,7 +14,7 @@ int numColors;
 
 #define CACHE_SIZE (128*1024)
 #define CACHE_END (tempImgBuffer + CACHE_SIZE)
-#define CACHE_ENTRY_COUNT 4
+#define CACHE_ENTRY_COUNT 8
 
 typedef struct _cacheEntry {
 	unsigned char *compressed, *uncompressed;
@@ -355,6 +355,9 @@ int main()
 	usedCacheEntries = 0;
 
 	int i, j, t;
+	
+	vu16 joy;
+	char *textToDisplay = 0, *nextText;
 
 	// Wait for the SH2 to gain access to the VDP
 	while ((MARS_SYS_INTMSK & MARS_SH2_ACCESS_VDP) == 0) {}
@@ -364,8 +367,10 @@ int main()
 
 	MARS_VDP_FBCTL = currentFB;
 
-    for(; !(readJoypad1() & SEGA_CTRL_LEFT);)
-    {
+    for(;;) {
+		
+		joy = readJoypad1();
+		
 		MARS_VDP_FBCTL = currentFB ^ 1;
 		while ((MARS_VDP_FBCTL & MARS_VDP_FS) == currentFB) {}
 		currentFB ^= 1;
@@ -378,7 +383,15 @@ int main()
 		drawChar('B', 16, 0, 0x1F);
 		drawChar('C', 32 + fontWidth('C'), 0, 0x1F);
 		drawText("Test", 8, 126, 0);
-		drawWrappedText("Here's some text. It's so long, it spans multiple lines. Testing word wrapping.\nLine breaks are supported, too.", 8, 142, 304, 48, 0x7FFF);
+		
+		if (!textToDisplay) {
+			textToDisplay = "Here's some text. It's so long, it spans multiple lines. Testing word wrapping.\nLine breaks are supported, too.\nAlso, it can span multiple pages, if so required.";
+		}
+		nextText = drawWrappedText(textToDisplay, 8, 142, 304, 48, 0x7FFF);
+		
+		if (joy & SEGA_CTRL_A) {
+			textToDisplay = nextText;
+		}
 		
 		t++;
 
