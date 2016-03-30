@@ -4,7 +4,7 @@ IMGDIR := img
 	
 RSCS := $(addprefix $(OBJDIR)/,\
 	m68k_crt0.bin m68k_crt1.bin\
-	bedday.apg pose.apg text_frame.apg\
+	bedday.apg pose.apg text_frame.apg down.apg\
 	font_dejavu_sans.bmf)
 
 OBJS := $(addprefix $(OBJDIR)/,\

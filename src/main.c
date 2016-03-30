@@ -8,22 +8,69 @@
 #define FBF_WIDTH 320
 #define FBF_HEIGHT 202
 
-extern vu16 bedday[], pose[], text_frame[];
+extern vu16 bedday[], pose[], text_frame[], next_page_icon[];
 extern unsigned char default_font[];
 int numColors;
 
-unsigned char tempImgBuffer[FBF_WIDTH * FBF_HEIGHT];
+#define CACHE_SIZE (128*1024)
+#define CACHE_END (tempImgBuffer + CACHE_SIZE)
+#define CACHE_ENTRY_COUNT 8
+
+typedef struct _cacheEntry {
+	unsigned char *compressed, *uncompressed;
+	vu16 size;
+} cacheEntry;
+
+unsigned char tempImgBuffer[CACHE_SIZE];
+cacheEntry imgCacheEntries[CACHE_ENTRY_COUNT];
+unsigned char usedCacheEntries;
 
 void slave()
 {
 	while (1) {}
 }
 
+/** Very simple and naive cache scheme */
+unsigned char *cachedImage(unsigned char *compressed, vu16 size) {
+	cacheEntry *entry;
+	unsigned char *nextFree;
+	int i;
+	
+	for (i = 0; i < usedCacheEntries; i++) {
+		entry = imgCacheEntries + i;
+		if (entry->compressed == compressed) {
+			return entry->uncompressed;
+		}
+	}
+	
+	if (usedCacheEntries) {
+		entry = imgCacheEntries + usedCacheEntries - 1;
+		nextFree = entry->uncompressed + entry->size;
+		// If either maximum slots or maximum RAM has been reached, clear compression cache
+		if (usedCacheEntries && (usedCacheEntries >= CACHE_ENTRY_COUNT || nextFree + size >= CACHE_END)) {
+			usedCacheEntries = 0;
+			nextFree = tempImgBuffer;
+		}
+	} else {
+		// Cache is currently empty
+		nextFree = tempImgBuffer;
+	}
+	
+	entry = imgCacheEntries + usedCacheEntries;
+	entry->compressed = compressed;
+	entry->uncompressed = nextFree;
+	entry->size = size;
+	aplib_decrunch(compressed, nextFree);
+	usedCacheEntries++;
+	
+	return nextFree;
+}
+
 void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
 	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
 	int i, j;
-	int width = apg[0];
-	int height = apg[1];
+	vu16 width = apg[0];
+	vu16 height = apg[1];
 	int transparency = apg[2];
 	int palSize = apg[3];
 	vu16 *pal = apg + 4;
@@ -40,9 +87,7 @@ void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
 		return;
 	}
 
-	aplib_decrunch(image, tempImgBuffer);
-	
-	srcLin = tempImgBuffer;		
+	srcLin = cachedImage(image, width * height);
 	dstLin = frameBuffer16 + 0x100;	
 	visibleW = width;
 	visibleH = height;
@@ -307,8 +352,13 @@ vu16 readJoypad1() {
 int main()
 {
 	uint16 currentFB=0;
+	usedCacheEntries = 0;
 
 	int i, j, t;
+	
+	vu16 joy;
+	char *textToDisplay = 0, *nextText;
+	int blinkControl = 0;
 
 	// Wait for the SH2 to gain access to the VDP
 	while ((MARS_SYS_INTMSK & MARS_SH2_ACCESS_VDP) == 0) {}
@@ -318,8 +368,10 @@ int main()
 
 	MARS_VDP_FBCTL = currentFB;
 
-    for(; !(readJoypad1() & SEGA_CTRL_LEFT);)
-    {
+    for(;;) {
+		
+		joy = readJoypad1();
+		
 		MARS_VDP_FBCTL = currentFB ^ 1;
 		while ((MARS_VDP_FBCTL & MARS_VDP_FS) == currentFB) {}
 		currentFB ^= 1;
@@ -328,11 +380,25 @@ int main()
 		drawApgImage(80, 0, pose, 0);
 		drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
 		
+		if ((blinkControl & 0x03) < 2) {
+			drawApgImage(FBF_WIDTH - 24, FBF_HEIGHT - 20, next_page_icon, 1);			
+		}
+		blinkControl++;
+		
 		drawChar('A', t, 0, 0x1F);
 		drawChar('B', 16, 0, 0x1F);
 		drawChar('C', 32 + fontWidth('C'), 0, 0x1F);
 		drawText("Test", 8, 126, 0);
-		drawWrappedText("Here's some text. It's so long, it spans multiple lines. Testing word wrapping.\nLine breaks are supported, too.", 8, 142, 304, 48, 0x7FFF);
+		
+		if (!textToDisplay) {
+			textToDisplay = "Here's some text. It's so long, it spans multiple lines. Testing word wrapping.\nLine breaks are supported, too.\nAlso, it can span multiple pages, if so required.";
+		}
+		nextText = drawWrappedText(textToDisplay, 8, 142, 304, 48, 0x7FFF);
+		
+		if (joy & SEGA_CTRL_A) {
+			textToDisplay = nextText;
+			while (readJoypad1() & SEGA_CTRL_A);
+		}
 		
 		t++;
 
