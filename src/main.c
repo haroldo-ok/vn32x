@@ -12,11 +12,16 @@ extern vu16 bedday[], pose[], text_frame[];
 extern unsigned char default_font[];
 int numColors;
 
-unsigned char tempImgBuffer[FBF_WIDTH * FBF_HEIGHT];
+unsigned char tempImgBuffer[128*1024];
 
 void slave()
 {
 	while (1) {}
+}
+
+unsigned char *cachedImage(unsigned char *compressed) {
+	aplib_decrunch(compressed, tempImgBuffer);
+	return tempImgBuffer;
 }
 
 void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
@@ -40,9 +45,7 @@ void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
 		return;
 	}
 
-	aplib_decrunch(image, tempImgBuffer);
-	
-	srcLin = tempImgBuffer;		
+	srcLin = cachedImage(image);
 	dstLin = frameBuffer16 + 0x100;	
 	visibleW = width;
 	visibleH = height;
