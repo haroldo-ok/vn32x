@@ -25,6 +25,16 @@ unsigned char tempImgBuffer[CACHE_SIZE];
 cacheEntry imgCacheEntries[CACHE_ENTRY_COUNT];
 unsigned char usedCacheEntries;
 
+#define MENU_ENTRY_COUNT 8
+
+typedef struct _menuEntry {
+	unsigned char *s;
+	unsigned char idx;
+} menuEntry;
+
+menuEntry menuEntries[MENU_ENTRY_COUNT];
+unsigned char usedMenuEntries;
+
 void slave()
 {
 	while (1) {}
@@ -325,6 +335,25 @@ char *drawWrappedText(char *s, int x, int y, int w, int h, vu16 color) {
 	return o;
 }
 
+unsigned char addMenuItem(char *s) {
+	menuEntry *m = menuEntries + usedMenuEntries;
+	usedMenuEntries++;
+
+	m->s = s;
+	m->idx = usedMenuEntries;
+	
+	return m->idx;
+}
+
+unsigned char drawMenu() {
+	menuEntry *m = menuEntries;
+	int i, y;
+	
+	for (i = 0, y = 8; i < usedMenuEntries; i++, y += 32, m++) {
+		drawWrappedText(m->s, 8, y, 304, 32, COLOR(0, 0x1F, 0));
+	}
+}
+
 int setupLineTable() {
 	int i, lineOffs;
 	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
@@ -353,6 +382,7 @@ int main()
 {
 	uint16 currentFB=0;
 	usedCacheEntries = 0;
+	usedMenuEntries = 0;
 
 	int i, j, t;
 	
@@ -367,6 +397,9 @@ int main()
 	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_32K;
 
 	MARS_VDP_FBCTL = currentFB;
+	
+	addMenuItem("Option one");
+	addMenuItem("Option two");
 
     for(;;) {
 		
@@ -394,6 +427,8 @@ int main()
 			textToDisplay = "Here's some text. It's so long, it spans multiple lines. Testing word wrapping.\nLine breaks are supported, too.\nAlso, it can span multiple pages, if so required.";
 		}
 		nextText = drawWrappedText(textToDisplay, 8, 142, 304, 48, 0x7FFF);
+		
+		drawMenu();
 		
 		if (joy & SEGA_CTRL_A) {
 			textToDisplay = nextText;
