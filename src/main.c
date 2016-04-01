@@ -153,6 +153,63 @@ void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
 	}
 }
 
+void translucentRectangle(int x, int y, int width, int height, vu16 color) {
+	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
+	int i, j;
+	
+	vu16 *dstLin, *dstCol;
+	int visibleW, visibleH, outside;
+	unsigned int rgb;
+	
+	if (x <= -width || x >= FBF_WIDTH + width || y <= -height || y >= FBF_HEIGHT + height) {
+		// Image is fully outside the screen.
+		return;
+	}
+
+	dstLin = frameBuffer16 + 0x100;	
+	visibleW = width;
+	visibleH = height;
+	
+	if (y < 0) {
+		// Image partly outside the top
+		visibleH += y;
+	} else {
+		dstLin += y * FBF_WIDTH;		
+	}
+	
+	outside = y + visibleH - FBF_HEIGHT;
+	if (outside > 0) {
+		// Image partly outside the bottom
+		visibleH -= outside;
+	}
+	
+	if (x < 0) {
+		// Image partly outside the left
+		visibleW += x;
+	} else {
+		dstLin += x;		
+	}
+	
+	outside = x + visibleW - FBF_WIDTH;
+	if (outside > 0) {
+		// Image partly outside the left
+		visibleW -= outside;
+	}
+
+	for (i = 0; i != visibleH; i++) {
+		dstCol = dstLin;
+		
+		for (j = 0; j != visibleW; j++) {
+			// 'original color' * 0.25 + 'new color' * 0.75
+			rgb = color & 0x3DEF; // 'new color' * 0.5
+			*dstCol = ((*dstCol >> 2) & 0x1CE7) + rgb + ((rgb >> 1) & 0x1CE7);
+			dstCol++;
+		}
+
+		dstLin += FBF_WIDTH;
+	}
+}
+
 int drawChar(char ch, int x, int y, vu16 color) {
 	vu16 *o16 = (void *) default_font;
 	vu16 imgW  = *o16++;
@@ -349,8 +406,9 @@ unsigned char drawMenu() {
 	menuEntry *m = menuEntries;
 	int i, y;
 	
-	for (i = 0, y = 8; i < usedMenuEntries; i++, y += 32, m++) {
-		drawWrappedText(m->s, 8, y, 304, 32, COLOR(0, 0x1F, 0));
+	for (i = 0, y = 8; i < usedMenuEntries; i++, y += 36, m++) {
+		translucentRectangle(8, y, 304, 32, i ? 0 : COLOR(3, 3, 3));
+		drawWrappedText(m->s, 12, y, 300, 32, i ? 0x7FFF : COLOR(0x1F, 0x1F, 0x0F));
 	}
 }
 
