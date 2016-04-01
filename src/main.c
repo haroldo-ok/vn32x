@@ -407,8 +407,8 @@ unsigned char drawMenu() {
 	int i, y;
 	
 	for (i = 0, y = 8; i < usedMenuEntries; i++, y += 36, m++) {
-		translucentRectangle(8, y, 304, 32, 0);
-		drawWrappedText(m->s, 12, y, 300, 32, COLOR(0, 0x1F, 0));
+		translucentRectangle(8, y, 304, 32, i ? 0 : COLOR(3, 3, 3));
+		drawWrappedText(m->s, 12, y, 300, 32, i ? 0x7FFF : COLOR(0x1F, 0x1F, 0x0F));
 	}
 }
 
