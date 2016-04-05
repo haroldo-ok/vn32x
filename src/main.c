@@ -34,6 +34,7 @@ typedef struct _menuEntry {
 
 menuEntry menuEntries[MENU_ENTRY_COUNT];
 unsigned char usedMenuEntries;
+unsigned char menuCursor;
 
 void slave()
 {
@@ -405,10 +406,13 @@ unsigned char addMenuItem(char *s) {
 unsigned char drawMenu() {
 	menuEntry *m = menuEntries;
 	int i, y;
+	char selected;
 	
-	for (i = 0, y = 8; i < usedMenuEntries; i++, y += 36, m++) {
-		translucentRectangle(8, y, 304, 32, i ? 0 : COLOR(3, 3, 3));
-		drawWrappedText(m->s, 12, y, 300, 32, i ? 0x7FFF : COLOR(0x1F, 0x1F, 0x0F));
+	y = (FBF_HEIGHT - (int) usedMenuEntries * 36) >> 1;
+	for (i = 0; i < usedMenuEntries; i++, y += 36, m++) {
+		selected = m->idx == menuCursor;
+		translucentRectangle(8, y, 304, 32, !selected ? 0 : COLOR(3, 3, 3));
+		drawWrappedText(m->s, 12, y, 300, 32, !selected ? 0x7FFF : COLOR(0x1F, 0x1F, 0x0F));
 	}
 }
 
@@ -441,6 +445,7 @@ int main()
 	uint16 currentFB=0;
 	usedCacheEntries = 0;
 	usedMenuEntries = 0;
+	menuCursor = 1;
 
 	int i, j, t;
 	
@@ -458,6 +463,7 @@ int main()
 	
 	addMenuItem("Option one");
 	addMenuItem("Option two");
+	addMenuItem("Option three");
 
     for(;;) {
 		
@@ -491,6 +497,17 @@ int main()
 		if (joy & SEGA_CTRL_A) {
 			textToDisplay = nextText;
 			while (readJoypad1() & SEGA_CTRL_A);
+		}
+		
+		if (joy & SEGA_CTRL_UP) {
+			if (menuCursor > 1) {
+				menuCursor--;
+			}
+		}
+		if (joy & SEGA_CTRL_DOWN) {
+			if (menuCursor < usedMenuEntries) {
+				menuCursor++;
+			}
 		}
 		
 		t++;
