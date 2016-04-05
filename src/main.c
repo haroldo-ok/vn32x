@@ -406,7 +406,8 @@ unsigned char drawMenu() {
 	menuEntry *m = menuEntries;
 	int i, y;
 	
-	for (i = 0, y = 8; i < usedMenuEntries; i++, y += 36, m++) {
+	y = (FBF_HEIGHT - (int) usedMenuEntries * 36) >> 1;
+	for (i = 0; i < usedMenuEntries; i++, y += 36, m++) {
 		translucentRectangle(8, y, 304, 32, i ? 0 : COLOR(3, 3, 3));
 		drawWrappedText(m->s, 12, y, 300, 32, i ? 0x7FFF : COLOR(0x1F, 0x1F, 0x0F));
 	}
@@ -458,6 +459,7 @@ int main()
 	
 	addMenuItem("Option one");
 	addMenuItem("Option two");
+	addMenuItem("Option three");
 
     for(;;) {
 		
