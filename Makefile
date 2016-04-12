@@ -10,7 +10,7 @@ RSCS := $(addprefix $(OBJDIR)/,\
 OBJS := $(addprefix $(OBJDIR)/,\
 	sh2_crt0.o\
 	aplib_decrunch.o image.o\
-	gfx.o text.o main.o)
+	gfx.o text.o menu.o main.o)
 
 $(OBJDIR)/m68k_%.o : $(SRCDIR)/m68k_%.s
 	m68k-elf-as -m68000 --register-prefix-optional -o $@ $<
