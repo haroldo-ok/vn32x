@@ -1,0 +1,5 @@
+#include "32x.h"
+#include "gfx.h"
+#include "text.h"
+#include "menu.h"
+#include "vn_engine.h"
