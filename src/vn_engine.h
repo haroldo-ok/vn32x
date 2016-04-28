@@ -3,4 +3,7 @@
 
 #include "32x.h"
 
+extern void initVN();
+extern void swapBuffers();
+
 #endif /* _VN_ENGINE_H */
