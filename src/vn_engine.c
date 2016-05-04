@@ -38,25 +38,53 @@ void readJoy() {
 	joy = readJoypad1();
 }
 
+void drawBG() {
+	setupLineTable();
+	swapBuffers();
+	drawApgImage(0, 0, bedday, 0);			
+}
+
 void vnText(char *text) {
 	for (textToDisplay = text; textToDisplay;) {
-		readJoy();
-		swapBuffers();
-		drawApgImage(0, 0, bedday, 0);			
+		drawBG();
+	
 		drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
 		
 		if ((blinkControl & 0x03) < 2) {
 			drawApgImage(FBF_WIDTH - 24, FBF_HEIGHT - 20, next_page_icon, 1);			
 		}
-		blinkControl++;
+		blinkControl++;	
 
 		nextText = drawWrappedText(textToDisplay, 8, 142, 304, 48, 0x7FFF);
 
+		readJoy();
 		if (joy & SEGA_CTRL_A) {
 			textToDisplay = nextText;
 			while (readJoypad1() & SEGA_CTRL_A);
-		}
-		
-		setupLineTable();
+		}		
 	}	
+}
+
+uint8 vnMenu() {
+	menuCursor = 1;	
+	for (;;) {
+		drawBG();	
+		drawMenu();
+
+		readJoy();
+		if (joy & SEGA_CTRL_A) {
+			while (readJoypad1() & SEGA_CTRL_A);
+			return menuCursor;
+		}		
+		if (joy & SEGA_CTRL_UP) {
+			if (menuCursor > 1) {
+				menuCursor--;
+			}
+		}
+		if (joy & SEGA_CTRL_DOWN) {
+			if (menuCursor < menuItemCount()) {
+				menuCursor++;
+			}
+		}
+	}
 }
