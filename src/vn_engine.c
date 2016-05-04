@@ -42,6 +42,7 @@ void drawBG() {
 	setupLineTable();
 	swapBuffers();
 	drawApgImage(0, 0, bedday, 0);			
+	drawApgImage(80, 0, pose, 0);
 }
 
 void vnText(char *text) {
@@ -55,6 +56,7 @@ void vnText(char *text) {
 		}
 		blinkControl++;	
 
+		drawText("Test", 8, 126, 0);
 		nextText = drawWrappedText(textToDisplay, 8, 142, 304, 48, 0x7FFF);
 
 		readJoy();
