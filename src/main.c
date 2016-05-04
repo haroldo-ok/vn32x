@@ -16,10 +16,6 @@ void slave()
 	while (1) {}
 }
 
-vu16 readJoypad1() {
-	return MARS_SYS_COMM8;
-}
-
 int main()
 {
 	initVN();

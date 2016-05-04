@@ -34,6 +34,10 @@ void swapBuffers() {
 	currentFB ^= 1;	
 }
 
+vu16 readJoypad1() {
+	return MARS_SYS_COMM8;
+}
+
 void readJoy() {
 	joy = readJoypad1();
 }
