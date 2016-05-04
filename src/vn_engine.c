@@ -85,11 +85,15 @@ uint8 vnMenu() {
 		if (joy & SEGA_CTRL_UP) {
 			if (menuCursor > 1) {
 				menuCursor--;
+			} else {
+				menuCursor = menuItemCount();
 			}
 		}
 		if (joy & SEGA_CTRL_DOWN) {
 			if (menuCursor < menuItemCount()) {
 				menuCursor++;
+			} else {
+				menuCursor = 1;
 			}
 		}
 	}
