@@ -35,6 +35,8 @@ int main()
 	addMenuItem("Option one");
 	addMenuItem("Option two");
 	addMenuItem("Option three");
+	
+	vnText("This is a test to see if function vnText() is working correctly.\nHopefully, it should be working okay; at least, I hope so.");
 
     for(;;) {
 		

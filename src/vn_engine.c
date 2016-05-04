@@ -5,9 +5,11 @@
 #include "vn_engine.h"
 
 uint16 currentFB;
-vu16 joy;
+uint16 joy;
 char *textToDisplay, *nextText;
 int blinkControl;
+
+extern vu16 bedday[], pose[], text_frame[], next_page_icon[]; // TEMP
 
 void initVN() {
 	currentFB = 0;
@@ -30,4 +32,31 @@ void swapBuffers() {
 	MARS_VDP_FBCTL = currentFB ^ 1;
 	while ((MARS_VDP_FBCTL & MARS_VDP_FS) == currentFB) {}
 	currentFB ^= 1;	
+}
+
+void readJoy() {
+	joy = readJoypad1();
+}
+
+void vnText(char *text) {
+	for (textToDisplay = text; textToDisplay;) {
+		readJoy();
+		swapBuffers();
+		drawApgImage(0, 0, bedday, 0);			
+		drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
+		
+		if ((blinkControl & 0x03) < 2) {
+			drawApgImage(FBF_WIDTH - 24, FBF_HEIGHT - 20, next_page_icon, 1);			
+		}
+		blinkControl++;
+
+		nextText = drawWrappedText(textToDisplay, 8, 142, 304, 48, 0x7FFF);
+
+		if (joy & SEGA_CTRL_A) {
+			textToDisplay = nextText;
+			while (readJoypad1() & SEGA_CTRL_A);
+		}
+		
+		setupLineTable();
+	}	
 }

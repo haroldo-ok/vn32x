@@ -5,5 +5,6 @@
 
 extern void initVN();
 extern void swapBuffers();
+extern void vnText(char *text);
 
 #endif /* _VN_ENGINE_H */
