@@ -5,6 +5,7 @@
 
 extern void initVN();
 extern void swapBuffers();
+extern void vnScene(uint16 *apg);
 extern void vnText(char *text);
 extern uint8 vnMenu();
 
