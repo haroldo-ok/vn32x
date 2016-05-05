@@ -8,4 +8,6 @@ extern void swapBuffers();
 extern void vnText(char *text);
 extern uint8 vnMenu();
 
+typedef void * (*scriptFunction)();
+
 #endif /* _VN_ENGINE_H */
