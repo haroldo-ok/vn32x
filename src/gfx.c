@@ -206,3 +206,11 @@ void translucentRectangle(int x, int y, int width, int height, vu16 color) {
 		dstLin += FBF_WIDTH;
 	}
 }
+
+uint16 imageWidth(uint16 *apg) {
+	return apg[0];
+}
+
+uint16 imageHeight(uint16 *apg) {
+	return apg[1];
+}

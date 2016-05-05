@@ -9,6 +9,7 @@ extern void *vn_second_option();
 
 void *vn_start() {
 	vnScene(bedday);
+	vnShow(pose);
 	
 	vnText("Here's some text. It's so long, it spans multiple lines. Testing word wrapping.\nLine breaks are supported, too.\nAlso, it can span multiple pages, if so required.");
 

@@ -11,6 +11,7 @@ char *textToDisplay, *nextText;
 int blinkControl;
 
 uint16 *backgroundImage;
+uint16 *actorImage;
 
 extern vu16 bedday[], pose[], text_frame[], next_page_icon[]; // TEMP
 
@@ -31,6 +32,7 @@ void initVN() {
 	MARS_VDP_FBCTL = currentFB;
 	
 	backgroundImage = 0;
+	actorImage = 0;
 }
 
 void swapBuffers() {
@@ -54,11 +56,21 @@ void drawBG() {
 	if (backgroundImage) {
 		drawApgImage(0, 0, backgroundImage, 0);					
 	}
-	drawApgImage(80, 0, pose, 0);
+	
+	if (actorImage) {
+		drawApgImage(
+				(FBF_WIDTH - imageWidth(actorImage)) >> 1, 
+				FBF_HEIGHT - imageHeight(actorImage), 
+				actorImage, 0);		
+	}
 }
 
 void vnScene(uint16 *apg) {
 	backgroundImage = apg;
+}
+
+void vnShow(uint16 *apg) {
+	actorImage = apg;
 }
 
 void vnText(char *text) {
