@@ -6,8 +6,11 @@
 
 uint16 currentFB;
 uint16 joy;
+
 char *textToDisplay, *nextText;
 int blinkControl;
+
+uint16 *backgroundImage;
 
 extern vu16 bedday[], pose[], text_frame[], next_page_icon[]; // TEMP
 
@@ -26,6 +29,8 @@ void initVN() {
 	MARS_VDP_DISPMODE = MARS_224_LINES | MARS_VDP_MODE_32K;
 
 	MARS_VDP_FBCTL = currentFB;
+	
+	backgroundImage = 0;
 }
 
 void swapBuffers() {
@@ -45,8 +50,15 @@ void readJoy() {
 void drawBG() {
 	setupLineTable();
 	swapBuffers();
-	drawApgImage(0, 0, bedday, 0);			
+	
+	if (backgroundImage) {
+		drawApgImage(0, 0, backgroundImage, 0);					
+	}
 	drawApgImage(80, 0, pose, 0);
+}
+
+void vnScene(uint16 *apg) {
+	backgroundImage = apg;
 }
 
 void vnText(char *text) {
