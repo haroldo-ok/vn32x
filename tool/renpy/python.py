@@ -24,7 +24,8 @@
 # game state to some time in the past.
 
 # Import the python ast module, not ours.
-ast = __import__("ast", { })
+from __future__ import absolute_import
+import ast
 
 import marshal
 import random
@@ -34,6 +35,7 @@ import sets
 import sys
 
 #import renpy.audio
+import renpy.object
 
 ##############################################################################
 # Code that implements the store.
@@ -339,6 +341,8 @@ def reached_vars(store, reachable, wait):
 
 ##### Code that replaces literals will calls to magic constructors.
 
+"""
+FIXME: Make this work
 class WrapNode(ast.NodeTransformer):
 
     def visit_SetComp(self, n):
@@ -401,6 +405,7 @@ class WrapNode(ast.NodeTransformer):
             kwargs = None)
 
 wrap_node = WrapNode()
+"""
 
 
 def set_filename(filename, offset, tree):

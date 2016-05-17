@@ -221,16 +221,18 @@ class Context(renpy.object.Object):
 
         else:
             oldsl = None
-            self.images = renpy.display.image.ShownImageInfo(None)
+            #self.images = renpy.display.image.ShownImageInfo(None)
 
-        self.scene_lists = renpy.display.core.SceneLists(oldsl, self.images)
+        #self.scene_lists = renpy.display.core.SceneLists(oldsl, self.images)
 
         self.make_dynamic([ "_return", "_args", "_kwargs", "mouse_visible", "suppress_overlay", "_side_image_attributes" ])
         self.dynamic_stack.append({ })
 
+        """
         if clear:
             for i in renpy.config.context_clear_layers:
                 self.scene_lists.clear(layer=i)
+        """
 
         # A list of modes that the context has been in.
         self.modes = renpy.python.RevertableList([ "start" ])
@@ -252,7 +254,7 @@ class Context(renpy.object.Object):
         their current value (if not already dynamic in the current call).
         """
 
-        store = renpy.store.__dict__
+        #store = renpy.store.__dict__
 
         if context:
             index = 0
@@ -264,10 +266,12 @@ class Context(renpy.object.Object):
             if i in self.dynamic_stack[index]:
                 continue
 
+            """
             if i in store:
                 self.dynamic_stack[index][i] = store[i]
             else:
                 self.dynamic_stack[index][i] = Delete()
+            """
 
 
     def pop_dynamic(self):
