@@ -1,6 +1,5 @@
 import sys, os
 
-#renpy_home = 'C:/Util/renpy-6.99.10-sdk'
 sys.path.append(r'C:\Users\Haroldo\Projetos\32x\vn32x\tool')
 
 def main ():
