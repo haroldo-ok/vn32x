@@ -6,3 +6,4 @@
 /*.pal
 /build
 /tool/bin
+*.pyc
