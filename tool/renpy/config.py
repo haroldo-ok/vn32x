@@ -24,8 +24,9 @@
 # methods that perform standard tasks, like the say and menu methods.
 
 # This will be deleted by the end of this file.
-import renpy.display
+#import renpy.display
 import os
+#import renpy.exports
 
 # Can we add more config variables?
 locked = False
@@ -297,13 +298,13 @@ autosave_slots = 10
 autosave_frequency = int(os.environ.get("RENPY_AUTOSAVE_FREQUENCY", "200"))
 
 # The callback that is used by the scene statement.
-scene = renpy.exports.scene
+#scene = renpy.exports.scene
 
 # The callback that is used by the show statement.
-show = renpy.exports.show
+#show = renpy.exports.show
 
 # The callback that is used by the hide statement.
-hide = renpy.exports.hide
+#hide = renpy.exports.hide
 
 # Should we use cPickle or pickle for load/save?
 use_cpickle = True
@@ -511,7 +512,7 @@ choice_layer = "screens"
 raw_tracebacks = ("RENPY_RAW_TRACEBACKS" in os.environ)
 
 # A function to process texts which should be spoken
-tts_function = renpy.display.tts.default_tts_function
+#tts_function = renpy.display.tts.default_tts_function
 
 # Channels that stop voice playback.
 tts_voice_channels = [ "voice" ]
@@ -683,8 +684,8 @@ speaking_attribute = None
 # How many elements need to be in a list before we compress it for rollback.
 list_compression_length = None # 25
 
-del renpy
-del os
+#del renpy
+#del os
 
 def init():
     pass

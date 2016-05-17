@@ -29,8 +29,8 @@ _file = file
 
 import re
 
-import renpy.display
-import renpy.audio
+#import renpy.display
+#import renpy.audio
 
 from renpy.pyanalysis import const, pure, not_const
 

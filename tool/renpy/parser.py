@@ -32,6 +32,8 @@ import os
 import renpy.ast as ast
 #import renpy.sl2
 
+import renpy.config
+
 # A list of parse error messages.
 parse_errors = [ ]
 
@@ -2411,6 +2413,7 @@ def parse(fn, filedata=None, linenumber=1):
     If `linenumber` is given, the parse starts at `linenumber`.
     """
 
+    import renpy.game
     renpy.game.exception_info = 'While parsing ' + fn + '.'
 
     try:

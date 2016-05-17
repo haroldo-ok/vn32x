@@ -23,7 +23,7 @@
 # It's purpose is to store in one global all of the data that would
 # be to annoying to lug around otherwise.
 
-import renpy.display
+#import renpy.display
 
 # The basepath.
 basepath = None
