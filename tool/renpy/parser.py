@@ -224,7 +224,7 @@ def list_logical_lines(filename, filedata=None, linenumber=1):
         parendepth = 0
 
         loc = (filename, start_number)
-        lines[loc] = renpy.scriptedit.Line(original_filename, start_number, pos)
+        #lines[loc] = renpy.scriptedit.Line(original_filename, start_number, pos)
 
         endpos = None
 
