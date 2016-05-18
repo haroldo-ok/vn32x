@@ -1,5 +1,41 @@
-print r'C:\Util\renpy-6.99.10-sdk\the_question\game\script.rpy'
+# GardenSnake - a parser generator demonstration program
+#
+# This implements a modified version of a subset of Python:
+#  - only 'def', 'return' and 'if' statements
+#  - 'if' only has 'then' clause (no elif nor else)
+#  - single-quoted strings only, content in raw format
+#  - numbers are decimal.Decimal instances (not integers or floats)
+#  - no print statment; use the built-in 'print' function
+#  - only < > == + - / * implemented (and unary + -)
+#  - assignment and tuple assignment work
+#  - no generators of any sort
+#  - no ... well, no quite a lot
 
+# Why?  I'm thinking about a new indentation-based configuration
+# language for a project and wanted to figure out how to do it.  Once
+# I got that working I needed a way to test it out.  My original AST
+# was dumb so I decided to target Python's AST and compile it into
+# Python code.  Plus, it's pretty cool that it only took a day or so
+# from sitting down with Ply to having working code.
+
+# This uses David Beazley's Ply from http://www.dabeaz.com/ply/
+
+# This work is hereby released into the Public Domain. To view a copy of
+# the public domain dedication, visit
+# http://creativecommons.org/licenses/publicdomain/ or send a letter to
+# Creative Commons, 543 Howard Street, 5th Floor, San Francisco,
+# California, 94105, USA.
+#
+# Portions of this work are derived from Python's Grammar definition
+# and may be covered under the Python copyright and license
+#
+#          Andrew Dalke / Dalke Scientific Software, LLC
+#             30 August 2006 / Cape Town, South Africa
+
+# Changelog:
+#  30 August - added link to CC license; removed the "swapcase" encoding
+
+# Modifications for inclusion in PLY distribution
 import sys
 sys.path.insert(0,"../..")
 from ply import *
@@ -9,7 +45,6 @@ from ply import *
 import decimal
 
 tokens = (
-    'IMAGE',
     'DEF',
     'IF',
     'NAME',
@@ -44,7 +79,7 @@ def t_NUMBER(t):
     return t
 
 def t_STRING(t):
-    r'"([^\\"]+|\\"|\\\\)*"'  # I think this is right ...
+    r"'([^\\']+|\\'|\\\\)*'"  # I think this is right ...
     t.value=t.value[1:-1].decode("string-escape") # .swapcase() # for fun
     return t
 
@@ -63,7 +98,6 @@ t_SEMICOLON = r';'
 # Ply nicely documented how to do this.
 
 RESERVED = {
-  "image": "IMAGE",
   "def": "DEF",
   "if": "IF",
   "return": "RETURN",
@@ -146,7 +180,7 @@ def track_tokens_filter(lexer, tokens):
             at_line_start = False
             indent = MAY_INDENT
             token.must_indent = False
-
+            
         elif token.type == "NEWLINE":
             at_line_start = True
             if indent == MAY_INDENT:
@@ -201,7 +235,7 @@ def indentation_filter(tokens):
 ##            if token.must_indent:
 ##                print "must_indent",
 ##            print
-
+                
         # WS only occurs at the start of the line
         # There may be WS followed by NEWLINE so
         # only track the depth here.  Don't indent/dedent
@@ -260,7 +294,7 @@ def indentation_filter(tokens):
         assert token is not None
         for _ in range(1, len(levels)):
             yield DEDENT(token.lineno)
-
+    
 
 # The top-level filter adds an ENDMARKER, if requested.
 # Python's grammar uses it.
@@ -325,7 +359,7 @@ def Assign(left, right):
 ## NB: compound_stmt in single_input is followed by extra NEWLINE!
 # file_input: (NEWLINE | stmt)* ENDMARKER
 def p_file_input_end(p):
-    """file_input_end : declaration file_input ENDMARKER"""
+    """file_input_end : file_input ENDMARKER"""
     p[0] = ast.Stmt(p[1])
 def p_file_input(p):
     """file_input : file_input NEWLINE
@@ -342,18 +376,14 @@ def p_file_input(p):
             p[0] = p[1] + p[2]
         else:
             p[0] = p[1]
-
-
-def p_declaration(p):
-    """declaration : IMAGE NAME NAME ASSIGN STRING NEWLINE
-    """
+            
 
 # funcdef: [decorators] 'def' NAME parameters ':' suite
 # ignoring decorators
 def p_funcdef(p):
     "funcdef : DEF NAME parameters COLON suite"
     p[0] = ast.Function(None, p[2], tuple(p[3]), (), 0, None, p[5])
-
+    
 # parameters: '(' [varargslist] ')'
 def p_parameters(p):
     """parameters : LPAR RPAR
@@ -362,9 +392,9 @@ def p_parameters(p):
         p[0] = []
     else:
         p[0] = p[2]
+    
 
-
-# varargslist: (fpdef ['=' test] ',')* ('*' NAME [',' '**' NAME] | '**' NAME) |
+# varargslist: (fpdef ['=' test] ',')* ('*' NAME [',' '**' NAME] | '**' NAME) | 
 # highly simplified
 def p_varargslist(p):
     """varargslist : varargslist COMMA NAME
@@ -379,7 +409,7 @@ def p_stmt_simple(p):
     """stmt : simple_stmt"""
     # simple_stmt is a list
     p[0] = p[1]
-
+    
 def p_stmt_compound(p):
     """stmt : compound_stmt"""
     p[0] = [p[1]]
@@ -444,7 +474,7 @@ def p_suite(p):
         p[0] = ast.Stmt(p[1])
     else:
         p[0] = ast.Stmt(p[3])
-
+    
 
 def p_stmts(p):
     """stmts : stmts stmt
@@ -506,7 +536,7 @@ def p_comparison(p):
         p[0] = unary_ops[p[1]](p[2])
     else:
         p[0] = p[1]
-
+                  
 # power: atom trailer* ['**' factor]
 # trailers enables function calls.  I only allow one level of calls
 # so this is 'trailer'
@@ -575,7 +605,7 @@ def p_testlist_multi(p):
 def p_test(p):
     "test : comparison"
     p[0] = p[1]
-
+    
 
 
 # arglist: (argument ',')* (argument [',']| '*' test [',' '**' test] | '**' test)
@@ -612,7 +642,7 @@ class GardenSnakeParser(object):
 
 
 ###### Code generation ######
-
+    
 from compiler import misc, syntax, pycodegen
 
 class GardenSnakeCompiler(object):
@@ -620,7 +650,7 @@ class GardenSnakeCompiler(object):
         self.parser = GardenSnakeParser()
     def compile(self, code, filename="<string>"):
         tree = self.parser.parse(code)
-        print  tree
+        #print  tree
         misc.set_filename(filename, tree)
         syntax.check(tree)
         gen = pycodegen.ModuleCodeGenerator(tree)
@@ -628,17 +658,42 @@ class GardenSnakeCompiler(object):
         return code
 
 ####### Test code #######
-
+    
 compile = GardenSnakeCompiler().compile
 
 code = r"""
 
-# Declare images used by this game.
-image bg lecturehall = "lecturehall.jpg"
-
-print("LET'S TRY THIS \\OUT")
-
+print('LET\'S TRY THIS \\OUT')
+  
 #Comment here
+def x(a):
+    print('called with',a)
+    if a == 1:
+        return 2
+    if a*2 > 10: return 999 / 4
+        # Another comment here
+
+    return a+2*3
+
+ints = (1, 2,
+   3, 4,
+5)
+print('mutiline-expression', ints)
+
+t = 4+1/3*2+6*(9-5+1)
+print('predence test; should be 34+2/3:', t, t==(34+2/3))
+
+print('numbers', 1,2,3,4,5)
+if 1:
+ 8
+ a=9
+ print(x(a))
+
+print(x(1))
+print(x(2))
+print(x(8),'3')
+print('this is decimal', 1/5)
+print('BIG DECIMAL', 1.234567891234567e12345)
 
 """
 
@@ -648,10 +703,7 @@ def print_(*args):
 
 globals()["print"] = print_
 
-tree = GardenSnakeParser().parse(code)
-print tree
+compiled_code = compile(code)
 
-#compiled_code = compile(code)
-
-#exec compiled_code in globals()
+exec compiled_code in globals()
 print "Done"
