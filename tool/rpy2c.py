@@ -298,6 +298,8 @@ class IndentLexer(object):
 # also part of Ply
 #import yacc
 
+import collections
+
 # I use the Python AST
 from compiler import ast
 
@@ -349,7 +351,7 @@ def p_declarations(p):
                     | declarations declaration
                     | NEWLINE
                     | declaration """
-    p[0] = p[1:]
+    p[0] = list(flatten(p[1:]))
 
 def p_declaration(p):
     """declaration : IMAGE NAME NAME ASSIGN STRING NEWLINE
@@ -619,6 +621,18 @@ class GardenSnakeParser(object):
         return ast.Module(None, result)
 
 
+def flatten(l):
+    """Flattens a list of lists, which may be irregular.
+    Based on http://stackoverflow.com/a/2158532/679240"""
+
+    for el in l:
+        if isinstance(el, collections.Iterable) and not isinstance(el, basestring):
+            for sub in flatten(el):
+                yield sub
+        else:
+            yield el
+
+
 class ImageDecl(object):
     def __init__(self, name, state, image):
         self.name = name
@@ -652,6 +666,7 @@ compile = GardenSnakeCompiler().compile
 code = r"""
 
 # Declare images used by this game.
+
 image bg lecturehall = "lecturehall.jpg"
 image bg uni = "uni.jpg"
 
