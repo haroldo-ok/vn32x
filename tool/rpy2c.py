@@ -1,13 +1,15 @@
-import sys, os
-from ply import *
-
 print r'C:\Util\renpy-6.99.10-sdk\the_question\game\script.rpy'
+
+import sys
+sys.path.insert(0,"../..")
+from ply import *
 
 ##### Lexer ######
 #import lex
 import decimal
 
 tokens = (
+    'IMAGE',
     'DEF',
     'IF',
     'NAME',
@@ -42,7 +44,7 @@ def t_NUMBER(t):
     return t
 
 def t_STRING(t):
-    r"'([^\\']+|\\'|\\\\)*'"  # I think this is right ...
+    r'"([^\\"]+|\\"|\\\\)*"'  # I think this is right ...
     t.value=t.value[1:-1].decode("string-escape") # .swapcase() # for fun
     return t
 
@@ -61,6 +63,7 @@ t_SEMICOLON = r';'
 # Ply nicely documented how to do this.
 
 RESERVED = {
+  "image": "IMAGE",
   "def": "DEF",
   "if": "IF",
   "return": "RETURN",
@@ -322,7 +325,7 @@ def Assign(left, right):
 ## NB: compound_stmt in single_input is followed by extra NEWLINE!
 # file_input: (NEWLINE | stmt)* ENDMARKER
 def p_file_input_end(p):
-    """file_input_end : file_input ENDMARKER"""
+    """file_input_end : declaration file_input ENDMARKER"""
     p[0] = ast.Stmt(p[1])
 def p_file_input(p):
     """file_input : file_input NEWLINE
@@ -340,6 +343,10 @@ def p_file_input(p):
         else:
             p[0] = p[1]
 
+
+def p_declaration(p):
+    """declaration : IMAGE NAME NAME ASSIGN STRING NEWLINE
+    """
 
 # funcdef: [decorators] 'def' NAME parameters ':' suite
 # ignoring decorators
@@ -613,7 +620,7 @@ class GardenSnakeCompiler(object):
         self.parser = GardenSnakeParser()
     def compile(self, code, filename="<string>"):
         tree = self.parser.parse(code)
-        #print  tree
+        print  tree
         misc.set_filename(filename, tree)
         syntax.check(tree)
         gen = pycodegen.ModuleCodeGenerator(tree)
@@ -626,37 +633,12 @@ compile = GardenSnakeCompiler().compile
 
 code = r"""
 
-print('LET\'S TRY THIS \\OUT')
+# Declare images used by this game.
+image bg lecturehall = "lecturehall.jpg"
+
+print("LET'S TRY THIS \\OUT")
 
 #Comment here
-def x(a):
-    print('called with',a)
-    if a == 1:
-        return 2
-    if a*2 > 10: return 999 / 4
-        # Another comment here
-
-    return a+2*3
-
-ints = (1, 2,
-   3, 4,
-5)
-print('mutiline-expression', ints)
-
-t = 4+1/3*2+6*(9-5+1)
-print('predence test; should be 34+2/3:', t, t==(34+2/3))
-
-print('numbers', 1,2,3,4,5)
-if 1:
- 8
- a=9
- print(x(a))
-
-print(x(1))
-print(x(2))
-print(x(8),'3')
-print('this is decimal', 1/5)
-print('BIG DECIMAL', 1.234567891234567e12345)
 
 """
 
@@ -666,7 +648,10 @@ def print_(*args):
 
 globals()["print"] = print_
 
-compiled_code = compile(code)
+tree = GardenSnakeParser().parse(code)
+print tree
 
-exec compiled_code in globals()
+#compiled_code = compile(code)
+
+#exec compiled_code in globals()
 print "Done"
