@@ -325,7 +325,7 @@ def Assign(left, right):
 ## NB: compound_stmt in single_input is followed by extra NEWLINE!
 # file_input: (NEWLINE | stmt)* ENDMARKER
 def p_file_input_end(p):
-    """file_input_end : declaration file_input ENDMARKER"""
+    """file_input_end : declarations file_input ENDMARKER"""
     p[0] = ast.Stmt(p[1])
 def p_file_input(p):
     """file_input : file_input NEWLINE
@@ -344,9 +344,17 @@ def p_file_input(p):
             p[0] = p[1]
 
 
+def p_declarations(p):
+    """declarations : declarations NEWLINE
+                    | declarations declaration
+                    | NEWLINE
+                    | declaration """
+    p[0] = p[1:]
+
 def p_declaration(p):
     """declaration : IMAGE NAME NAME ASSIGN STRING NEWLINE
     """
+    p[0] = ImageDecl(p[2], p[3], p[5])
 
 # funcdef: [decorators] 'def' NAME parameters ':' suite
 # ignoring decorators
@@ -611,6 +619,16 @@ class GardenSnakeParser(object):
         return ast.Module(None, result)
 
 
+class ImageDecl(object):
+    def __init__(self, name, state, image):
+        self.name = name
+        self.state = state
+        self.image = image
+
+    def __repr__(self):
+        return "Image {name} {state} {image}".format(**self.__dict__)
+
+
 ###### Code generation ######
 
 from compiler import misc, syntax, pycodegen
@@ -635,6 +653,7 @@ code = r"""
 
 # Declare images used by this game.
 image bg lecturehall = "lecturehall.jpg"
+image bg uni = "uni.jpg"
 
 print("LET'S TRY THIS \\OUT")
 
