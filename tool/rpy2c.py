@@ -10,6 +10,8 @@ import decimal
 
 tokens = (
     'IMAGE',
+    'DEFINE',
+    'CHARACTER',
     'DEF',
     'IF',
     'NAME',
@@ -64,6 +66,8 @@ t_SEMICOLON = r';'
 
 RESERVED = {
   "image": "IMAGE",
+  "define": "DEFINE",
+  "Character": "CHARACTER",
   "def": "DEF",
   "if": "IF",
   "return": "RETURN",
@@ -298,6 +302,8 @@ class IndentLexer(object):
 # also part of Ply
 #import yacc
 
+import collections
+
 # I use the Python AST
 from compiler import ast
 
@@ -325,7 +331,7 @@ def Assign(left, right):
 ## NB: compound_stmt in single_input is followed by extra NEWLINE!
 # file_input: (NEWLINE | stmt)* ENDMARKER
 def p_file_input_end(p):
-    """file_input_end : declaration file_input ENDMARKER"""
+    """file_input_end : declarations file_input ENDMARKER"""
     p[0] = ast.Stmt(p[1])
 def p_file_input(p):
     """file_input : file_input NEWLINE
@@ -344,9 +350,33 @@ def p_file_input(p):
             p[0] = p[1]
 
 
+def p_declarations(p):
+    """declarations : declarations NEWLINE
+                    | declarations declaration
+                    | NEWLINE
+                    | declaration """
+    p[0] = list(flatten(p[1:]))
+
 def p_declaration(p):
-    """declaration : IMAGE NAME NAME ASSIGN STRING NEWLINE
+    """declaration : image_decl
+                   | character_decl  """
+    p[0] = p[1]
+
+def p_image_decl(p):
+    """image_decl : IMAGE NAME NAME ASSIGN STRING NEWLINE
     """
+    p[0] = ImageDecl(p[2], p[3], p[5])
+
+def p_character_decl(p):
+    """character_decl : DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE
+    """
+    p[0] = CharacterDecl(p[2], p[6], p[7])
+
+def p_named_params(p):
+    """named_params : COMMA NAME ASSIGN STRING
+                    | """
+    p[0] = {p[2]: p[4]} if len(p) > 1 else {}
+
 
 # funcdef: [decorators] 'def' NAME parameters ':' suite
 # ignoring decorators
@@ -611,6 +641,38 @@ class GardenSnakeParser(object):
         return ast.Module(None, result)
 
 
+def flatten(l):
+    """Flattens a list of lists, which may be irregular.
+    Based on http://stackoverflow.com/a/2158532/679240"""
+
+    for el in l:
+        if isinstance(el, collections.Iterable) and not isinstance(el, basestring):
+            for sub in flatten(el):
+                yield sub
+        else:
+            yield el
+
+
+class ImageDecl(object):
+    def __init__(self, name, state, image):
+        self.name = name
+        self.state = state
+        self.image = image
+
+    def __repr__(self):
+        return "Image {name} {state} {image}".format(**self.__dict__)
+
+
+class CharacterDecl(object):
+    def __init__(self, name, char_name, params):
+        self.name = name
+        self.char_name = char_name
+        self.params = params
+
+    def __repr__(self):
+        return "Character {name} {char_name} {params}".format(**self.__dict__)
+
+
 ###### Code generation ######
 
 from compiler import misc, syntax, pycodegen
@@ -632,14 +694,15 @@ class GardenSnakeCompiler(object):
 compile = GardenSnakeCompiler().compile
 
 code = r"""
-
 # Declare images used by this game.
 image bg lecturehall = "lecturehall.jpg"
-
+image bg uni = "uni.jpg"
+define s = Character("Sylvie")
+define s = Character("Sylvie", color="#c8ffc8")
+#define s = Character("Sylvie", color="#c8ffc8")
+#define m = Character('Me', color="#c8c8ff")
 print("LET'S TRY THIS \\OUT")
-
 #Comment here
-
 """
 
 # Set up the GardenSnake run-time environment
