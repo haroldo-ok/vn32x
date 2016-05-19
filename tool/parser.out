@@ -20,7 +20,7 @@ Rule 10    declaration -> image_decl
 Rule 11    declaration -> character_decl
 Rule 12    image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE
 Rule 13    character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE
-Rule 14    named_params -> COLON NAME ASSIGN STRING
+Rule 14    named_params -> COMMA NAME ASSIGN STRING
 Rule 15    named_params -> <empty>
 Rule 16    funcdef -> DEF NAME parameters COLON suite
 Rule 17    parameters -> LPAR RPAR
@@ -76,8 +76,8 @@ Terminals, with rules where they appear
 
 ASSIGN               : 12 13 14 29
 CHARACTER            : 13
-COLON                : 14 16 35
-COMMA                : 19 57 59 62
+COLON                : 16 35
+COMMA                : 14 19 57 59 62
 DEDENT               : 37
 DEF                  : 16
 DEFINE               : 13
@@ -2280,10 +2280,10 @@ state 99
 state 100
 
     (13) character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING . named_params RPAR NEWLINE
-    (14) named_params -> . COLON NAME ASSIGN STRING
+    (14) named_params -> . COMMA NAME ASSIGN STRING
     (15) named_params -> .
 
-    COLON           shift and go to state 105
+    COMMA           shift and go to state 105
     RPAR            reduce using rule 15 (named_params -> .)
 
     named_params                   shift and go to state 104
@@ -2391,7 +2391,7 @@ state 104
 
 state 105
 
-    (14) named_params -> COLON . NAME ASSIGN STRING
+    (14) named_params -> COMMA . NAME ASSIGN STRING
 
     NAME            shift and go to state 109
 
@@ -2439,7 +2439,7 @@ state 108
 
 state 109
 
-    (14) named_params -> COLON NAME . ASSIGN STRING
+    (14) named_params -> COMMA NAME . ASSIGN STRING
 
     ASSIGN          shift and go to state 111
 
@@ -2464,16 +2464,16 @@ state 110
 
 state 111
 
-    (14) named_params -> COLON NAME ASSIGN . STRING
+    (14) named_params -> COMMA NAME ASSIGN . STRING
 
     STRING          shift and go to state 112
 
 
 state 112
 
-    (14) named_params -> COLON NAME ASSIGN STRING .
+    (14) named_params -> COMMA NAME ASSIGN STRING .
 
-    RPAR            reduce using rule 14 (named_params -> COLON NAME ASSIGN STRING .)
+    RPAR            reduce using rule 14 (named_params -> COMMA NAME ASSIGN STRING .)
 
 WARNING: 
 WARNING: Conflicts:

@@ -373,9 +373,9 @@ def p_character_decl(p):
     p[0] = CharacterDecl(p[2], p[6], p[7])
 
 def p_named_params(p):
-    """named_params : COLON NAME ASSIGN STRING
+    """named_params : COMMA NAME ASSIGN STRING
                     | """
-    p[0] = {p[1]: p[3]} if len(p) > 1 else {}
+    p[0] = {p[2]: p[4]} if len(p) > 1 else {}
 
 
 # funcdef: [decorators] 'def' NAME parameters ':' suite
@@ -698,6 +698,7 @@ code = r"""
 image bg lecturehall = "lecturehall.jpg"
 image bg uni = "uni.jpg"
 define s = Character("Sylvie")
+define s = Character("Sylvie", color="#c8ffc8")
 #define s = Character("Sylvie", color="#c8ffc8")
 #define m = Character('Me', color="#c8c8ff")
 print("LET'S TRY THIS \\OUT")
