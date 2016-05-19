@@ -10,6 +10,8 @@ import decimal
 
 tokens = (
     'IMAGE',
+    'DEFINE',
+    'CHARACTER',
     'DEF',
     'IF',
     'NAME',
@@ -64,6 +66,8 @@ t_SEMICOLON = r';'
 
 RESERVED = {
   "image": "IMAGE",
+  "define": "DEFINE",
+  "Character": "CHARACTER",
   "def": "DEF",
   "if": "IF",
   "return": "RETURN",
@@ -354,9 +358,25 @@ def p_declarations(p):
     p[0] = list(flatten(p[1:]))
 
 def p_declaration(p):
-    """declaration : IMAGE NAME NAME ASSIGN STRING NEWLINE
+    """declaration : image_decl
+                   | character_decl  """
+    p[0] = p[1]
+
+def p_image_decl(p):
+    """image_decl : IMAGE NAME NAME ASSIGN STRING NEWLINE
     """
     p[0] = ImageDecl(p[2], p[3], p[5])
+
+def p_character_decl(p):
+    """character_decl : DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE
+    """
+    p[0] = CharacterDecl(p[2], p[6], p[7])
+
+def p_named_params(p):
+    """named_params : COLON NAME ASSIGN STRING
+                    | """
+    p[0] = {p[1]: p[3]} if len(p) > 1 else {}
+
 
 # funcdef: [decorators] 'def' NAME parameters ':' suite
 # ignoring decorators
@@ -643,6 +663,16 @@ class ImageDecl(object):
         return "Image {name} {state} {image}".format(**self.__dict__)
 
 
+class CharacterDecl(object):
+    def __init__(self, name, char_name, params):
+        self.name = name
+        self.char_name = char_name
+        self.params = params
+
+    def __repr__(self):
+        return "Character {name} {char_name} {params}".format(**self.__dict__)
+
+
 ###### Code generation ######
 
 from compiler import misc, syntax, pycodegen
@@ -664,16 +694,14 @@ class GardenSnakeCompiler(object):
 compile = GardenSnakeCompiler().compile
 
 code = r"""
-
 # Declare images used by this game.
-
 image bg lecturehall = "lecturehall.jpg"
 image bg uni = "uni.jpg"
-
+define s = Character("Sylvie")
+#define s = Character("Sylvie", color="#c8ffc8")
+#define m = Character('Me', color="#c8c8ff")
 print("LET'S TRY THIS \\OUT")
-
 #Comment here
-
 """
 
 # Set up the GardenSnake run-time environment

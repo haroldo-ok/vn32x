@@ -16,115 +16,125 @@ Rule 6     declarations -> declarations NEWLINE
 Rule 7     declarations -> declarations declaration
 Rule 8     declarations -> NEWLINE
 Rule 9     declarations -> declaration
-Rule 10    declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE
-Rule 11    funcdef -> DEF NAME parameters COLON suite
-Rule 12    parameters -> LPAR RPAR
-Rule 13    parameters -> LPAR varargslist RPAR
-Rule 14    varargslist -> varargslist COMMA NAME
-Rule 15    varargslist -> NAME
-Rule 16    stmt -> simple_stmt
-Rule 17    stmt -> compound_stmt
-Rule 18    simple_stmt -> small_stmts NEWLINE
-Rule 19    simple_stmt -> small_stmts SEMICOLON NEWLINE
-Rule 20    small_stmts -> small_stmts SEMICOLON small_stmt
-Rule 21    small_stmts -> small_stmt
-Rule 22    small_stmt -> flow_stmt
-Rule 23    small_stmt -> expr_stmt
-Rule 24    expr_stmt -> testlist ASSIGN testlist
-Rule 25    expr_stmt -> testlist
-Rule 26    flow_stmt -> return_stmt
-Rule 27    return_stmt -> RETURN testlist
-Rule 28    compound_stmt -> if_stmt
-Rule 29    compound_stmt -> funcdef
-Rule 30    if_stmt -> IF test COLON suite
-Rule 31    suite -> simple_stmt
-Rule 32    suite -> NEWLINE INDENT stmts DEDENT
-Rule 33    stmts -> stmts stmt
-Rule 34    stmts -> stmt
-Rule 35    comparison -> comparison PLUS comparison
-Rule 36    comparison -> comparison MINUS comparison
-Rule 37    comparison -> comparison MULT comparison
-Rule 38    comparison -> comparison DIV comparison
-Rule 39    comparison -> comparison LT comparison
-Rule 40    comparison -> comparison EQ comparison
-Rule 41    comparison -> comparison GT comparison
-Rule 42    comparison -> PLUS comparison
-Rule 43    comparison -> MINUS comparison
-Rule 44    comparison -> power
-Rule 45    power -> atom
-Rule 46    power -> atom trailer
-Rule 47    atom -> NAME
-Rule 48    atom -> NUMBER
-Rule 49    atom -> STRING
-Rule 50    atom -> LPAR testlist RPAR
-Rule 51    trailer -> LPAR arglist RPAR
-Rule 52    testlist -> testlist_multi COMMA
-Rule 53    testlist -> testlist_multi
-Rule 54    testlist_multi -> testlist_multi COMMA test
-Rule 55    testlist_multi -> test
-Rule 56    test -> comparison
-Rule 57    arglist -> arglist COMMA argument
-Rule 58    arglist -> argument
-Rule 59    argument -> test
+Rule 10    declaration -> image_decl
+Rule 11    declaration -> character_decl
+Rule 12    image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE
+Rule 13    character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE
+Rule 14    named_params -> COLON NAME ASSIGN STRING
+Rule 15    named_params -> <empty>
+Rule 16    funcdef -> DEF NAME parameters COLON suite
+Rule 17    parameters -> LPAR RPAR
+Rule 18    parameters -> LPAR varargslist RPAR
+Rule 19    varargslist -> varargslist COMMA NAME
+Rule 20    varargslist -> NAME
+Rule 21    stmt -> simple_stmt
+Rule 22    stmt -> compound_stmt
+Rule 23    simple_stmt -> small_stmts NEWLINE
+Rule 24    simple_stmt -> small_stmts SEMICOLON NEWLINE
+Rule 25    small_stmts -> small_stmts SEMICOLON small_stmt
+Rule 26    small_stmts -> small_stmt
+Rule 27    small_stmt -> flow_stmt
+Rule 28    small_stmt -> expr_stmt
+Rule 29    expr_stmt -> testlist ASSIGN testlist
+Rule 30    expr_stmt -> testlist
+Rule 31    flow_stmt -> return_stmt
+Rule 32    return_stmt -> RETURN testlist
+Rule 33    compound_stmt -> if_stmt
+Rule 34    compound_stmt -> funcdef
+Rule 35    if_stmt -> IF test COLON suite
+Rule 36    suite -> simple_stmt
+Rule 37    suite -> NEWLINE INDENT stmts DEDENT
+Rule 38    stmts -> stmts stmt
+Rule 39    stmts -> stmt
+Rule 40    comparison -> comparison PLUS comparison
+Rule 41    comparison -> comparison MINUS comparison
+Rule 42    comparison -> comparison MULT comparison
+Rule 43    comparison -> comparison DIV comparison
+Rule 44    comparison -> comparison LT comparison
+Rule 45    comparison -> comparison EQ comparison
+Rule 46    comparison -> comparison GT comparison
+Rule 47    comparison -> PLUS comparison
+Rule 48    comparison -> MINUS comparison
+Rule 49    comparison -> power
+Rule 50    power -> atom
+Rule 51    power -> atom trailer
+Rule 52    atom -> NAME
+Rule 53    atom -> NUMBER
+Rule 54    atom -> STRING
+Rule 55    atom -> LPAR testlist RPAR
+Rule 56    trailer -> LPAR arglist RPAR
+Rule 57    testlist -> testlist_multi COMMA
+Rule 58    testlist -> testlist_multi
+Rule 59    testlist_multi -> testlist_multi COMMA test
+Rule 60    testlist_multi -> test
+Rule 61    test -> comparison
+Rule 62    arglist -> arglist COMMA argument
+Rule 63    arglist -> argument
+Rule 64    argument -> test
 
 Terminals, with rules where they appear
 
-ASSIGN               : 10 24
-COLON                : 11 30
-COMMA                : 14 52 54 57
-DEDENT               : 32
-DEF                  : 11
-DIV                  : 38
+ASSIGN               : 12 13 14 29
+CHARACTER            : 13
+COLON                : 14 16 35
+COMMA                : 19 57 59 62
+DEDENT               : 37
+DEF                  : 16
+DEFINE               : 13
+DIV                  : 43
 ENDMARKER            : 1
-EQ                   : 40
-GT                   : 41
-IF                   : 30
-IMAGE                : 10
-INDENT               : 32
-LPAR                 : 12 13 50 51
-LT                   : 39
-MINUS                : 36 43
-MULT                 : 37
-NAME                 : 10 10 11 14 15 47
-NEWLINE              : 2 4 6 8 10 18 19 32
-NUMBER               : 48
-PLUS                 : 35 42
-RETURN               : 27
-RPAR                 : 12 13 50 51
-SEMICOLON            : 19 20
-STRING               : 10 49
+EQ                   : 45
+GT                   : 46
+IF                   : 35
+IMAGE                : 12
+INDENT               : 37
+LPAR                 : 13 17 18 55 56
+LT                   : 44
+MINUS                : 41 48
+MULT                 : 42
+NAME                 : 12 12 13 14 16 19 20 52
+NEWLINE              : 2 4 6 8 12 13 23 24 37
+NUMBER               : 53
+PLUS                 : 40 47
+RETURN               : 32
+RPAR                 : 13 17 18 55 56
+SEMICOLON            : 24 25
+STRING               : 12 13 14 54
 WS                   : 
 error                : 
 
 Nonterminals, with rules where they appear
 
-arglist              : 51 57
-argument             : 57 58
-atom                 : 45 46
-comparison           : 35 35 36 36 37 37 38 38 39 39 40 40 41 41 42 43 56
-compound_stmt        : 17
+arglist              : 56 62
+argument             : 62 63
+atom                 : 50 51
+character_decl       : 11
+comparison           : 40 40 41 41 42 42 43 43 44 44 45 45 46 46 47 48 61
+compound_stmt        : 22
 declaration          : 7 9
 declarations         : 1 6 7
-expr_stmt            : 23
+expr_stmt            : 28
 file_input           : 1 2 3
 file_input_end       : 0
-flow_stmt            : 22
-funcdef              : 29
-if_stmt              : 28
-parameters           : 11
-power                : 44
-return_stmt          : 26
-simple_stmt          : 16 31
-small_stmt           : 20 21
-small_stmts          : 18 19 20
-stmt                 : 3 5 33 34
-stmts                : 32 33
-suite                : 11 30
-test                 : 30 54 55 59
-testlist             : 24 24 25 27 50
-testlist_multi       : 52 53 54
-trailer              : 46
-varargslist          : 13 14
+flow_stmt            : 27
+funcdef              : 34
+if_stmt              : 33
+image_decl           : 10
+named_params         : 13
+parameters           : 16
+power                : 49
+return_stmt          : 31
+simple_stmt          : 21 36
+small_stmt           : 25 26
+small_stmts          : 23 24 25
+stmt                 : 3 5 38 39
+stmts                : 37 38
+suite                : 16 35
+test                 : 35 59 60 64
+testlist             : 29 29 30 32 55
+testlist_multi       : 57 58 59
+trailer              : 51
+varargslist          : 18 19
 
 Parsing method: LALR
 
@@ -136,14 +146,20 @@ state 0
     (7) declarations -> . declarations declaration
     (8) declarations -> . NEWLINE
     (9) declarations -> . declaration
-    (10) declaration -> . IMAGE NAME NAME ASSIGN STRING NEWLINE
+    (10) declaration -> . image_decl
+    (11) declaration -> . character_decl
+    (12) image_decl -> . IMAGE NAME NAME ASSIGN STRING NEWLINE
+    (13) character_decl -> . DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE
 
-    NEWLINE         shift and go to state 3
-    IMAGE           shift and go to state 2
+    NEWLINE         shift and go to state 4
+    IMAGE           shift and go to state 3
+    DEFINE          shift and go to state 6
 
-    file_input_end                 shift and go to state 5
+    image_decl                     shift and go to state 2
     declarations                   shift and go to state 1
-    declaration                    shift and go to state 4
+    declaration                    shift and go to state 5
+    character_decl                 shift and go to state 7
+    file_input_end                 shift and go to state 8
 
 state 1
 
@@ -154,89 +170,114 @@ state 1
     (3) file_input -> . file_input stmt
     (4) file_input -> . NEWLINE
     (5) file_input -> . stmt
-    (10) declaration -> . IMAGE NAME NAME ASSIGN STRING NEWLINE
-    (16) stmt -> . simple_stmt
-    (17) stmt -> . compound_stmt
-    (18) simple_stmt -> . small_stmts NEWLINE
-    (19) simple_stmt -> . small_stmts SEMICOLON NEWLINE
-    (28) compound_stmt -> . if_stmt
-    (29) compound_stmt -> . funcdef
-    (20) small_stmts -> . small_stmts SEMICOLON small_stmt
-    (21) small_stmts -> . small_stmt
-    (30) if_stmt -> . IF test COLON suite
-    (11) funcdef -> . DEF NAME parameters COLON suite
-    (22) small_stmt -> . flow_stmt
-    (23) small_stmt -> . expr_stmt
-    (26) flow_stmt -> . return_stmt
-    (24) expr_stmt -> . testlist ASSIGN testlist
-    (25) expr_stmt -> . testlist
-    (27) return_stmt -> . RETURN testlist
-    (52) testlist -> . testlist_multi COMMA
-    (53) testlist -> . testlist_multi
-    (54) testlist_multi -> . testlist_multi COMMA test
-    (55) testlist_multi -> . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (10) declaration -> . image_decl
+    (11) declaration -> . character_decl
+    (21) stmt -> . simple_stmt
+    (22) stmt -> . compound_stmt
+    (12) image_decl -> . IMAGE NAME NAME ASSIGN STRING NEWLINE
+    (13) character_decl -> . DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE
+    (23) simple_stmt -> . small_stmts NEWLINE
+    (24) simple_stmt -> . small_stmts SEMICOLON NEWLINE
+    (33) compound_stmt -> . if_stmt
+    (34) compound_stmt -> . funcdef
+    (25) small_stmts -> . small_stmts SEMICOLON small_stmt
+    (26) small_stmts -> . small_stmt
+    (35) if_stmt -> . IF test COLON suite
+    (16) funcdef -> . DEF NAME parameters COLON suite
+    (27) small_stmt -> . flow_stmt
+    (28) small_stmt -> . expr_stmt
+    (31) flow_stmt -> . return_stmt
+    (29) expr_stmt -> . testlist ASSIGN testlist
+    (30) expr_stmt -> . testlist
+    (32) return_stmt -> . RETURN testlist
+    (57) testlist -> . testlist_multi COMMA
+    (58) testlist -> . testlist_multi
+    (59) testlist_multi -> . testlist_multi COMMA test
+    (60) testlist_multi -> . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    NEWLINE         shift and go to state 15
-    IMAGE           shift and go to state 2
-    IF              shift and go to state 18
-    DEF             shift and go to state 13
-    RETURN          shift and go to state 11
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    NEWLINE         shift and go to state 18
+    IMAGE           shift and go to state 3
+    DEFINE          shift and go to state 6
+    IF              shift and go to state 22
+    DEF             shift and go to state 16
+    RETURN          shift and go to state 14
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
-    small_stmt                     shift and go to state 7
-    declaration                    shift and go to state 26
-    return_stmt                    shift and go to state 10
-    flow_stmt                      shift and go to state 14
-    test                           shift and go to state 17
-    compound_stmt                  shift and go to state 19
-    power                          shift and go to state 21
-    simple_stmt                    shift and go to state 22
-    testlist                       shift and go to state 23
-    stmt                           shift and go to state 24
-    testlist_multi                 shift and go to state 25
-    atom                           shift and go to state 8
-    funcdef                        shift and go to state 27
-    expr_stmt                      shift and go to state 28
-    comparison                     shift and go to state 30
-    if_stmt                        shift and go to state 29
-    file_input                     shift and go to state 32
-    small_stmts                    shift and go to state 33
+    small_stmt                     shift and go to state 10
+    atom                           shift and go to state 11
+    return_stmt                    shift and go to state 13
+    flow_stmt                      shift and go to state 17
+    simple_stmt                    shift and go to state 20
+    test                           shift and go to state 21
+    character_decl                 shift and go to state 7
+    compound_stmt                  shift and go to state 35
+    power                          shift and go to state 24
+    image_decl                     shift and go to state 2
+    testlist                       shift and go to state 25
+    stmt                           shift and go to state 26
+    testlist_multi                 shift and go to state 27
+    declaration                    shift and go to state 28
+    funcdef                        shift and go to state 29
+    expr_stmt                      shift and go to state 30
+    comparison                     shift and go to state 32
+    if_stmt                        shift and go to state 31
+    file_input                     shift and go to state 34
+    small_stmts                    shift and go to state 36
 
 state 2
 
-    (10) declaration -> IMAGE . NAME NAME ASSIGN STRING NEWLINE
+    (10) declaration -> image_decl .
 
-    NAME            shift and go to state 34
+    NEWLINE         reduce using rule 10 (declaration -> image_decl .)
+    IMAGE           reduce using rule 10 (declaration -> image_decl .)
+    DEFINE          reduce using rule 10 (declaration -> image_decl .)
+    IF              reduce using rule 10 (declaration -> image_decl .)
+    DEF             reduce using rule 10 (declaration -> image_decl .)
+    RETURN          reduce using rule 10 (declaration -> image_decl .)
+    PLUS            reduce using rule 10 (declaration -> image_decl .)
+    MINUS           reduce using rule 10 (declaration -> image_decl .)
+    NAME            reduce using rule 10 (declaration -> image_decl .)
+    NUMBER          reduce using rule 10 (declaration -> image_decl .)
+    STRING          reduce using rule 10 (declaration -> image_decl .)
+    LPAR            reduce using rule 10 (declaration -> image_decl .)
 
 
 state 3
+
+    (12) image_decl -> IMAGE . NAME NAME ASSIGN STRING NEWLINE
+
+    NAME            shift and go to state 37
+
+
+state 4
 
     (8) declarations -> NEWLINE .
 
     NEWLINE         reduce using rule 8 (declarations -> NEWLINE .)
     IMAGE           reduce using rule 8 (declarations -> NEWLINE .)
+    DEFINE          reduce using rule 8 (declarations -> NEWLINE .)
     IF              reduce using rule 8 (declarations -> NEWLINE .)
     DEF             reduce using rule 8 (declarations -> NEWLINE .)
     RETURN          reduce using rule 8 (declarations -> NEWLINE .)
@@ -248,12 +289,13 @@ state 3
     LPAR            reduce using rule 8 (declarations -> NEWLINE .)
 
 
-state 4
+state 5
 
     (9) declarations -> declaration .
 
     NEWLINE         reduce using rule 9 (declarations -> declaration .)
     IMAGE           reduce using rule 9 (declarations -> declaration .)
+    DEFINE          reduce using rule 9 (declarations -> declaration .)
     IF              reduce using rule 9 (declarations -> declaration .)
     DEF             reduce using rule 9 (declarations -> declaration .)
     RETURN          reduce using rule 9 (declarations -> declaration .)
@@ -265,196 +307,221 @@ state 4
     LPAR            reduce using rule 9 (declarations -> declaration .)
 
 
-state 5
+state 6
+
+    (13) character_decl -> DEFINE . NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE
+
+    NAME            shift and go to state 38
+
+
+state 7
+
+    (11) declaration -> character_decl .
+
+    NEWLINE         reduce using rule 11 (declaration -> character_decl .)
+    IMAGE           reduce using rule 11 (declaration -> character_decl .)
+    DEFINE          reduce using rule 11 (declaration -> character_decl .)
+    IF              reduce using rule 11 (declaration -> character_decl .)
+    DEF             reduce using rule 11 (declaration -> character_decl .)
+    RETURN          reduce using rule 11 (declaration -> character_decl .)
+    PLUS            reduce using rule 11 (declaration -> character_decl .)
+    MINUS           reduce using rule 11 (declaration -> character_decl .)
+    NAME            reduce using rule 11 (declaration -> character_decl .)
+    NUMBER          reduce using rule 11 (declaration -> character_decl .)
+    STRING          reduce using rule 11 (declaration -> character_decl .)
+    LPAR            reduce using rule 11 (declaration -> character_decl .)
+
+
+state 8
 
     (0) S' -> file_input_end .
 
 
 
-state 6
-
-    (50) atom -> LPAR . testlist RPAR
-    (52) testlist -> . testlist_multi COMMA
-    (53) testlist -> . testlist_multi
-    (54) testlist_multi -> . testlist_multi COMMA test
-    (55) testlist_multi -> . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
-
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
-
-    comparison                     shift and go to state 30
-    power                          shift and go to state 21
-    testlist                       shift and go to state 35
-    testlist_multi                 shift and go to state 25
-    atom                           shift and go to state 8
-    test                           shift and go to state 17
-
-state 7
-
-    (21) small_stmts -> small_stmt .
-
-    NEWLINE         reduce using rule 21 (small_stmts -> small_stmt .)
-    SEMICOLON       reduce using rule 21 (small_stmts -> small_stmt .)
-
-
-state 8
-
-    (45) power -> atom .
-    (46) power -> atom . trailer
-    (51) trailer -> . LPAR arglist RPAR
-
-    PLUS            reduce using rule 45 (power -> atom .)
-    MINUS           reduce using rule 45 (power -> atom .)
-    MULT            reduce using rule 45 (power -> atom .)
-    DIV             reduce using rule 45 (power -> atom .)
-    LT              reduce using rule 45 (power -> atom .)
-    EQ              reduce using rule 45 (power -> atom .)
-    GT              reduce using rule 45 (power -> atom .)
-    COMMA           reduce using rule 45 (power -> atom .)
-    ASSIGN          reduce using rule 45 (power -> atom .)
-    NEWLINE         reduce using rule 45 (power -> atom .)
-    SEMICOLON       reduce using rule 45 (power -> atom .)
-    RPAR            reduce using rule 45 (power -> atom .)
-    COLON           reduce using rule 45 (power -> atom .)
-    LPAR            shift and go to state 36
-
-    trailer                        shift and go to state 37
-
 state 9
 
-    (48) atom -> NUMBER .
+    (55) atom -> LPAR . testlist RPAR
+    (57) testlist -> . testlist_multi COMMA
+    (58) testlist -> . testlist_multi
+    (59) testlist_multi -> . testlist_multi COMMA test
+    (60) testlist_multi -> . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    LPAR            reduce using rule 48 (atom -> NUMBER .)
-    PLUS            reduce using rule 48 (atom -> NUMBER .)
-    MINUS           reduce using rule 48 (atom -> NUMBER .)
-    MULT            reduce using rule 48 (atom -> NUMBER .)
-    DIV             reduce using rule 48 (atom -> NUMBER .)
-    LT              reduce using rule 48 (atom -> NUMBER .)
-    EQ              reduce using rule 48 (atom -> NUMBER .)
-    GT              reduce using rule 48 (atom -> NUMBER .)
-    COMMA           reduce using rule 48 (atom -> NUMBER .)
-    RPAR            reduce using rule 48 (atom -> NUMBER .)
-    ASSIGN          reduce using rule 48 (atom -> NUMBER .)
-    NEWLINE         reduce using rule 48 (atom -> NUMBER .)
-    SEMICOLON       reduce using rule 48 (atom -> NUMBER .)
-    COLON           reduce using rule 48 (atom -> NUMBER .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
+    comparison                     shift and go to state 32
+    power                          shift and go to state 24
+    testlist                       shift and go to state 39
+    testlist_multi                 shift and go to state 27
+    atom                           shift and go to state 11
+    test                           shift and go to state 21
 
 state 10
 
-    (26) flow_stmt -> return_stmt .
+    (26) small_stmts -> small_stmt .
 
-    NEWLINE         reduce using rule 26 (flow_stmt -> return_stmt .)
-    SEMICOLON       reduce using rule 26 (flow_stmt -> return_stmt .)
+    NEWLINE         reduce using rule 26 (small_stmts -> small_stmt .)
+    SEMICOLON       reduce using rule 26 (small_stmts -> small_stmt .)
 
 
 state 11
 
-    (27) return_stmt -> RETURN . testlist
-    (52) testlist -> . testlist_multi COMMA
-    (53) testlist -> . testlist_multi
-    (54) testlist_multi -> . testlist_multi COMMA test
-    (55) testlist_multi -> . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (50) power -> atom .
+    (51) power -> atom . trailer
+    (56) trailer -> . LPAR arglist RPAR
 
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    PLUS            reduce using rule 50 (power -> atom .)
+    MINUS           reduce using rule 50 (power -> atom .)
+    MULT            reduce using rule 50 (power -> atom .)
+    DIV             reduce using rule 50 (power -> atom .)
+    LT              reduce using rule 50 (power -> atom .)
+    EQ              reduce using rule 50 (power -> atom .)
+    GT              reduce using rule 50 (power -> atom .)
+    COMMA           reduce using rule 50 (power -> atom .)
+    ASSIGN          reduce using rule 50 (power -> atom .)
+    NEWLINE         reduce using rule 50 (power -> atom .)
+    SEMICOLON       reduce using rule 50 (power -> atom .)
+    RPAR            reduce using rule 50 (power -> atom .)
+    COLON           reduce using rule 50 (power -> atom .)
+    LPAR            shift and go to state 40
 
-    comparison                     shift and go to state 30
-    power                          shift and go to state 21
-    testlist                       shift and go to state 38
-    testlist_multi                 shift and go to state 25
-    atom                           shift and go to state 8
-    test                           shift and go to state 17
+    trailer                        shift and go to state 41
 
 state 12
 
-    (43) comparison -> MINUS . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (53) atom -> NUMBER .
 
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    LPAR            reduce using rule 53 (atom -> NUMBER .)
+    PLUS            reduce using rule 53 (atom -> NUMBER .)
+    MINUS           reduce using rule 53 (atom -> NUMBER .)
+    MULT            reduce using rule 53 (atom -> NUMBER .)
+    DIV             reduce using rule 53 (atom -> NUMBER .)
+    LT              reduce using rule 53 (atom -> NUMBER .)
+    EQ              reduce using rule 53 (atom -> NUMBER .)
+    GT              reduce using rule 53 (atom -> NUMBER .)
+    COMMA           reduce using rule 53 (atom -> NUMBER .)
+    ASSIGN          reduce using rule 53 (atom -> NUMBER .)
+    NEWLINE         reduce using rule 53 (atom -> NUMBER .)
+    SEMICOLON       reduce using rule 53 (atom -> NUMBER .)
+    RPAR            reduce using rule 53 (atom -> NUMBER .)
+    COLON           reduce using rule 53 (atom -> NUMBER .)
 
-    comparison                     shift and go to state 39
-    power                          shift and go to state 21
-    atom                           shift and go to state 8
 
 state 13
 
-    (11) funcdef -> DEF . NAME parameters COLON suite
+    (31) flow_stmt -> return_stmt .
 
-    NAME            shift and go to state 40
+    NEWLINE         reduce using rule 31 (flow_stmt -> return_stmt .)
+    SEMICOLON       reduce using rule 31 (flow_stmt -> return_stmt .)
 
 
 state 14
 
-    (22) small_stmt -> flow_stmt .
+    (32) return_stmt -> RETURN . testlist
+    (57) testlist -> . testlist_multi COMMA
+    (58) testlist -> . testlist_multi
+    (59) testlist_multi -> . testlist_multi COMMA test
+    (60) testlist_multi -> . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    NEWLINE         reduce using rule 22 (small_stmt -> flow_stmt .)
-    SEMICOLON       reduce using rule 22 (small_stmt -> flow_stmt .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
+    comparison                     shift and go to state 32
+    power                          shift and go to state 24
+    testlist                       shift and go to state 42
+    testlist_multi                 shift and go to state 27
+    atom                           shift and go to state 11
+    test                           shift and go to state 21
 
 state 15
+
+    (48) comparison -> MINUS . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
+
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
+
+    comparison                     shift and go to state 43
+    power                          shift and go to state 24
+    atom                           shift and go to state 11
+
+state 16
+
+    (16) funcdef -> DEF . NAME parameters COLON suite
+
+    NAME            shift and go to state 44
+
+
+state 17
+
+    (27) small_stmt -> flow_stmt .
+
+    NEWLINE         reduce using rule 27 (small_stmt -> flow_stmt .)
+    SEMICOLON       reduce using rule 27 (small_stmt -> flow_stmt .)
+
+
+state 18
 
     (6) declarations -> declarations NEWLINE .
     (4) file_input -> NEWLINE .
@@ -470,6 +537,7 @@ state 15
   ! reduce/reduce conflict for STRING resolved using rule 4 (file_input -> NEWLINE .)
   ! reduce/reduce conflict for LPAR resolved using rule 4 (file_input -> NEWLINE .)
     IMAGE           reduce using rule 6 (declarations -> declarations NEWLINE .)
+    DEFINE          reduce using rule 6 (declarations -> declarations NEWLINE .)
     ENDMARKER       reduce using rule 4 (file_input -> NEWLINE .)
     NEWLINE         reduce using rule 4 (file_input -> NEWLINE .)
     IF              reduce using rule 4 (file_input -> NEWLINE .)
@@ -494,167 +562,149 @@ state 15
   ! LPAR            [ reduce using rule 6 (declarations -> declarations NEWLINE .) ]
 
 
-state 16
-
-    (42) comparison -> PLUS . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
-
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
-
-    comparison                     shift and go to state 41
-    power                          shift and go to state 21
-    atom                           shift and go to state 8
-
-state 17
-
-    (55) testlist_multi -> test .
-
-    COMMA           reduce using rule 55 (testlist_multi -> test .)
-    ASSIGN          reduce using rule 55 (testlist_multi -> test .)
-    NEWLINE         reduce using rule 55 (testlist_multi -> test .)
-    SEMICOLON       reduce using rule 55 (testlist_multi -> test .)
-    RPAR            reduce using rule 55 (testlist_multi -> test .)
-
-
-state 18
-
-    (30) if_stmt -> IF . test COLON suite
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
-
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
-
-    comparison                     shift and go to state 30
-    power                          shift and go to state 21
-    atom                           shift and go to state 8
-    test                           shift and go to state 42
-
 state 19
 
-    (17) stmt -> compound_stmt .
+    (47) comparison -> PLUS . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    DEDENT          reduce using rule 17 (stmt -> compound_stmt .)
-    IF              reduce using rule 17 (stmt -> compound_stmt .)
-    DEF             reduce using rule 17 (stmt -> compound_stmt .)
-    RETURN          reduce using rule 17 (stmt -> compound_stmt .)
-    PLUS            reduce using rule 17 (stmt -> compound_stmt .)
-    MINUS           reduce using rule 17 (stmt -> compound_stmt .)
-    NAME            reduce using rule 17 (stmt -> compound_stmt .)
-    NUMBER          reduce using rule 17 (stmt -> compound_stmt .)
-    STRING          reduce using rule 17 (stmt -> compound_stmt .)
-    LPAR            reduce using rule 17 (stmt -> compound_stmt .)
-    ENDMARKER       reduce using rule 17 (stmt -> compound_stmt .)
-    NEWLINE         reduce using rule 17 (stmt -> compound_stmt .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
+    comparison                     shift and go to state 45
+    power                          shift and go to state 24
+    atom                           shift and go to state 11
 
 state 20
 
-    (49) atom -> STRING .
+    (21) stmt -> simple_stmt .
 
-    LPAR            reduce using rule 49 (atom -> STRING .)
-    PLUS            reduce using rule 49 (atom -> STRING .)
-    MINUS           reduce using rule 49 (atom -> STRING .)
-    MULT            reduce using rule 49 (atom -> STRING .)
-    DIV             reduce using rule 49 (atom -> STRING .)
-    LT              reduce using rule 49 (atom -> STRING .)
-    EQ              reduce using rule 49 (atom -> STRING .)
-    GT              reduce using rule 49 (atom -> STRING .)
-    COMMA           reduce using rule 49 (atom -> STRING .)
-    RPAR            reduce using rule 49 (atom -> STRING .)
-    ASSIGN          reduce using rule 49 (atom -> STRING .)
-    NEWLINE         reduce using rule 49 (atom -> STRING .)
-    SEMICOLON       reduce using rule 49 (atom -> STRING .)
-    COLON           reduce using rule 49 (atom -> STRING .)
+    DEDENT          reduce using rule 21 (stmt -> simple_stmt .)
+    IF              reduce using rule 21 (stmt -> simple_stmt .)
+    DEF             reduce using rule 21 (stmt -> simple_stmt .)
+    RETURN          reduce using rule 21 (stmt -> simple_stmt .)
+    PLUS            reduce using rule 21 (stmt -> simple_stmt .)
+    MINUS           reduce using rule 21 (stmt -> simple_stmt .)
+    NAME            reduce using rule 21 (stmt -> simple_stmt .)
+    NUMBER          reduce using rule 21 (stmt -> simple_stmt .)
+    STRING          reduce using rule 21 (stmt -> simple_stmt .)
+    LPAR            reduce using rule 21 (stmt -> simple_stmt .)
+    ENDMARKER       reduce using rule 21 (stmt -> simple_stmt .)
+    NEWLINE         reduce using rule 21 (stmt -> simple_stmt .)
 
 
 state 21
 
-    (44) comparison -> power .
+    (60) testlist_multi -> test .
 
-    PLUS            reduce using rule 44 (comparison -> power .)
-    MINUS           reduce using rule 44 (comparison -> power .)
-    MULT            reduce using rule 44 (comparison -> power .)
-    DIV             reduce using rule 44 (comparison -> power .)
-    LT              reduce using rule 44 (comparison -> power .)
-    EQ              reduce using rule 44 (comparison -> power .)
-    GT              reduce using rule 44 (comparison -> power .)
-    RPAR            reduce using rule 44 (comparison -> power .)
-    COMMA           reduce using rule 44 (comparison -> power .)
-    COLON           reduce using rule 44 (comparison -> power .)
-    ASSIGN          reduce using rule 44 (comparison -> power .)
-    NEWLINE         reduce using rule 44 (comparison -> power .)
-    SEMICOLON       reduce using rule 44 (comparison -> power .)
+    COMMA           reduce using rule 60 (testlist_multi -> test .)
+    ASSIGN          reduce using rule 60 (testlist_multi -> test .)
+    NEWLINE         reduce using rule 60 (testlist_multi -> test .)
+    SEMICOLON       reduce using rule 60 (testlist_multi -> test .)
+    RPAR            reduce using rule 60 (testlist_multi -> test .)
 
 
 state 22
 
-    (16) stmt -> simple_stmt .
+    (35) if_stmt -> IF . test COLON suite
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    DEDENT          reduce using rule 16 (stmt -> simple_stmt .)
-    IF              reduce using rule 16 (stmt -> simple_stmt .)
-    DEF             reduce using rule 16 (stmt -> simple_stmt .)
-    RETURN          reduce using rule 16 (stmt -> simple_stmt .)
-    PLUS            reduce using rule 16 (stmt -> simple_stmt .)
-    MINUS           reduce using rule 16 (stmt -> simple_stmt .)
-    NAME            reduce using rule 16 (stmt -> simple_stmt .)
-    NUMBER          reduce using rule 16 (stmt -> simple_stmt .)
-    STRING          reduce using rule 16 (stmt -> simple_stmt .)
-    LPAR            reduce using rule 16 (stmt -> simple_stmt .)
-    ENDMARKER       reduce using rule 16 (stmt -> simple_stmt .)
-    NEWLINE         reduce using rule 16 (stmt -> simple_stmt .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
+    comparison                     shift and go to state 32
+    power                          shift and go to state 24
+    atom                           shift and go to state 11
+    test                           shift and go to state 46
 
 state 23
 
-    (24) expr_stmt -> testlist . ASSIGN testlist
-    (25) expr_stmt -> testlist .
+    (54) atom -> STRING .
 
-    ASSIGN          shift and go to state 43
-    NEWLINE         reduce using rule 25 (expr_stmt -> testlist .)
-    SEMICOLON       reduce using rule 25 (expr_stmt -> testlist .)
+    LPAR            reduce using rule 54 (atom -> STRING .)
+    PLUS            reduce using rule 54 (atom -> STRING .)
+    MINUS           reduce using rule 54 (atom -> STRING .)
+    MULT            reduce using rule 54 (atom -> STRING .)
+    DIV             reduce using rule 54 (atom -> STRING .)
+    LT              reduce using rule 54 (atom -> STRING .)
+    EQ              reduce using rule 54 (atom -> STRING .)
+    GT              reduce using rule 54 (atom -> STRING .)
+    COMMA           reduce using rule 54 (atom -> STRING .)
+    ASSIGN          reduce using rule 54 (atom -> STRING .)
+    NEWLINE         reduce using rule 54 (atom -> STRING .)
+    SEMICOLON       reduce using rule 54 (atom -> STRING .)
+    RPAR            reduce using rule 54 (atom -> STRING .)
+    COLON           reduce using rule 54 (atom -> STRING .)
 
 
 state 24
+
+    (49) comparison -> power .
+
+    PLUS            reduce using rule 49 (comparison -> power .)
+    MINUS           reduce using rule 49 (comparison -> power .)
+    MULT            reduce using rule 49 (comparison -> power .)
+    DIV             reduce using rule 49 (comparison -> power .)
+    LT              reduce using rule 49 (comparison -> power .)
+    EQ              reduce using rule 49 (comparison -> power .)
+    GT              reduce using rule 49 (comparison -> power .)
+    COMMA           reduce using rule 49 (comparison -> power .)
+    ASSIGN          reduce using rule 49 (comparison -> power .)
+    NEWLINE         reduce using rule 49 (comparison -> power .)
+    SEMICOLON       reduce using rule 49 (comparison -> power .)
+    RPAR            reduce using rule 49 (comparison -> power .)
+    COLON           reduce using rule 49 (comparison -> power .)
+
+
+state 25
+
+    (29) expr_stmt -> testlist . ASSIGN testlist
+    (30) expr_stmt -> testlist .
+
+    ASSIGN          shift and go to state 47
+    NEWLINE         reduce using rule 30 (expr_stmt -> testlist .)
+    SEMICOLON       reduce using rule 30 (expr_stmt -> testlist .)
+
+
+state 26
 
     (5) file_input -> stmt .
 
@@ -671,25 +721,26 @@ state 24
     LPAR            reduce using rule 5 (file_input -> stmt .)
 
 
-state 25
+state 27
 
-    (52) testlist -> testlist_multi . COMMA
-    (53) testlist -> testlist_multi .
-    (54) testlist_multi -> testlist_multi . COMMA test
+    (57) testlist -> testlist_multi . COMMA
+    (58) testlist -> testlist_multi .
+    (59) testlist_multi -> testlist_multi . COMMA test
 
-    COMMA           shift and go to state 44
-    ASSIGN          reduce using rule 53 (testlist -> testlist_multi .)
-    NEWLINE         reduce using rule 53 (testlist -> testlist_multi .)
-    SEMICOLON       reduce using rule 53 (testlist -> testlist_multi .)
-    RPAR            reduce using rule 53 (testlist -> testlist_multi .)
+    COMMA           shift and go to state 48
+    ASSIGN          reduce using rule 58 (testlist -> testlist_multi .)
+    NEWLINE         reduce using rule 58 (testlist -> testlist_multi .)
+    SEMICOLON       reduce using rule 58 (testlist -> testlist_multi .)
+    RPAR            reduce using rule 58 (testlist -> testlist_multi .)
 
 
-state 26
+state 28
 
     (7) declarations -> declarations declaration .
 
     NEWLINE         reduce using rule 7 (declarations -> declarations declaration .)
     IMAGE           reduce using rule 7 (declarations -> declarations declaration .)
+    DEFINE          reduce using rule 7 (declarations -> declarations declaration .)
     IF              reduce using rule 7 (declarations -> declarations declaration .)
     DEF             reduce using rule 7 (declarations -> declarations declaration .)
     RETURN          reduce using rule 7 (declarations -> declarations declaration .)
@@ -701,644 +752,669 @@ state 26
     LPAR            reduce using rule 7 (declarations -> declarations declaration .)
 
 
-state 27
-
-    (29) compound_stmt -> funcdef .
-
-    DEDENT          reduce using rule 29 (compound_stmt -> funcdef .)
-    IF              reduce using rule 29 (compound_stmt -> funcdef .)
-    DEF             reduce using rule 29 (compound_stmt -> funcdef .)
-    RETURN          reduce using rule 29 (compound_stmt -> funcdef .)
-    PLUS            reduce using rule 29 (compound_stmt -> funcdef .)
-    MINUS           reduce using rule 29 (compound_stmt -> funcdef .)
-    NAME            reduce using rule 29 (compound_stmt -> funcdef .)
-    NUMBER          reduce using rule 29 (compound_stmt -> funcdef .)
-    STRING          reduce using rule 29 (compound_stmt -> funcdef .)
-    LPAR            reduce using rule 29 (compound_stmt -> funcdef .)
-    ENDMARKER       reduce using rule 29 (compound_stmt -> funcdef .)
-    NEWLINE         reduce using rule 29 (compound_stmt -> funcdef .)
-
-
-state 28
-
-    (23) small_stmt -> expr_stmt .
-
-    NEWLINE         reduce using rule 23 (small_stmt -> expr_stmt .)
-    SEMICOLON       reduce using rule 23 (small_stmt -> expr_stmt .)
-
-
 state 29
 
-    (28) compound_stmt -> if_stmt .
+    (34) compound_stmt -> funcdef .
 
-    DEDENT          reduce using rule 28 (compound_stmt -> if_stmt .)
-    IF              reduce using rule 28 (compound_stmt -> if_stmt .)
-    DEF             reduce using rule 28 (compound_stmt -> if_stmt .)
-    RETURN          reduce using rule 28 (compound_stmt -> if_stmt .)
-    PLUS            reduce using rule 28 (compound_stmt -> if_stmt .)
-    MINUS           reduce using rule 28 (compound_stmt -> if_stmt .)
-    NAME            reduce using rule 28 (compound_stmt -> if_stmt .)
-    NUMBER          reduce using rule 28 (compound_stmt -> if_stmt .)
-    STRING          reduce using rule 28 (compound_stmt -> if_stmt .)
-    LPAR            reduce using rule 28 (compound_stmt -> if_stmt .)
-    ENDMARKER       reduce using rule 28 (compound_stmt -> if_stmt .)
-    NEWLINE         reduce using rule 28 (compound_stmt -> if_stmt .)
+    DEDENT          reduce using rule 34 (compound_stmt -> funcdef .)
+    IF              reduce using rule 34 (compound_stmt -> funcdef .)
+    DEF             reduce using rule 34 (compound_stmt -> funcdef .)
+    RETURN          reduce using rule 34 (compound_stmt -> funcdef .)
+    PLUS            reduce using rule 34 (compound_stmt -> funcdef .)
+    MINUS           reduce using rule 34 (compound_stmt -> funcdef .)
+    NAME            reduce using rule 34 (compound_stmt -> funcdef .)
+    NUMBER          reduce using rule 34 (compound_stmt -> funcdef .)
+    STRING          reduce using rule 34 (compound_stmt -> funcdef .)
+    LPAR            reduce using rule 34 (compound_stmt -> funcdef .)
+    ENDMARKER       reduce using rule 34 (compound_stmt -> funcdef .)
+    NEWLINE         reduce using rule 34 (compound_stmt -> funcdef .)
 
 
 state 30
 
-    (56) test -> comparison .
-    (35) comparison -> comparison . PLUS comparison
-    (36) comparison -> comparison . MINUS comparison
-    (37) comparison -> comparison . MULT comparison
-    (38) comparison -> comparison . DIV comparison
-    (39) comparison -> comparison . LT comparison
-    (40) comparison -> comparison . EQ comparison
-    (41) comparison -> comparison . GT comparison
+    (28) small_stmt -> expr_stmt .
 
-    RPAR            reduce using rule 56 (test -> comparison .)
-    COMMA           reduce using rule 56 (test -> comparison .)
-    ASSIGN          reduce using rule 56 (test -> comparison .)
-    NEWLINE         reduce using rule 56 (test -> comparison .)
-    SEMICOLON       reduce using rule 56 (test -> comparison .)
-    COLON           reduce using rule 56 (test -> comparison .)
-    PLUS            shift and go to state 47
-    MINUS           shift and go to state 50
-    MULT            shift and go to state 51
-    DIV             shift and go to state 48
-    LT              shift and go to state 46
-    EQ              shift and go to state 49
-    GT              shift and go to state 45
+    NEWLINE         reduce using rule 28 (small_stmt -> expr_stmt .)
+    SEMICOLON       reduce using rule 28 (small_stmt -> expr_stmt .)
 
 
 state 31
 
-    (47) atom -> NAME .
+    (33) compound_stmt -> if_stmt .
 
-    LPAR            reduce using rule 47 (atom -> NAME .)
-    PLUS            reduce using rule 47 (atom -> NAME .)
-    MINUS           reduce using rule 47 (atom -> NAME .)
-    MULT            reduce using rule 47 (atom -> NAME .)
-    DIV             reduce using rule 47 (atom -> NAME .)
-    LT              reduce using rule 47 (atom -> NAME .)
-    EQ              reduce using rule 47 (atom -> NAME .)
-    GT              reduce using rule 47 (atom -> NAME .)
-    COMMA           reduce using rule 47 (atom -> NAME .)
-    RPAR            reduce using rule 47 (atom -> NAME .)
-    ASSIGN          reduce using rule 47 (atom -> NAME .)
-    NEWLINE         reduce using rule 47 (atom -> NAME .)
-    SEMICOLON       reduce using rule 47 (atom -> NAME .)
-    COLON           reduce using rule 47 (atom -> NAME .)
+    DEDENT          reduce using rule 33 (compound_stmt -> if_stmt .)
+    IF              reduce using rule 33 (compound_stmt -> if_stmt .)
+    DEF             reduce using rule 33 (compound_stmt -> if_stmt .)
+    RETURN          reduce using rule 33 (compound_stmt -> if_stmt .)
+    PLUS            reduce using rule 33 (compound_stmt -> if_stmt .)
+    MINUS           reduce using rule 33 (compound_stmt -> if_stmt .)
+    NAME            reduce using rule 33 (compound_stmt -> if_stmt .)
+    NUMBER          reduce using rule 33 (compound_stmt -> if_stmt .)
+    STRING          reduce using rule 33 (compound_stmt -> if_stmt .)
+    LPAR            reduce using rule 33 (compound_stmt -> if_stmt .)
+    ENDMARKER       reduce using rule 33 (compound_stmt -> if_stmt .)
+    NEWLINE         reduce using rule 33 (compound_stmt -> if_stmt .)
 
 
 state 32
 
-    (1) file_input_end -> declarations file_input . ENDMARKER
-    (2) file_input -> file_input . NEWLINE
-    (3) file_input -> file_input . stmt
-    (16) stmt -> . simple_stmt
-    (17) stmt -> . compound_stmt
-    (18) simple_stmt -> . small_stmts NEWLINE
-    (19) simple_stmt -> . small_stmts SEMICOLON NEWLINE
-    (28) compound_stmt -> . if_stmt
-    (29) compound_stmt -> . funcdef
-    (20) small_stmts -> . small_stmts SEMICOLON small_stmt
-    (21) small_stmts -> . small_stmt
-    (30) if_stmt -> . IF test COLON suite
-    (11) funcdef -> . DEF NAME parameters COLON suite
-    (22) small_stmt -> . flow_stmt
-    (23) small_stmt -> . expr_stmt
-    (26) flow_stmt -> . return_stmt
-    (24) expr_stmt -> . testlist ASSIGN testlist
-    (25) expr_stmt -> . testlist
-    (27) return_stmt -> . RETURN testlist
-    (52) testlist -> . testlist_multi COMMA
-    (53) testlist -> . testlist_multi
-    (54) testlist_multi -> . testlist_multi COMMA test
-    (55) testlist_multi -> . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (61) test -> comparison .
+    (40) comparison -> comparison . PLUS comparison
+    (41) comparison -> comparison . MINUS comparison
+    (42) comparison -> comparison . MULT comparison
+    (43) comparison -> comparison . DIV comparison
+    (44) comparison -> comparison . LT comparison
+    (45) comparison -> comparison . EQ comparison
+    (46) comparison -> comparison . GT comparison
 
-    ENDMARKER       shift and go to state 52
-    NEWLINE         shift and go to state 53
-    IF              shift and go to state 18
-    DEF             shift and go to state 13
-    RETURN          shift and go to state 11
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    COMMA           reduce using rule 61 (test -> comparison .)
+    ASSIGN          reduce using rule 61 (test -> comparison .)
+    NEWLINE         reduce using rule 61 (test -> comparison .)
+    SEMICOLON       reduce using rule 61 (test -> comparison .)
+    RPAR            reduce using rule 61 (test -> comparison .)
+    COLON           reduce using rule 61 (test -> comparison .)
+    PLUS            shift and go to state 51
+    MINUS           shift and go to state 54
+    MULT            shift and go to state 55
+    DIV             shift and go to state 52
+    LT              shift and go to state 50
+    EQ              shift and go to state 53
+    GT              shift and go to state 49
 
-    flow_stmt                      shift and go to state 14
-    comparison                     shift and go to state 30
-    if_stmt                        shift and go to state 29
-    simple_stmt                    shift and go to state 22
-    testlist                       shift and go to state 23
-    stmt                           shift and go to state 54
-    testlist_multi                 shift and go to state 25
-    small_stmt                     shift and go to state 7
-    power                          shift and go to state 21
-    test                           shift and go to state 17
-    return_stmt                    shift and go to state 10
-    atom                           shift and go to state 8
-    funcdef                        shift and go to state 27
-    expr_stmt                      shift and go to state 28
-    compound_stmt                  shift and go to state 19
-    small_stmts                    shift and go to state 33
 
 state 33
 
-    (18) simple_stmt -> small_stmts . NEWLINE
-    (19) simple_stmt -> small_stmts . SEMICOLON NEWLINE
-    (20) small_stmts -> small_stmts . SEMICOLON small_stmt
+    (52) atom -> NAME .
 
-    NEWLINE         shift and go to state 55
-    SEMICOLON       shift and go to state 56
+    LPAR            reduce using rule 52 (atom -> NAME .)
+    PLUS            reduce using rule 52 (atom -> NAME .)
+    MINUS           reduce using rule 52 (atom -> NAME .)
+    MULT            reduce using rule 52 (atom -> NAME .)
+    DIV             reduce using rule 52 (atom -> NAME .)
+    LT              reduce using rule 52 (atom -> NAME .)
+    EQ              reduce using rule 52 (atom -> NAME .)
+    GT              reduce using rule 52 (atom -> NAME .)
+    COMMA           reduce using rule 52 (atom -> NAME .)
+    ASSIGN          reduce using rule 52 (atom -> NAME .)
+    NEWLINE         reduce using rule 52 (atom -> NAME .)
+    SEMICOLON       reduce using rule 52 (atom -> NAME .)
+    RPAR            reduce using rule 52 (atom -> NAME .)
+    COLON           reduce using rule 52 (atom -> NAME .)
 
 
 state 34
 
-    (10) declaration -> IMAGE NAME . NAME ASSIGN STRING NEWLINE
+    (1) file_input_end -> declarations file_input . ENDMARKER
+    (2) file_input -> file_input . NEWLINE
+    (3) file_input -> file_input . stmt
+    (21) stmt -> . simple_stmt
+    (22) stmt -> . compound_stmt
+    (23) simple_stmt -> . small_stmts NEWLINE
+    (24) simple_stmt -> . small_stmts SEMICOLON NEWLINE
+    (33) compound_stmt -> . if_stmt
+    (34) compound_stmt -> . funcdef
+    (25) small_stmts -> . small_stmts SEMICOLON small_stmt
+    (26) small_stmts -> . small_stmt
+    (35) if_stmt -> . IF test COLON suite
+    (16) funcdef -> . DEF NAME parameters COLON suite
+    (27) small_stmt -> . flow_stmt
+    (28) small_stmt -> . expr_stmt
+    (31) flow_stmt -> . return_stmt
+    (29) expr_stmt -> . testlist ASSIGN testlist
+    (30) expr_stmt -> . testlist
+    (32) return_stmt -> . RETURN testlist
+    (57) testlist -> . testlist_multi COMMA
+    (58) testlist -> . testlist_multi
+    (59) testlist_multi -> . testlist_multi COMMA test
+    (60) testlist_multi -> . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    NAME            shift and go to state 57
+    ENDMARKER       shift and go to state 56
+    NEWLINE         shift and go to state 57
+    IF              shift and go to state 22
+    DEF             shift and go to state 16
+    RETURN          shift and go to state 14
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
+    flow_stmt                      shift and go to state 17
+    comparison                     shift and go to state 32
+    if_stmt                        shift and go to state 31
+    simple_stmt                    shift and go to state 20
+    testlist                       shift and go to state 25
+    stmt                           shift and go to state 58
+    testlist_multi                 shift and go to state 27
+    small_stmt                     shift and go to state 10
+    power                          shift and go to state 24
+    test                           shift and go to state 21
+    return_stmt                    shift and go to state 13
+    atom                           shift and go to state 11
+    funcdef                        shift and go to state 29
+    expr_stmt                      shift and go to state 30
+    compound_stmt                  shift and go to state 35
+    small_stmts                    shift and go to state 36
 
 state 35
 
-    (50) atom -> LPAR testlist . RPAR
+    (22) stmt -> compound_stmt .
 
-    RPAR            shift and go to state 58
+    DEDENT          reduce using rule 22 (stmt -> compound_stmt .)
+    IF              reduce using rule 22 (stmt -> compound_stmt .)
+    DEF             reduce using rule 22 (stmt -> compound_stmt .)
+    RETURN          reduce using rule 22 (stmt -> compound_stmt .)
+    PLUS            reduce using rule 22 (stmt -> compound_stmt .)
+    MINUS           reduce using rule 22 (stmt -> compound_stmt .)
+    NAME            reduce using rule 22 (stmt -> compound_stmt .)
+    NUMBER          reduce using rule 22 (stmt -> compound_stmt .)
+    STRING          reduce using rule 22 (stmt -> compound_stmt .)
+    LPAR            reduce using rule 22 (stmt -> compound_stmt .)
+    ENDMARKER       reduce using rule 22 (stmt -> compound_stmt .)
+    NEWLINE         reduce using rule 22 (stmt -> compound_stmt .)
 
 
 state 36
 
-    (51) trailer -> LPAR . arglist RPAR
-    (57) arglist -> . arglist COMMA argument
-    (58) arglist -> . argument
-    (59) argument -> . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (23) simple_stmt -> small_stmts . NEWLINE
+    (24) simple_stmt -> small_stmts . SEMICOLON NEWLINE
+    (25) small_stmts -> small_stmts . SEMICOLON small_stmt
 
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    NEWLINE         shift and go to state 59
+    SEMICOLON       shift and go to state 60
 
-    comparison                     shift and go to state 30
-    power                          shift and go to state 21
-    argument                       shift and go to state 59
-    atom                           shift and go to state 8
-    test                           shift and go to state 60
-    arglist                        shift and go to state 61
 
 state 37
 
-    (46) power -> atom trailer .
+    (12) image_decl -> IMAGE NAME . NAME ASSIGN STRING NEWLINE
 
-    PLUS            reduce using rule 46 (power -> atom trailer .)
-    MINUS           reduce using rule 46 (power -> atom trailer .)
-    MULT            reduce using rule 46 (power -> atom trailer .)
-    DIV             reduce using rule 46 (power -> atom trailer .)
-    LT              reduce using rule 46 (power -> atom trailer .)
-    EQ              reduce using rule 46 (power -> atom trailer .)
-    GT              reduce using rule 46 (power -> atom trailer .)
-    COMMA           reduce using rule 46 (power -> atom trailer .)
-    ASSIGN          reduce using rule 46 (power -> atom trailer .)
-    NEWLINE         reduce using rule 46 (power -> atom trailer .)
-    SEMICOLON       reduce using rule 46 (power -> atom trailer .)
-    RPAR            reduce using rule 46 (power -> atom trailer .)
-    COLON           reduce using rule 46 (power -> atom trailer .)
+    NAME            shift and go to state 61
 
 
 state 38
 
-    (27) return_stmt -> RETURN testlist .
+    (13) character_decl -> DEFINE NAME . ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE
 
-    NEWLINE         reduce using rule 27 (return_stmt -> RETURN testlist .)
-    SEMICOLON       reduce using rule 27 (return_stmt -> RETURN testlist .)
+    ASSIGN          shift and go to state 62
 
 
 state 39
 
-    (43) comparison -> MINUS comparison .
-    (35) comparison -> comparison . PLUS comparison
-    (36) comparison -> comparison . MINUS comparison
-    (37) comparison -> comparison . MULT comparison
-    (38) comparison -> comparison . DIV comparison
-    (39) comparison -> comparison . LT comparison
-    (40) comparison -> comparison . EQ comparison
-    (41) comparison -> comparison . GT comparison
+    (55) atom -> LPAR testlist . RPAR
 
-    PLUS            reduce using rule 43 (comparison -> MINUS comparison .)
-    MINUS           reduce using rule 43 (comparison -> MINUS comparison .)
-    LT              reduce using rule 43 (comparison -> MINUS comparison .)
-    EQ              reduce using rule 43 (comparison -> MINUS comparison .)
-    GT              reduce using rule 43 (comparison -> MINUS comparison .)
-    RPAR            reduce using rule 43 (comparison -> MINUS comparison .)
-    COMMA           reduce using rule 43 (comparison -> MINUS comparison .)
-    COLON           reduce using rule 43 (comparison -> MINUS comparison .)
-    ASSIGN          reduce using rule 43 (comparison -> MINUS comparison .)
-    NEWLINE         reduce using rule 43 (comparison -> MINUS comparison .)
-    SEMICOLON       reduce using rule 43 (comparison -> MINUS comparison .)
-    MULT            shift and go to state 51
-    DIV             shift and go to state 48
-
-  ! MULT            [ reduce using rule 43 (comparison -> MINUS comparison .) ]
-  ! DIV             [ reduce using rule 43 (comparison -> MINUS comparison .) ]
-  ! PLUS            [ shift and go to state 47 ]
-  ! MINUS           [ shift and go to state 50 ]
-  ! LT              [ shift and go to state 46 ]
-  ! EQ              [ shift and go to state 49 ]
-  ! GT              [ shift and go to state 45 ]
+    RPAR            shift and go to state 63
 
 
 state 40
 
-    (11) funcdef -> DEF NAME . parameters COLON suite
-    (12) parameters -> . LPAR RPAR
-    (13) parameters -> . LPAR varargslist RPAR
+    (56) trailer -> LPAR . arglist RPAR
+    (62) arglist -> . arglist COMMA argument
+    (63) arglist -> . argument
+    (64) argument -> . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    LPAR            shift and go to state 62
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
-    parameters                     shift and go to state 63
+    comparison                     shift and go to state 32
+    power                          shift and go to state 24
+    argument                       shift and go to state 64
+    atom                           shift and go to state 11
+    test                           shift and go to state 65
+    arglist                        shift and go to state 66
 
 state 41
 
-    (42) comparison -> PLUS comparison .
-    (35) comparison -> comparison . PLUS comparison
-    (36) comparison -> comparison . MINUS comparison
-    (37) comparison -> comparison . MULT comparison
-    (38) comparison -> comparison . DIV comparison
-    (39) comparison -> comparison . LT comparison
-    (40) comparison -> comparison . EQ comparison
-    (41) comparison -> comparison . GT comparison
+    (51) power -> atom trailer .
 
-    PLUS            reduce using rule 42 (comparison -> PLUS comparison .)
-    MINUS           reduce using rule 42 (comparison -> PLUS comparison .)
-    LT              reduce using rule 42 (comparison -> PLUS comparison .)
-    EQ              reduce using rule 42 (comparison -> PLUS comparison .)
-    GT              reduce using rule 42 (comparison -> PLUS comparison .)
-    RPAR            reduce using rule 42 (comparison -> PLUS comparison .)
-    COMMA           reduce using rule 42 (comparison -> PLUS comparison .)
-    COLON           reduce using rule 42 (comparison -> PLUS comparison .)
-    ASSIGN          reduce using rule 42 (comparison -> PLUS comparison .)
-    NEWLINE         reduce using rule 42 (comparison -> PLUS comparison .)
-    SEMICOLON       reduce using rule 42 (comparison -> PLUS comparison .)
-    MULT            shift and go to state 51
-    DIV             shift and go to state 48
-
-  ! MULT            [ reduce using rule 42 (comparison -> PLUS comparison .) ]
-  ! DIV             [ reduce using rule 42 (comparison -> PLUS comparison .) ]
-  ! PLUS            [ shift and go to state 47 ]
-  ! MINUS           [ shift and go to state 50 ]
-  ! LT              [ shift and go to state 46 ]
-  ! EQ              [ shift and go to state 49 ]
-  ! GT              [ shift and go to state 45 ]
+    PLUS            reduce using rule 51 (power -> atom trailer .)
+    MINUS           reduce using rule 51 (power -> atom trailer .)
+    MULT            reduce using rule 51 (power -> atom trailer .)
+    DIV             reduce using rule 51 (power -> atom trailer .)
+    LT              reduce using rule 51 (power -> atom trailer .)
+    EQ              reduce using rule 51 (power -> atom trailer .)
+    GT              reduce using rule 51 (power -> atom trailer .)
+    COMMA           reduce using rule 51 (power -> atom trailer .)
+    ASSIGN          reduce using rule 51 (power -> atom trailer .)
+    NEWLINE         reduce using rule 51 (power -> atom trailer .)
+    SEMICOLON       reduce using rule 51 (power -> atom trailer .)
+    RPAR            reduce using rule 51 (power -> atom trailer .)
+    COLON           reduce using rule 51 (power -> atom trailer .)
 
 
 state 42
 
-    (30) if_stmt -> IF test . COLON suite
+    (32) return_stmt -> RETURN testlist .
 
-    COLON           shift and go to state 64
+    NEWLINE         reduce using rule 32 (return_stmt -> RETURN testlist .)
+    SEMICOLON       reduce using rule 32 (return_stmt -> RETURN testlist .)
 
 
 state 43
 
-    (24) expr_stmt -> testlist ASSIGN . testlist
-    (52) testlist -> . testlist_multi COMMA
-    (53) testlist -> . testlist_multi
-    (54) testlist_multi -> . testlist_multi COMMA test
-    (55) testlist_multi -> . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (48) comparison -> MINUS comparison .
+    (40) comparison -> comparison . PLUS comparison
+    (41) comparison -> comparison . MINUS comparison
+    (42) comparison -> comparison . MULT comparison
+    (43) comparison -> comparison . DIV comparison
+    (44) comparison -> comparison . LT comparison
+    (45) comparison -> comparison . EQ comparison
+    (46) comparison -> comparison . GT comparison
 
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    PLUS            reduce using rule 48 (comparison -> MINUS comparison .)
+    MINUS           reduce using rule 48 (comparison -> MINUS comparison .)
+    LT              reduce using rule 48 (comparison -> MINUS comparison .)
+    EQ              reduce using rule 48 (comparison -> MINUS comparison .)
+    GT              reduce using rule 48 (comparison -> MINUS comparison .)
+    COMMA           reduce using rule 48 (comparison -> MINUS comparison .)
+    ASSIGN          reduce using rule 48 (comparison -> MINUS comparison .)
+    NEWLINE         reduce using rule 48 (comparison -> MINUS comparison .)
+    SEMICOLON       reduce using rule 48 (comparison -> MINUS comparison .)
+    RPAR            reduce using rule 48 (comparison -> MINUS comparison .)
+    COLON           reduce using rule 48 (comparison -> MINUS comparison .)
+    MULT            shift and go to state 55
+    DIV             shift and go to state 52
 
-    comparison                     shift and go to state 30
-    power                          shift and go to state 21
-    testlist                       shift and go to state 65
-    testlist_multi                 shift and go to state 25
-    atom                           shift and go to state 8
-    test                           shift and go to state 17
+  ! MULT            [ reduce using rule 48 (comparison -> MINUS comparison .) ]
+  ! DIV             [ reduce using rule 48 (comparison -> MINUS comparison .) ]
+  ! PLUS            [ shift and go to state 51 ]
+  ! MINUS           [ shift and go to state 54 ]
+  ! LT              [ shift and go to state 50 ]
+  ! EQ              [ shift and go to state 53 ]
+  ! GT              [ shift and go to state 49 ]
+
 
 state 44
 
-    (52) testlist -> testlist_multi COMMA .
-    (54) testlist_multi -> testlist_multi COMMA . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (16) funcdef -> DEF NAME . parameters COLON suite
+    (17) parameters -> . LPAR RPAR
+    (18) parameters -> . LPAR varargslist RPAR
 
-    ASSIGN          reduce using rule 52 (testlist -> testlist_multi COMMA .)
-    NEWLINE         reduce using rule 52 (testlist -> testlist_multi COMMA .)
-    SEMICOLON       reduce using rule 52 (testlist -> testlist_multi COMMA .)
-    RPAR            reduce using rule 52 (testlist -> testlist_multi COMMA .)
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    LPAR            shift and go to state 67
 
-    comparison                     shift and go to state 30
-    power                          shift and go to state 21
-    atom                           shift and go to state 8
-    test                           shift and go to state 66
+    parameters                     shift and go to state 68
 
 state 45
 
-    (41) comparison -> comparison GT . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (47) comparison -> PLUS comparison .
+    (40) comparison -> comparison . PLUS comparison
+    (41) comparison -> comparison . MINUS comparison
+    (42) comparison -> comparison . MULT comparison
+    (43) comparison -> comparison . DIV comparison
+    (44) comparison -> comparison . LT comparison
+    (45) comparison -> comparison . EQ comparison
+    (46) comparison -> comparison . GT comparison
 
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    PLUS            reduce using rule 47 (comparison -> PLUS comparison .)
+    MINUS           reduce using rule 47 (comparison -> PLUS comparison .)
+    LT              reduce using rule 47 (comparison -> PLUS comparison .)
+    EQ              reduce using rule 47 (comparison -> PLUS comparison .)
+    GT              reduce using rule 47 (comparison -> PLUS comparison .)
+    COMMA           reduce using rule 47 (comparison -> PLUS comparison .)
+    ASSIGN          reduce using rule 47 (comparison -> PLUS comparison .)
+    NEWLINE         reduce using rule 47 (comparison -> PLUS comparison .)
+    SEMICOLON       reduce using rule 47 (comparison -> PLUS comparison .)
+    RPAR            reduce using rule 47 (comparison -> PLUS comparison .)
+    COLON           reduce using rule 47 (comparison -> PLUS comparison .)
+    MULT            shift and go to state 55
+    DIV             shift and go to state 52
 
-    comparison                     shift and go to state 67
-    power                          shift and go to state 21
-    atom                           shift and go to state 8
+  ! MULT            [ reduce using rule 47 (comparison -> PLUS comparison .) ]
+  ! DIV             [ reduce using rule 47 (comparison -> PLUS comparison .) ]
+  ! PLUS            [ shift and go to state 51 ]
+  ! MINUS           [ shift and go to state 54 ]
+  ! LT              [ shift and go to state 50 ]
+  ! EQ              [ shift and go to state 53 ]
+  ! GT              [ shift and go to state 49 ]
+
 
 state 46
 
-    (39) comparison -> comparison LT . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (35) if_stmt -> IF test . COLON suite
 
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    COLON           shift and go to state 69
 
-    comparison                     shift and go to state 68
-    power                          shift and go to state 21
-    atom                           shift and go to state 8
 
 state 47
 
-    (35) comparison -> comparison PLUS . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (29) expr_stmt -> testlist ASSIGN . testlist
+    (57) testlist -> . testlist_multi COMMA
+    (58) testlist -> . testlist_multi
+    (59) testlist_multi -> . testlist_multi COMMA test
+    (60) testlist_multi -> . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
-    comparison                     shift and go to state 69
-    power                          shift and go to state 21
-    atom                           shift and go to state 8
+    comparison                     shift and go to state 32
+    power                          shift and go to state 24
+    testlist                       shift and go to state 70
+    testlist_multi                 shift and go to state 27
+    atom                           shift and go to state 11
+    test                           shift and go to state 21
 
 state 48
 
-    (38) comparison -> comparison DIV . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (57) testlist -> testlist_multi COMMA .
+    (59) testlist_multi -> testlist_multi COMMA . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    ASSIGN          reduce using rule 57 (testlist -> testlist_multi COMMA .)
+    NEWLINE         reduce using rule 57 (testlist -> testlist_multi COMMA .)
+    SEMICOLON       reduce using rule 57 (testlist -> testlist_multi COMMA .)
+    RPAR            reduce using rule 57 (testlist -> testlist_multi COMMA .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
-    comparison                     shift and go to state 70
-    power                          shift and go to state 21
-    atom                           shift and go to state 8
+    comparison                     shift and go to state 32
+    power                          shift and go to state 24
+    atom                           shift and go to state 11
+    test                           shift and go to state 71
 
 state 49
 
-    (40) comparison -> comparison EQ . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (46) comparison -> comparison GT . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
-    comparison                     shift and go to state 71
-    power                          shift and go to state 21
-    atom                           shift and go to state 8
+    comparison                     shift and go to state 72
+    power                          shift and go to state 24
+    atom                           shift and go to state 11
 
 state 50
 
-    (36) comparison -> comparison MINUS . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (44) comparison -> comparison LT . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
-    comparison                     shift and go to state 72
-    power                          shift and go to state 21
-    atom                           shift and go to state 8
+    comparison                     shift and go to state 73
+    power                          shift and go to state 24
+    atom                           shift and go to state 11
 
 state 51
 
-    (37) comparison -> comparison MULT . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (40) comparison -> comparison PLUS . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
-    comparison                     shift and go to state 73
-    power                          shift and go to state 21
-    atom                           shift and go to state 8
+    comparison                     shift and go to state 74
+    power                          shift and go to state 24
+    atom                           shift and go to state 11
 
 state 52
+
+    (43) comparison -> comparison DIV . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
+
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
+
+    comparison                     shift and go to state 75
+    power                          shift and go to state 24
+    atom                           shift and go to state 11
+
+state 53
+
+    (45) comparison -> comparison EQ . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
+
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
+
+    comparison                     shift and go to state 76
+    power                          shift and go to state 24
+    atom                           shift and go to state 11
+
+state 54
+
+    (41) comparison -> comparison MINUS . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
+
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
+
+    comparison                     shift and go to state 77
+    power                          shift and go to state 24
+    atom                           shift and go to state 11
+
+state 55
+
+    (42) comparison -> comparison MULT . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
+
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
+
+    comparison                     shift and go to state 78
+    power                          shift and go to state 24
+    atom                           shift and go to state 11
+
+state 56
 
     (1) file_input_end -> declarations file_input ENDMARKER .
 
     $end            reduce using rule 1 (file_input_end -> declarations file_input ENDMARKER .)
 
 
-state 53
+state 57
 
     (2) file_input -> file_input NEWLINE .
 
@@ -1355,7 +1431,7 @@ state 53
     LPAR            reduce using rule 2 (file_input -> file_input NEWLINE .)
 
 
-state 54
+state 58
 
     (3) file_input -> file_input stmt .
 
@@ -1372,942 +1448,1035 @@ state 54
     LPAR            reduce using rule 3 (file_input -> file_input stmt .)
 
 
-state 55
-
-    (18) simple_stmt -> small_stmts NEWLINE .
-
-    DEDENT          reduce using rule 18 (simple_stmt -> small_stmts NEWLINE .)
-    IF              reduce using rule 18 (simple_stmt -> small_stmts NEWLINE .)
-    DEF             reduce using rule 18 (simple_stmt -> small_stmts NEWLINE .)
-    RETURN          reduce using rule 18 (simple_stmt -> small_stmts NEWLINE .)
-    PLUS            reduce using rule 18 (simple_stmt -> small_stmts NEWLINE .)
-    MINUS           reduce using rule 18 (simple_stmt -> small_stmts NEWLINE .)
-    NAME            reduce using rule 18 (simple_stmt -> small_stmts NEWLINE .)
-    NUMBER          reduce using rule 18 (simple_stmt -> small_stmts NEWLINE .)
-    STRING          reduce using rule 18 (simple_stmt -> small_stmts NEWLINE .)
-    LPAR            reduce using rule 18 (simple_stmt -> small_stmts NEWLINE .)
-    ENDMARKER       reduce using rule 18 (simple_stmt -> small_stmts NEWLINE .)
-    NEWLINE         reduce using rule 18 (simple_stmt -> small_stmts NEWLINE .)
-
-
-state 56
-
-    (19) simple_stmt -> small_stmts SEMICOLON . NEWLINE
-    (20) small_stmts -> small_stmts SEMICOLON . small_stmt
-    (22) small_stmt -> . flow_stmt
-    (23) small_stmt -> . expr_stmt
-    (26) flow_stmt -> . return_stmt
-    (24) expr_stmt -> . testlist ASSIGN testlist
-    (25) expr_stmt -> . testlist
-    (27) return_stmt -> . RETURN testlist
-    (52) testlist -> . testlist_multi COMMA
-    (53) testlist -> . testlist_multi
-    (54) testlist_multi -> . testlist_multi COMMA test
-    (55) testlist_multi -> . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
-
-    NEWLINE         shift and go to state 75
-    RETURN          shift and go to state 11
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
-
-    flow_stmt                      shift and go to state 14
-    comparison                     shift and go to state 30
-    power                          shift and go to state 21
-    small_stmt                     shift and go to state 74
-    testlist                       shift and go to state 23
-    return_stmt                    shift and go to state 10
-    atom                           shift and go to state 8
-    test                           shift and go to state 17
-    testlist_multi                 shift and go to state 25
-    expr_stmt                      shift and go to state 28
-
-state 57
-
-    (10) declaration -> IMAGE NAME NAME . ASSIGN STRING NEWLINE
-
-    ASSIGN          shift and go to state 76
-
-
-state 58
-
-    (50) atom -> LPAR testlist RPAR .
-
-    LPAR            reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    PLUS            reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    MINUS           reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    MULT            reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    DIV             reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    LT              reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    EQ              reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    GT              reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    COMMA           reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    RPAR            reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    ASSIGN          reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    NEWLINE         reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    SEMICOLON       reduce using rule 50 (atom -> LPAR testlist RPAR .)
-    COLON           reduce using rule 50 (atom -> LPAR testlist RPAR .)
-
-
 state 59
 
-    (58) arglist -> argument .
+    (23) simple_stmt -> small_stmts NEWLINE .
 
-    RPAR            reduce using rule 58 (arglist -> argument .)
-    COMMA           reduce using rule 58 (arglist -> argument .)
+    ENDMARKER       reduce using rule 23 (simple_stmt -> small_stmts NEWLINE .)
+    NEWLINE         reduce using rule 23 (simple_stmt -> small_stmts NEWLINE .)
+    IF              reduce using rule 23 (simple_stmt -> small_stmts NEWLINE .)
+    DEF             reduce using rule 23 (simple_stmt -> small_stmts NEWLINE .)
+    RETURN          reduce using rule 23 (simple_stmt -> small_stmts NEWLINE .)
+    PLUS            reduce using rule 23 (simple_stmt -> small_stmts NEWLINE .)
+    MINUS           reduce using rule 23 (simple_stmt -> small_stmts NEWLINE .)
+    NAME            reduce using rule 23 (simple_stmt -> small_stmts NEWLINE .)
+    NUMBER          reduce using rule 23 (simple_stmt -> small_stmts NEWLINE .)
+    STRING          reduce using rule 23 (simple_stmt -> small_stmts NEWLINE .)
+    LPAR            reduce using rule 23 (simple_stmt -> small_stmts NEWLINE .)
+    DEDENT          reduce using rule 23 (simple_stmt -> small_stmts NEWLINE .)
 
 
 state 60
 
-    (59) argument -> test .
+    (24) simple_stmt -> small_stmts SEMICOLON . NEWLINE
+    (25) small_stmts -> small_stmts SEMICOLON . small_stmt
+    (27) small_stmt -> . flow_stmt
+    (28) small_stmt -> . expr_stmt
+    (31) flow_stmt -> . return_stmt
+    (29) expr_stmt -> . testlist ASSIGN testlist
+    (30) expr_stmt -> . testlist
+    (32) return_stmt -> . RETURN testlist
+    (57) testlist -> . testlist_multi COMMA
+    (58) testlist -> . testlist_multi
+    (59) testlist_multi -> . testlist_multi COMMA test
+    (60) testlist_multi -> . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    RPAR            reduce using rule 59 (argument -> test .)
-    COMMA           reduce using rule 59 (argument -> test .)
+    NEWLINE         shift and go to state 80
+    RETURN          shift and go to state 14
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
+    flow_stmt                      shift and go to state 17
+    comparison                     shift and go to state 32
+    power                          shift and go to state 24
+    small_stmt                     shift and go to state 79
+    testlist                       shift and go to state 25
+    return_stmt                    shift and go to state 13
+    atom                           shift and go to state 11
+    test                           shift and go to state 21
+    testlist_multi                 shift and go to state 27
+    expr_stmt                      shift and go to state 30
 
 state 61
 
-    (51) trailer -> LPAR arglist . RPAR
-    (57) arglist -> arglist . COMMA argument
+    (12) image_decl -> IMAGE NAME NAME . ASSIGN STRING NEWLINE
 
-    RPAR            shift and go to state 78
-    COMMA           shift and go to state 77
+    ASSIGN          shift and go to state 81
 
 
 state 62
 
-    (12) parameters -> LPAR . RPAR
-    (13) parameters -> LPAR . varargslist RPAR
-    (14) varargslist -> . varargslist COMMA NAME
-    (15) varargslist -> . NAME
+    (13) character_decl -> DEFINE NAME ASSIGN . CHARACTER LPAR STRING named_params RPAR NEWLINE
 
-    RPAR            shift and go to state 81
-    NAME            shift and go to state 80
+    CHARACTER       shift and go to state 82
 
-    varargslist                    shift and go to state 79
 
 state 63
 
-    (11) funcdef -> DEF NAME parameters . COLON suite
+    (55) atom -> LPAR testlist RPAR .
 
-    COLON           shift and go to state 82
+    LPAR            reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    PLUS            reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    MINUS           reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    MULT            reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    DIV             reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    LT              reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    EQ              reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    GT              reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    COMMA           reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    ASSIGN          reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    NEWLINE         reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    SEMICOLON       reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    RPAR            reduce using rule 55 (atom -> LPAR testlist RPAR .)
+    COLON           reduce using rule 55 (atom -> LPAR testlist RPAR .)
 
 
 state 64
 
-    (30) if_stmt -> IF test COLON . suite
-    (31) suite -> . simple_stmt
-    (32) suite -> . NEWLINE INDENT stmts DEDENT
-    (18) simple_stmt -> . small_stmts NEWLINE
-    (19) simple_stmt -> . small_stmts SEMICOLON NEWLINE
-    (20) small_stmts -> . small_stmts SEMICOLON small_stmt
-    (21) small_stmts -> . small_stmt
-    (22) small_stmt -> . flow_stmt
-    (23) small_stmt -> . expr_stmt
-    (26) flow_stmt -> . return_stmt
-    (24) expr_stmt -> . testlist ASSIGN testlist
-    (25) expr_stmt -> . testlist
-    (27) return_stmt -> . RETURN testlist
-    (52) testlist -> . testlist_multi COMMA
-    (53) testlist -> . testlist_multi
-    (54) testlist_multi -> . testlist_multi COMMA test
-    (55) testlist_multi -> . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (63) arglist -> argument .
 
-    NEWLINE         shift and go to state 83
-    RETURN          shift and go to state 11
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    RPAR            reduce using rule 63 (arglist -> argument .)
+    COMMA           reduce using rule 63 (arglist -> argument .)
 
-    flow_stmt                      shift and go to state 14
-    comparison                     shift and go to state 30
-    power                          shift and go to state 21
-    small_stmt                     shift and go to state 7
-    simple_stmt                    shift and go to state 84
-    testlist                       shift and go to state 23
-    testlist_multi                 shift and go to state 25
-    return_stmt                    shift and go to state 10
-    atom                           shift and go to state 8
-    test                           shift and go to state 17
-    suite                          shift and go to state 85
-    expr_stmt                      shift and go to state 28
-    small_stmts                    shift and go to state 33
 
 state 65
 
-    (24) expr_stmt -> testlist ASSIGN testlist .
+    (64) argument -> test .
 
-    NEWLINE         reduce using rule 24 (expr_stmt -> testlist ASSIGN testlist .)
-    SEMICOLON       reduce using rule 24 (expr_stmt -> testlist ASSIGN testlist .)
+    RPAR            reduce using rule 64 (argument -> test .)
+    COMMA           reduce using rule 64 (argument -> test .)
 
 
 state 66
 
-    (54) testlist_multi -> testlist_multi COMMA test .
+    (56) trailer -> LPAR arglist . RPAR
+    (62) arglist -> arglist . COMMA argument
 
-    COMMA           reduce using rule 54 (testlist_multi -> testlist_multi COMMA test .)
-    ASSIGN          reduce using rule 54 (testlist_multi -> testlist_multi COMMA test .)
-    NEWLINE         reduce using rule 54 (testlist_multi -> testlist_multi COMMA test .)
-    SEMICOLON       reduce using rule 54 (testlist_multi -> testlist_multi COMMA test .)
-    RPAR            reduce using rule 54 (testlist_multi -> testlist_multi COMMA test .)
+    RPAR            shift and go to state 84
+    COMMA           shift and go to state 83
 
 
 state 67
 
-    (41) comparison -> comparison GT comparison .
-    (35) comparison -> comparison . PLUS comparison
-    (36) comparison -> comparison . MINUS comparison
-    (37) comparison -> comparison . MULT comparison
-    (38) comparison -> comparison . DIV comparison
-    (39) comparison -> comparison . LT comparison
-    (40) comparison -> comparison . EQ comparison
-    (41) comparison -> comparison . GT comparison
+    (17) parameters -> LPAR . RPAR
+    (18) parameters -> LPAR . varargslist RPAR
+    (19) varargslist -> . varargslist COMMA NAME
+    (20) varargslist -> . NAME
 
-    LT              reduce using rule 41 (comparison -> comparison GT comparison .)
-    EQ              reduce using rule 41 (comparison -> comparison GT comparison .)
-    GT              reduce using rule 41 (comparison -> comparison GT comparison .)
-    RPAR            reduce using rule 41 (comparison -> comparison GT comparison .)
-    COMMA           reduce using rule 41 (comparison -> comparison GT comparison .)
-    COLON           reduce using rule 41 (comparison -> comparison GT comparison .)
-    ASSIGN          reduce using rule 41 (comparison -> comparison GT comparison .)
-    NEWLINE         reduce using rule 41 (comparison -> comparison GT comparison .)
-    SEMICOLON       reduce using rule 41 (comparison -> comparison GT comparison .)
-    PLUS            shift and go to state 47
-    MINUS           shift and go to state 50
-    MULT            shift and go to state 51
-    DIV             shift and go to state 48
+    RPAR            shift and go to state 87
+    NAME            shift and go to state 86
 
-  ! PLUS            [ reduce using rule 41 (comparison -> comparison GT comparison .) ]
-  ! MINUS           [ reduce using rule 41 (comparison -> comparison GT comparison .) ]
-  ! MULT            [ reduce using rule 41 (comparison -> comparison GT comparison .) ]
-  ! DIV             [ reduce using rule 41 (comparison -> comparison GT comparison .) ]
-  ! LT              [ shift and go to state 46 ]
-  ! EQ              [ shift and go to state 49 ]
-  ! GT              [ shift and go to state 45 ]
-
+    varargslist                    shift and go to state 85
 
 state 68
 
-    (39) comparison -> comparison LT comparison .
-    (35) comparison -> comparison . PLUS comparison
-    (36) comparison -> comparison . MINUS comparison
-    (37) comparison -> comparison . MULT comparison
-    (38) comparison -> comparison . DIV comparison
-    (39) comparison -> comparison . LT comparison
-    (40) comparison -> comparison . EQ comparison
-    (41) comparison -> comparison . GT comparison
+    (16) funcdef -> DEF NAME parameters . COLON suite
 
-    LT              reduce using rule 39 (comparison -> comparison LT comparison .)
-    EQ              reduce using rule 39 (comparison -> comparison LT comparison .)
-    GT              reduce using rule 39 (comparison -> comparison LT comparison .)
-    RPAR            reduce using rule 39 (comparison -> comparison LT comparison .)
-    COMMA           reduce using rule 39 (comparison -> comparison LT comparison .)
-    COLON           reduce using rule 39 (comparison -> comparison LT comparison .)
-    ASSIGN          reduce using rule 39 (comparison -> comparison LT comparison .)
-    NEWLINE         reduce using rule 39 (comparison -> comparison LT comparison .)
-    SEMICOLON       reduce using rule 39 (comparison -> comparison LT comparison .)
-    PLUS            shift and go to state 47
-    MINUS           shift and go to state 50
-    MULT            shift and go to state 51
-    DIV             shift and go to state 48
-
-  ! PLUS            [ reduce using rule 39 (comparison -> comparison LT comparison .) ]
-  ! MINUS           [ reduce using rule 39 (comparison -> comparison LT comparison .) ]
-  ! MULT            [ reduce using rule 39 (comparison -> comparison LT comparison .) ]
-  ! DIV             [ reduce using rule 39 (comparison -> comparison LT comparison .) ]
-  ! LT              [ shift and go to state 46 ]
-  ! EQ              [ shift and go to state 49 ]
-  ! GT              [ shift and go to state 45 ]
+    COLON           shift and go to state 88
 
 
 state 69
 
-    (35) comparison -> comparison PLUS comparison .
-    (35) comparison -> comparison . PLUS comparison
-    (36) comparison -> comparison . MINUS comparison
-    (37) comparison -> comparison . MULT comparison
-    (38) comparison -> comparison . DIV comparison
-    (39) comparison -> comparison . LT comparison
-    (40) comparison -> comparison . EQ comparison
-    (41) comparison -> comparison . GT comparison
+    (35) if_stmt -> IF test COLON . suite
+    (36) suite -> . simple_stmt
+    (37) suite -> . NEWLINE INDENT stmts DEDENT
+    (23) simple_stmt -> . small_stmts NEWLINE
+    (24) simple_stmt -> . small_stmts SEMICOLON NEWLINE
+    (25) small_stmts -> . small_stmts SEMICOLON small_stmt
+    (26) small_stmts -> . small_stmt
+    (27) small_stmt -> . flow_stmt
+    (28) small_stmt -> . expr_stmt
+    (31) flow_stmt -> . return_stmt
+    (29) expr_stmt -> . testlist ASSIGN testlist
+    (30) expr_stmt -> . testlist
+    (32) return_stmt -> . RETURN testlist
+    (57) testlist -> . testlist_multi COMMA
+    (58) testlist -> . testlist_multi
+    (59) testlist_multi -> . testlist_multi COMMA test
+    (60) testlist_multi -> . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    PLUS            reduce using rule 35 (comparison -> comparison PLUS comparison .)
-    MINUS           reduce using rule 35 (comparison -> comparison PLUS comparison .)
-    LT              reduce using rule 35 (comparison -> comparison PLUS comparison .)
-    EQ              reduce using rule 35 (comparison -> comparison PLUS comparison .)
-    GT              reduce using rule 35 (comparison -> comparison PLUS comparison .)
-    RPAR            reduce using rule 35 (comparison -> comparison PLUS comparison .)
-    COMMA           reduce using rule 35 (comparison -> comparison PLUS comparison .)
-    COLON           reduce using rule 35 (comparison -> comparison PLUS comparison .)
-    ASSIGN          reduce using rule 35 (comparison -> comparison PLUS comparison .)
-    NEWLINE         reduce using rule 35 (comparison -> comparison PLUS comparison .)
-    SEMICOLON       reduce using rule 35 (comparison -> comparison PLUS comparison .)
-    MULT            shift and go to state 51
-    DIV             shift and go to state 48
+    NEWLINE         shift and go to state 89
+    RETURN          shift and go to state 14
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
-  ! MULT            [ reduce using rule 35 (comparison -> comparison PLUS comparison .) ]
-  ! DIV             [ reduce using rule 35 (comparison -> comparison PLUS comparison .) ]
-  ! PLUS            [ shift and go to state 47 ]
-  ! MINUS           [ shift and go to state 50 ]
-  ! LT              [ shift and go to state 46 ]
-  ! EQ              [ shift and go to state 49 ]
-  ! GT              [ shift and go to state 45 ]
-
+    flow_stmt                      shift and go to state 17
+    comparison                     shift and go to state 32
+    power                          shift and go to state 24
+    small_stmt                     shift and go to state 10
+    simple_stmt                    shift and go to state 90
+    testlist                       shift and go to state 25
+    testlist_multi                 shift and go to state 27
+    return_stmt                    shift and go to state 13
+    atom                           shift and go to state 11
+    test                           shift and go to state 21
+    suite                          shift and go to state 91
+    expr_stmt                      shift and go to state 30
+    small_stmts                    shift and go to state 36
 
 state 70
 
-    (38) comparison -> comparison DIV comparison .
-    (35) comparison -> comparison . PLUS comparison
-    (36) comparison -> comparison . MINUS comparison
-    (37) comparison -> comparison . MULT comparison
-    (38) comparison -> comparison . DIV comparison
-    (39) comparison -> comparison . LT comparison
-    (40) comparison -> comparison . EQ comparison
-    (41) comparison -> comparison . GT comparison
+    (29) expr_stmt -> testlist ASSIGN testlist .
 
-    PLUS            reduce using rule 38 (comparison -> comparison DIV comparison .)
-    MINUS           reduce using rule 38 (comparison -> comparison DIV comparison .)
-    MULT            reduce using rule 38 (comparison -> comparison DIV comparison .)
-    DIV             reduce using rule 38 (comparison -> comparison DIV comparison .)
-    LT              reduce using rule 38 (comparison -> comparison DIV comparison .)
-    EQ              reduce using rule 38 (comparison -> comparison DIV comparison .)
-    GT              reduce using rule 38 (comparison -> comparison DIV comparison .)
-    RPAR            reduce using rule 38 (comparison -> comparison DIV comparison .)
-    COMMA           reduce using rule 38 (comparison -> comparison DIV comparison .)
-    COLON           reduce using rule 38 (comparison -> comparison DIV comparison .)
-    ASSIGN          reduce using rule 38 (comparison -> comparison DIV comparison .)
-    NEWLINE         reduce using rule 38 (comparison -> comparison DIV comparison .)
-    SEMICOLON       reduce using rule 38 (comparison -> comparison DIV comparison .)
-
-  ! PLUS            [ shift and go to state 47 ]
-  ! MINUS           [ shift and go to state 50 ]
-  ! MULT            [ shift and go to state 51 ]
-  ! DIV             [ shift and go to state 48 ]
-  ! LT              [ shift and go to state 46 ]
-  ! EQ              [ shift and go to state 49 ]
-  ! GT              [ shift and go to state 45 ]
+    NEWLINE         reduce using rule 29 (expr_stmt -> testlist ASSIGN testlist .)
+    SEMICOLON       reduce using rule 29 (expr_stmt -> testlist ASSIGN testlist .)
 
 
 state 71
 
-    (40) comparison -> comparison EQ comparison .
-    (35) comparison -> comparison . PLUS comparison
-    (36) comparison -> comparison . MINUS comparison
-    (37) comparison -> comparison . MULT comparison
-    (38) comparison -> comparison . DIV comparison
-    (39) comparison -> comparison . LT comparison
-    (40) comparison -> comparison . EQ comparison
-    (41) comparison -> comparison . GT comparison
+    (59) testlist_multi -> testlist_multi COMMA test .
 
-    LT              reduce using rule 40 (comparison -> comparison EQ comparison .)
-    EQ              reduce using rule 40 (comparison -> comparison EQ comparison .)
-    GT              reduce using rule 40 (comparison -> comparison EQ comparison .)
-    RPAR            reduce using rule 40 (comparison -> comparison EQ comparison .)
-    COMMA           reduce using rule 40 (comparison -> comparison EQ comparison .)
-    COLON           reduce using rule 40 (comparison -> comparison EQ comparison .)
-    ASSIGN          reduce using rule 40 (comparison -> comparison EQ comparison .)
-    NEWLINE         reduce using rule 40 (comparison -> comparison EQ comparison .)
-    SEMICOLON       reduce using rule 40 (comparison -> comparison EQ comparison .)
-    PLUS            shift and go to state 47
-    MINUS           shift and go to state 50
-    MULT            shift and go to state 51
-    DIV             shift and go to state 48
-
-  ! PLUS            [ reduce using rule 40 (comparison -> comparison EQ comparison .) ]
-  ! MINUS           [ reduce using rule 40 (comparison -> comparison EQ comparison .) ]
-  ! MULT            [ reduce using rule 40 (comparison -> comparison EQ comparison .) ]
-  ! DIV             [ reduce using rule 40 (comparison -> comparison EQ comparison .) ]
-  ! LT              [ shift and go to state 46 ]
-  ! EQ              [ shift and go to state 49 ]
-  ! GT              [ shift and go to state 45 ]
+    COMMA           reduce using rule 59 (testlist_multi -> testlist_multi COMMA test .)
+    ASSIGN          reduce using rule 59 (testlist_multi -> testlist_multi COMMA test .)
+    NEWLINE         reduce using rule 59 (testlist_multi -> testlist_multi COMMA test .)
+    SEMICOLON       reduce using rule 59 (testlist_multi -> testlist_multi COMMA test .)
+    RPAR            reduce using rule 59 (testlist_multi -> testlist_multi COMMA test .)
 
 
 state 72
 
-    (36) comparison -> comparison MINUS comparison .
-    (35) comparison -> comparison . PLUS comparison
-    (36) comparison -> comparison . MINUS comparison
-    (37) comparison -> comparison . MULT comparison
-    (38) comparison -> comparison . DIV comparison
-    (39) comparison -> comparison . LT comparison
-    (40) comparison -> comparison . EQ comparison
-    (41) comparison -> comparison . GT comparison
+    (46) comparison -> comparison GT comparison .
+    (40) comparison -> comparison . PLUS comparison
+    (41) comparison -> comparison . MINUS comparison
+    (42) comparison -> comparison . MULT comparison
+    (43) comparison -> comparison . DIV comparison
+    (44) comparison -> comparison . LT comparison
+    (45) comparison -> comparison . EQ comparison
+    (46) comparison -> comparison . GT comparison
 
-    PLUS            reduce using rule 36 (comparison -> comparison MINUS comparison .)
-    MINUS           reduce using rule 36 (comparison -> comparison MINUS comparison .)
-    LT              reduce using rule 36 (comparison -> comparison MINUS comparison .)
-    EQ              reduce using rule 36 (comparison -> comparison MINUS comparison .)
-    GT              reduce using rule 36 (comparison -> comparison MINUS comparison .)
-    RPAR            reduce using rule 36 (comparison -> comparison MINUS comparison .)
-    COMMA           reduce using rule 36 (comparison -> comparison MINUS comparison .)
-    COLON           reduce using rule 36 (comparison -> comparison MINUS comparison .)
-    ASSIGN          reduce using rule 36 (comparison -> comparison MINUS comparison .)
-    NEWLINE         reduce using rule 36 (comparison -> comparison MINUS comparison .)
-    SEMICOLON       reduce using rule 36 (comparison -> comparison MINUS comparison .)
-    MULT            shift and go to state 51
-    DIV             shift and go to state 48
+    LT              reduce using rule 46 (comparison -> comparison GT comparison .)
+    EQ              reduce using rule 46 (comparison -> comparison GT comparison .)
+    GT              reduce using rule 46 (comparison -> comparison GT comparison .)
+    COMMA           reduce using rule 46 (comparison -> comparison GT comparison .)
+    ASSIGN          reduce using rule 46 (comparison -> comparison GT comparison .)
+    NEWLINE         reduce using rule 46 (comparison -> comparison GT comparison .)
+    SEMICOLON       reduce using rule 46 (comparison -> comparison GT comparison .)
+    RPAR            reduce using rule 46 (comparison -> comparison GT comparison .)
+    COLON           reduce using rule 46 (comparison -> comparison GT comparison .)
+    PLUS            shift and go to state 51
+    MINUS           shift and go to state 54
+    MULT            shift and go to state 55
+    DIV             shift and go to state 52
 
-  ! MULT            [ reduce using rule 36 (comparison -> comparison MINUS comparison .) ]
-  ! DIV             [ reduce using rule 36 (comparison -> comparison MINUS comparison .) ]
-  ! PLUS            [ shift and go to state 47 ]
-  ! MINUS           [ shift and go to state 50 ]
-  ! LT              [ shift and go to state 46 ]
-  ! EQ              [ shift and go to state 49 ]
-  ! GT              [ shift and go to state 45 ]
+  ! PLUS            [ reduce using rule 46 (comparison -> comparison GT comparison .) ]
+  ! MINUS           [ reduce using rule 46 (comparison -> comparison GT comparison .) ]
+  ! MULT            [ reduce using rule 46 (comparison -> comparison GT comparison .) ]
+  ! DIV             [ reduce using rule 46 (comparison -> comparison GT comparison .) ]
+  ! LT              [ shift and go to state 50 ]
+  ! EQ              [ shift and go to state 53 ]
+  ! GT              [ shift and go to state 49 ]
 
 
 state 73
 
-    (37) comparison -> comparison MULT comparison .
-    (35) comparison -> comparison . PLUS comparison
-    (36) comparison -> comparison . MINUS comparison
-    (37) comparison -> comparison . MULT comparison
-    (38) comparison -> comparison . DIV comparison
-    (39) comparison -> comparison . LT comparison
-    (40) comparison -> comparison . EQ comparison
-    (41) comparison -> comparison . GT comparison
+    (44) comparison -> comparison LT comparison .
+    (40) comparison -> comparison . PLUS comparison
+    (41) comparison -> comparison . MINUS comparison
+    (42) comparison -> comparison . MULT comparison
+    (43) comparison -> comparison . DIV comparison
+    (44) comparison -> comparison . LT comparison
+    (45) comparison -> comparison . EQ comparison
+    (46) comparison -> comparison . GT comparison
 
-    PLUS            reduce using rule 37 (comparison -> comparison MULT comparison .)
-    MINUS           reduce using rule 37 (comparison -> comparison MULT comparison .)
-    MULT            reduce using rule 37 (comparison -> comparison MULT comparison .)
-    DIV             reduce using rule 37 (comparison -> comparison MULT comparison .)
-    LT              reduce using rule 37 (comparison -> comparison MULT comparison .)
-    EQ              reduce using rule 37 (comparison -> comparison MULT comparison .)
-    GT              reduce using rule 37 (comparison -> comparison MULT comparison .)
-    RPAR            reduce using rule 37 (comparison -> comparison MULT comparison .)
-    COMMA           reduce using rule 37 (comparison -> comparison MULT comparison .)
-    COLON           reduce using rule 37 (comparison -> comparison MULT comparison .)
-    ASSIGN          reduce using rule 37 (comparison -> comparison MULT comparison .)
-    NEWLINE         reduce using rule 37 (comparison -> comparison MULT comparison .)
-    SEMICOLON       reduce using rule 37 (comparison -> comparison MULT comparison .)
+    LT              reduce using rule 44 (comparison -> comparison LT comparison .)
+    EQ              reduce using rule 44 (comparison -> comparison LT comparison .)
+    GT              reduce using rule 44 (comparison -> comparison LT comparison .)
+    COMMA           reduce using rule 44 (comparison -> comparison LT comparison .)
+    ASSIGN          reduce using rule 44 (comparison -> comparison LT comparison .)
+    NEWLINE         reduce using rule 44 (comparison -> comparison LT comparison .)
+    SEMICOLON       reduce using rule 44 (comparison -> comparison LT comparison .)
+    RPAR            reduce using rule 44 (comparison -> comparison LT comparison .)
+    COLON           reduce using rule 44 (comparison -> comparison LT comparison .)
+    PLUS            shift and go to state 51
+    MINUS           shift and go to state 54
+    MULT            shift and go to state 55
+    DIV             shift and go to state 52
 
-  ! PLUS            [ shift and go to state 47 ]
-  ! MINUS           [ shift and go to state 50 ]
-  ! MULT            [ shift and go to state 51 ]
-  ! DIV             [ shift and go to state 48 ]
-  ! LT              [ shift and go to state 46 ]
-  ! EQ              [ shift and go to state 49 ]
-  ! GT              [ shift and go to state 45 ]
+  ! PLUS            [ reduce using rule 44 (comparison -> comparison LT comparison .) ]
+  ! MINUS           [ reduce using rule 44 (comparison -> comparison LT comparison .) ]
+  ! MULT            [ reduce using rule 44 (comparison -> comparison LT comparison .) ]
+  ! DIV             [ reduce using rule 44 (comparison -> comparison LT comparison .) ]
+  ! LT              [ shift and go to state 50 ]
+  ! EQ              [ shift and go to state 53 ]
+  ! GT              [ shift and go to state 49 ]
 
 
 state 74
 
-    (20) small_stmts -> small_stmts SEMICOLON small_stmt .
+    (40) comparison -> comparison PLUS comparison .
+    (40) comparison -> comparison . PLUS comparison
+    (41) comparison -> comparison . MINUS comparison
+    (42) comparison -> comparison . MULT comparison
+    (43) comparison -> comparison . DIV comparison
+    (44) comparison -> comparison . LT comparison
+    (45) comparison -> comparison . EQ comparison
+    (46) comparison -> comparison . GT comparison
 
-    NEWLINE         reduce using rule 20 (small_stmts -> small_stmts SEMICOLON small_stmt .)
-    SEMICOLON       reduce using rule 20 (small_stmts -> small_stmts SEMICOLON small_stmt .)
+    PLUS            reduce using rule 40 (comparison -> comparison PLUS comparison .)
+    MINUS           reduce using rule 40 (comparison -> comparison PLUS comparison .)
+    LT              reduce using rule 40 (comparison -> comparison PLUS comparison .)
+    EQ              reduce using rule 40 (comparison -> comparison PLUS comparison .)
+    GT              reduce using rule 40 (comparison -> comparison PLUS comparison .)
+    COMMA           reduce using rule 40 (comparison -> comparison PLUS comparison .)
+    ASSIGN          reduce using rule 40 (comparison -> comparison PLUS comparison .)
+    NEWLINE         reduce using rule 40 (comparison -> comparison PLUS comparison .)
+    SEMICOLON       reduce using rule 40 (comparison -> comparison PLUS comparison .)
+    RPAR            reduce using rule 40 (comparison -> comparison PLUS comparison .)
+    COLON           reduce using rule 40 (comparison -> comparison PLUS comparison .)
+    MULT            shift and go to state 55
+    DIV             shift and go to state 52
+
+  ! MULT            [ reduce using rule 40 (comparison -> comparison PLUS comparison .) ]
+  ! DIV             [ reduce using rule 40 (comparison -> comparison PLUS comparison .) ]
+  ! PLUS            [ shift and go to state 51 ]
+  ! MINUS           [ shift and go to state 54 ]
+  ! LT              [ shift and go to state 50 ]
+  ! EQ              [ shift and go to state 53 ]
+  ! GT              [ shift and go to state 49 ]
 
 
 state 75
 
-    (19) simple_stmt -> small_stmts SEMICOLON NEWLINE .
+    (43) comparison -> comparison DIV comparison .
+    (40) comparison -> comparison . PLUS comparison
+    (41) comparison -> comparison . MINUS comparison
+    (42) comparison -> comparison . MULT comparison
+    (43) comparison -> comparison . DIV comparison
+    (44) comparison -> comparison . LT comparison
+    (45) comparison -> comparison . EQ comparison
+    (46) comparison -> comparison . GT comparison
 
-    DEDENT          reduce using rule 19 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
-    IF              reduce using rule 19 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
-    DEF             reduce using rule 19 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
-    RETURN          reduce using rule 19 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
-    PLUS            reduce using rule 19 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
-    MINUS           reduce using rule 19 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
-    NAME            reduce using rule 19 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
-    NUMBER          reduce using rule 19 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
-    STRING          reduce using rule 19 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
-    LPAR            reduce using rule 19 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
-    ENDMARKER       reduce using rule 19 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
-    NEWLINE         reduce using rule 19 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
+    PLUS            reduce using rule 43 (comparison -> comparison DIV comparison .)
+    MINUS           reduce using rule 43 (comparison -> comparison DIV comparison .)
+    MULT            reduce using rule 43 (comparison -> comparison DIV comparison .)
+    DIV             reduce using rule 43 (comparison -> comparison DIV comparison .)
+    LT              reduce using rule 43 (comparison -> comparison DIV comparison .)
+    EQ              reduce using rule 43 (comparison -> comparison DIV comparison .)
+    GT              reduce using rule 43 (comparison -> comparison DIV comparison .)
+    COMMA           reduce using rule 43 (comparison -> comparison DIV comparison .)
+    ASSIGN          reduce using rule 43 (comparison -> comparison DIV comparison .)
+    NEWLINE         reduce using rule 43 (comparison -> comparison DIV comparison .)
+    SEMICOLON       reduce using rule 43 (comparison -> comparison DIV comparison .)
+    RPAR            reduce using rule 43 (comparison -> comparison DIV comparison .)
+    COLON           reduce using rule 43 (comparison -> comparison DIV comparison .)
+
+  ! PLUS            [ shift and go to state 51 ]
+  ! MINUS           [ shift and go to state 54 ]
+  ! MULT            [ shift and go to state 55 ]
+  ! DIV             [ shift and go to state 52 ]
+  ! LT              [ shift and go to state 50 ]
+  ! EQ              [ shift and go to state 53 ]
+  ! GT              [ shift and go to state 49 ]
 
 
 state 76
 
-    (10) declaration -> IMAGE NAME NAME ASSIGN . STRING NEWLINE
+    (45) comparison -> comparison EQ comparison .
+    (40) comparison -> comparison . PLUS comparison
+    (41) comparison -> comparison . MINUS comparison
+    (42) comparison -> comparison . MULT comparison
+    (43) comparison -> comparison . DIV comparison
+    (44) comparison -> comparison . LT comparison
+    (45) comparison -> comparison . EQ comparison
+    (46) comparison -> comparison . GT comparison
 
-    STRING          shift and go to state 86
+    LT              reduce using rule 45 (comparison -> comparison EQ comparison .)
+    EQ              reduce using rule 45 (comparison -> comparison EQ comparison .)
+    GT              reduce using rule 45 (comparison -> comparison EQ comparison .)
+    COMMA           reduce using rule 45 (comparison -> comparison EQ comparison .)
+    ASSIGN          reduce using rule 45 (comparison -> comparison EQ comparison .)
+    NEWLINE         reduce using rule 45 (comparison -> comparison EQ comparison .)
+    SEMICOLON       reduce using rule 45 (comparison -> comparison EQ comparison .)
+    RPAR            reduce using rule 45 (comparison -> comparison EQ comparison .)
+    COLON           reduce using rule 45 (comparison -> comparison EQ comparison .)
+    PLUS            shift and go to state 51
+    MINUS           shift and go to state 54
+    MULT            shift and go to state 55
+    DIV             shift and go to state 52
+
+  ! PLUS            [ reduce using rule 45 (comparison -> comparison EQ comparison .) ]
+  ! MINUS           [ reduce using rule 45 (comparison -> comparison EQ comparison .) ]
+  ! MULT            [ reduce using rule 45 (comparison -> comparison EQ comparison .) ]
+  ! DIV             [ reduce using rule 45 (comparison -> comparison EQ comparison .) ]
+  ! LT              [ shift and go to state 50 ]
+  ! EQ              [ shift and go to state 53 ]
+  ! GT              [ shift and go to state 49 ]
 
 
 state 77
 
-    (57) arglist -> arglist COMMA . argument
-    (59) argument -> . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (41) comparison -> comparison MINUS comparison .
+    (40) comparison -> comparison . PLUS comparison
+    (41) comparison -> comparison . MINUS comparison
+    (42) comparison -> comparison . MULT comparison
+    (43) comparison -> comparison . DIV comparison
+    (44) comparison -> comparison . LT comparison
+    (45) comparison -> comparison . EQ comparison
+    (46) comparison -> comparison . GT comparison
 
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    PLUS            reduce using rule 41 (comparison -> comparison MINUS comparison .)
+    MINUS           reduce using rule 41 (comparison -> comparison MINUS comparison .)
+    LT              reduce using rule 41 (comparison -> comparison MINUS comparison .)
+    EQ              reduce using rule 41 (comparison -> comparison MINUS comparison .)
+    GT              reduce using rule 41 (comparison -> comparison MINUS comparison .)
+    COMMA           reduce using rule 41 (comparison -> comparison MINUS comparison .)
+    ASSIGN          reduce using rule 41 (comparison -> comparison MINUS comparison .)
+    NEWLINE         reduce using rule 41 (comparison -> comparison MINUS comparison .)
+    SEMICOLON       reduce using rule 41 (comparison -> comparison MINUS comparison .)
+    RPAR            reduce using rule 41 (comparison -> comparison MINUS comparison .)
+    COLON           reduce using rule 41 (comparison -> comparison MINUS comparison .)
+    MULT            shift and go to state 55
+    DIV             shift and go to state 52
 
-    comparison                     shift and go to state 30
-    power                          shift and go to state 21
-    argument                       shift and go to state 87
-    atom                           shift and go to state 8
-    test                           shift and go to state 60
+  ! MULT            [ reduce using rule 41 (comparison -> comparison MINUS comparison .) ]
+  ! DIV             [ reduce using rule 41 (comparison -> comparison MINUS comparison .) ]
+  ! PLUS            [ shift and go to state 51 ]
+  ! MINUS           [ shift and go to state 54 ]
+  ! LT              [ shift and go to state 50 ]
+  ! EQ              [ shift and go to state 53 ]
+  ! GT              [ shift and go to state 49 ]
+
 
 state 78
 
-    (51) trailer -> LPAR arglist RPAR .
+    (42) comparison -> comparison MULT comparison .
+    (40) comparison -> comparison . PLUS comparison
+    (41) comparison -> comparison . MINUS comparison
+    (42) comparison -> comparison . MULT comparison
+    (43) comparison -> comparison . DIV comparison
+    (44) comparison -> comparison . LT comparison
+    (45) comparison -> comparison . EQ comparison
+    (46) comparison -> comparison . GT comparison
 
-    PLUS            reduce using rule 51 (trailer -> LPAR arglist RPAR .)
-    MINUS           reduce using rule 51 (trailer -> LPAR arglist RPAR .)
-    MULT            reduce using rule 51 (trailer -> LPAR arglist RPAR .)
-    DIV             reduce using rule 51 (trailer -> LPAR arglist RPAR .)
-    LT              reduce using rule 51 (trailer -> LPAR arglist RPAR .)
-    EQ              reduce using rule 51 (trailer -> LPAR arglist RPAR .)
-    GT              reduce using rule 51 (trailer -> LPAR arglist RPAR .)
-    COMMA           reduce using rule 51 (trailer -> LPAR arglist RPAR .)
-    ASSIGN          reduce using rule 51 (trailer -> LPAR arglist RPAR .)
-    NEWLINE         reduce using rule 51 (trailer -> LPAR arglist RPAR .)
-    SEMICOLON       reduce using rule 51 (trailer -> LPAR arglist RPAR .)
-    RPAR            reduce using rule 51 (trailer -> LPAR arglist RPAR .)
-    COLON           reduce using rule 51 (trailer -> LPAR arglist RPAR .)
+    PLUS            reduce using rule 42 (comparison -> comparison MULT comparison .)
+    MINUS           reduce using rule 42 (comparison -> comparison MULT comparison .)
+    MULT            reduce using rule 42 (comparison -> comparison MULT comparison .)
+    DIV             reduce using rule 42 (comparison -> comparison MULT comparison .)
+    LT              reduce using rule 42 (comparison -> comparison MULT comparison .)
+    EQ              reduce using rule 42 (comparison -> comparison MULT comparison .)
+    GT              reduce using rule 42 (comparison -> comparison MULT comparison .)
+    COMMA           reduce using rule 42 (comparison -> comparison MULT comparison .)
+    ASSIGN          reduce using rule 42 (comparison -> comparison MULT comparison .)
+    NEWLINE         reduce using rule 42 (comparison -> comparison MULT comparison .)
+    SEMICOLON       reduce using rule 42 (comparison -> comparison MULT comparison .)
+    RPAR            reduce using rule 42 (comparison -> comparison MULT comparison .)
+    COLON           reduce using rule 42 (comparison -> comparison MULT comparison .)
+
+  ! PLUS            [ shift and go to state 51 ]
+  ! MINUS           [ shift and go to state 54 ]
+  ! MULT            [ shift and go to state 55 ]
+  ! DIV             [ shift and go to state 52 ]
+  ! LT              [ shift and go to state 50 ]
+  ! EQ              [ shift and go to state 53 ]
+  ! GT              [ shift and go to state 49 ]
 
 
 state 79
 
-    (13) parameters -> LPAR varargslist . RPAR
-    (14) varargslist -> varargslist . COMMA NAME
+    (25) small_stmts -> small_stmts SEMICOLON small_stmt .
 
-    RPAR            shift and go to state 89
-    COMMA           shift and go to state 88
+    NEWLINE         reduce using rule 25 (small_stmts -> small_stmts SEMICOLON small_stmt .)
+    SEMICOLON       reduce using rule 25 (small_stmts -> small_stmts SEMICOLON small_stmt .)
 
 
 state 80
 
-    (15) varargslist -> NAME .
+    (24) simple_stmt -> small_stmts SEMICOLON NEWLINE .
 
-    RPAR            reduce using rule 15 (varargslist -> NAME .)
-    COMMA           reduce using rule 15 (varargslist -> NAME .)
+    ENDMARKER       reduce using rule 24 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
+    NEWLINE         reduce using rule 24 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
+    IF              reduce using rule 24 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
+    DEF             reduce using rule 24 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
+    RETURN          reduce using rule 24 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
+    PLUS            reduce using rule 24 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
+    MINUS           reduce using rule 24 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
+    NAME            reduce using rule 24 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
+    NUMBER          reduce using rule 24 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
+    STRING          reduce using rule 24 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
+    LPAR            reduce using rule 24 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
+    DEDENT          reduce using rule 24 (simple_stmt -> small_stmts SEMICOLON NEWLINE .)
 
 
 state 81
 
-    (12) parameters -> LPAR RPAR .
+    (12) image_decl -> IMAGE NAME NAME ASSIGN . STRING NEWLINE
 
-    COLON           reduce using rule 12 (parameters -> LPAR RPAR .)
+    STRING          shift and go to state 92
 
 
 state 82
 
-    (11) funcdef -> DEF NAME parameters COLON . suite
-    (31) suite -> . simple_stmt
-    (32) suite -> . NEWLINE INDENT stmts DEDENT
-    (18) simple_stmt -> . small_stmts NEWLINE
-    (19) simple_stmt -> . small_stmts SEMICOLON NEWLINE
-    (20) small_stmts -> . small_stmts SEMICOLON small_stmt
-    (21) small_stmts -> . small_stmt
-    (22) small_stmt -> . flow_stmt
-    (23) small_stmt -> . expr_stmt
-    (26) flow_stmt -> . return_stmt
-    (24) expr_stmt -> . testlist ASSIGN testlist
-    (25) expr_stmt -> . testlist
-    (27) return_stmt -> . RETURN testlist
-    (52) testlist -> . testlist_multi COMMA
-    (53) testlist -> . testlist_multi
-    (54) testlist_multi -> . testlist_multi COMMA test
-    (55) testlist_multi -> . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (13) character_decl -> DEFINE NAME ASSIGN CHARACTER . LPAR STRING named_params RPAR NEWLINE
 
-    NEWLINE         shift and go to state 83
-    RETURN          shift and go to state 11
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    LPAR            shift and go to state 93
 
-    flow_stmt                      shift and go to state 14
-    comparison                     shift and go to state 30
-    expr_stmt                      shift and go to state 28
-    power                          shift and go to state 21
-    simple_stmt                    shift and go to state 84
-    testlist                       shift and go to state 23
-    small_stmt                     shift and go to state 7
-    test                           shift and go to state 17
-    return_stmt                    shift and go to state 10
-    atom                           shift and go to state 8
-    testlist_multi                 shift and go to state 25
-    suite                          shift and go to state 90
-    small_stmts                    shift and go to state 33
 
 state 83
 
-    (32) suite -> NEWLINE . INDENT stmts DEDENT
+    (62) arglist -> arglist COMMA . argument
+    (64) argument -> . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    INDENT          shift and go to state 91
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
+    comparison                     shift and go to state 32
+    power                          shift and go to state 24
+    argument                       shift and go to state 94
+    atom                           shift and go to state 11
+    test                           shift and go to state 65
 
 state 84
 
-    (31) suite -> simple_stmt .
+    (56) trailer -> LPAR arglist RPAR .
 
-    ENDMARKER       reduce using rule 31 (suite -> simple_stmt .)
-    NEWLINE         reduce using rule 31 (suite -> simple_stmt .)
-    IF              reduce using rule 31 (suite -> simple_stmt .)
-    DEF             reduce using rule 31 (suite -> simple_stmt .)
-    RETURN          reduce using rule 31 (suite -> simple_stmt .)
-    PLUS            reduce using rule 31 (suite -> simple_stmt .)
-    MINUS           reduce using rule 31 (suite -> simple_stmt .)
-    NAME            reduce using rule 31 (suite -> simple_stmt .)
-    NUMBER          reduce using rule 31 (suite -> simple_stmt .)
-    STRING          reduce using rule 31 (suite -> simple_stmt .)
-    LPAR            reduce using rule 31 (suite -> simple_stmt .)
-    DEDENT          reduce using rule 31 (suite -> simple_stmt .)
+    PLUS            reduce using rule 56 (trailer -> LPAR arglist RPAR .)
+    MINUS           reduce using rule 56 (trailer -> LPAR arglist RPAR .)
+    MULT            reduce using rule 56 (trailer -> LPAR arglist RPAR .)
+    DIV             reduce using rule 56 (trailer -> LPAR arglist RPAR .)
+    LT              reduce using rule 56 (trailer -> LPAR arglist RPAR .)
+    EQ              reduce using rule 56 (trailer -> LPAR arglist RPAR .)
+    GT              reduce using rule 56 (trailer -> LPAR arglist RPAR .)
+    COMMA           reduce using rule 56 (trailer -> LPAR arglist RPAR .)
+    ASSIGN          reduce using rule 56 (trailer -> LPAR arglist RPAR .)
+    NEWLINE         reduce using rule 56 (trailer -> LPAR arglist RPAR .)
+    SEMICOLON       reduce using rule 56 (trailer -> LPAR arglist RPAR .)
+    RPAR            reduce using rule 56 (trailer -> LPAR arglist RPAR .)
+    COLON           reduce using rule 56 (trailer -> LPAR arglist RPAR .)
 
 
 state 85
 
-    (30) if_stmt -> IF test COLON suite .
+    (18) parameters -> LPAR varargslist . RPAR
+    (19) varargslist -> varargslist . COMMA NAME
 
-    ENDMARKER       reduce using rule 30 (if_stmt -> IF test COLON suite .)
-    NEWLINE         reduce using rule 30 (if_stmt -> IF test COLON suite .)
-    IF              reduce using rule 30 (if_stmt -> IF test COLON suite .)
-    DEF             reduce using rule 30 (if_stmt -> IF test COLON suite .)
-    RETURN          reduce using rule 30 (if_stmt -> IF test COLON suite .)
-    PLUS            reduce using rule 30 (if_stmt -> IF test COLON suite .)
-    MINUS           reduce using rule 30 (if_stmt -> IF test COLON suite .)
-    NAME            reduce using rule 30 (if_stmt -> IF test COLON suite .)
-    NUMBER          reduce using rule 30 (if_stmt -> IF test COLON suite .)
-    STRING          reduce using rule 30 (if_stmt -> IF test COLON suite .)
-    LPAR            reduce using rule 30 (if_stmt -> IF test COLON suite .)
-    DEDENT          reduce using rule 30 (if_stmt -> IF test COLON suite .)
+    RPAR            shift and go to state 96
+    COMMA           shift and go to state 95
 
 
 state 86
 
-    (10) declaration -> IMAGE NAME NAME ASSIGN STRING . NEWLINE
+    (20) varargslist -> NAME .
 
-    NEWLINE         shift and go to state 92
+    RPAR            reduce using rule 20 (varargslist -> NAME .)
+    COMMA           reduce using rule 20 (varargslist -> NAME .)
 
 
 state 87
 
-    (57) arglist -> arglist COMMA argument .
+    (17) parameters -> LPAR RPAR .
 
-    RPAR            reduce using rule 57 (arglist -> arglist COMMA argument .)
-    COMMA           reduce using rule 57 (arglist -> arglist COMMA argument .)
+    COLON           reduce using rule 17 (parameters -> LPAR RPAR .)
 
 
 state 88
 
-    (14) varargslist -> varargslist COMMA . NAME
+    (16) funcdef -> DEF NAME parameters COLON . suite
+    (36) suite -> . simple_stmt
+    (37) suite -> . NEWLINE INDENT stmts DEDENT
+    (23) simple_stmt -> . small_stmts NEWLINE
+    (24) simple_stmt -> . small_stmts SEMICOLON NEWLINE
+    (25) small_stmts -> . small_stmts SEMICOLON small_stmt
+    (26) small_stmts -> . small_stmt
+    (27) small_stmt -> . flow_stmt
+    (28) small_stmt -> . expr_stmt
+    (31) flow_stmt -> . return_stmt
+    (29) expr_stmt -> . testlist ASSIGN testlist
+    (30) expr_stmt -> . testlist
+    (32) return_stmt -> . RETURN testlist
+    (57) testlist -> . testlist_multi COMMA
+    (58) testlist -> . testlist_multi
+    (59) testlist_multi -> . testlist_multi COMMA test
+    (60) testlist_multi -> . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
 
-    NAME            shift and go to state 93
+    NEWLINE         shift and go to state 89
+    RETURN          shift and go to state 14
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
 
+    flow_stmt                      shift and go to state 17
+    comparison                     shift and go to state 32
+    expr_stmt                      shift and go to state 30
+    power                          shift and go to state 24
+    simple_stmt                    shift and go to state 90
+    testlist                       shift and go to state 25
+    small_stmt                     shift and go to state 10
+    test                           shift and go to state 21
+    return_stmt                    shift and go to state 13
+    atom                           shift and go to state 11
+    testlist_multi                 shift and go to state 27
+    suite                          shift and go to state 97
+    small_stmts                    shift and go to state 36
 
 state 89
 
-    (13) parameters -> LPAR varargslist RPAR .
+    (37) suite -> NEWLINE . INDENT stmts DEDENT
 
-    COLON           reduce using rule 13 (parameters -> LPAR varargslist RPAR .)
+    INDENT          shift and go to state 98
 
 
 state 90
 
-    (11) funcdef -> DEF NAME parameters COLON suite .
+    (36) suite -> simple_stmt .
 
-    ENDMARKER       reduce using rule 11 (funcdef -> DEF NAME parameters COLON suite .)
-    NEWLINE         reduce using rule 11 (funcdef -> DEF NAME parameters COLON suite .)
-    IF              reduce using rule 11 (funcdef -> DEF NAME parameters COLON suite .)
-    DEF             reduce using rule 11 (funcdef -> DEF NAME parameters COLON suite .)
-    RETURN          reduce using rule 11 (funcdef -> DEF NAME parameters COLON suite .)
-    PLUS            reduce using rule 11 (funcdef -> DEF NAME parameters COLON suite .)
-    MINUS           reduce using rule 11 (funcdef -> DEF NAME parameters COLON suite .)
-    NAME            reduce using rule 11 (funcdef -> DEF NAME parameters COLON suite .)
-    NUMBER          reduce using rule 11 (funcdef -> DEF NAME parameters COLON suite .)
-    STRING          reduce using rule 11 (funcdef -> DEF NAME parameters COLON suite .)
-    LPAR            reduce using rule 11 (funcdef -> DEF NAME parameters COLON suite .)
-    DEDENT          reduce using rule 11 (funcdef -> DEF NAME parameters COLON suite .)
+    ENDMARKER       reduce using rule 36 (suite -> simple_stmt .)
+    NEWLINE         reduce using rule 36 (suite -> simple_stmt .)
+    IF              reduce using rule 36 (suite -> simple_stmt .)
+    DEF             reduce using rule 36 (suite -> simple_stmt .)
+    RETURN          reduce using rule 36 (suite -> simple_stmt .)
+    PLUS            reduce using rule 36 (suite -> simple_stmt .)
+    MINUS           reduce using rule 36 (suite -> simple_stmt .)
+    NAME            reduce using rule 36 (suite -> simple_stmt .)
+    NUMBER          reduce using rule 36 (suite -> simple_stmt .)
+    STRING          reduce using rule 36 (suite -> simple_stmt .)
+    LPAR            reduce using rule 36 (suite -> simple_stmt .)
+    DEDENT          reduce using rule 36 (suite -> simple_stmt .)
 
 
 state 91
 
-    (32) suite -> NEWLINE INDENT . stmts DEDENT
-    (33) stmts -> . stmts stmt
-    (34) stmts -> . stmt
-    (16) stmt -> . simple_stmt
-    (17) stmt -> . compound_stmt
-    (18) simple_stmt -> . small_stmts NEWLINE
-    (19) simple_stmt -> . small_stmts SEMICOLON NEWLINE
-    (28) compound_stmt -> . if_stmt
-    (29) compound_stmt -> . funcdef
-    (20) small_stmts -> . small_stmts SEMICOLON small_stmt
-    (21) small_stmts -> . small_stmt
-    (30) if_stmt -> . IF test COLON suite
-    (11) funcdef -> . DEF NAME parameters COLON suite
-    (22) small_stmt -> . flow_stmt
-    (23) small_stmt -> . expr_stmt
-    (26) flow_stmt -> . return_stmt
-    (24) expr_stmt -> . testlist ASSIGN testlist
-    (25) expr_stmt -> . testlist
-    (27) return_stmt -> . RETURN testlist
-    (52) testlist -> . testlist_multi COMMA
-    (53) testlist -> . testlist_multi
-    (54) testlist_multi -> . testlist_multi COMMA test
-    (55) testlist_multi -> . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (35) if_stmt -> IF test COLON suite .
 
-    IF              shift and go to state 18
-    DEF             shift and go to state 13
-    RETURN          shift and go to state 11
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    ENDMARKER       reduce using rule 35 (if_stmt -> IF test COLON suite .)
+    NEWLINE         reduce using rule 35 (if_stmt -> IF test COLON suite .)
+    IF              reduce using rule 35 (if_stmt -> IF test COLON suite .)
+    DEF             reduce using rule 35 (if_stmt -> IF test COLON suite .)
+    RETURN          reduce using rule 35 (if_stmt -> IF test COLON suite .)
+    PLUS            reduce using rule 35 (if_stmt -> IF test COLON suite .)
+    MINUS           reduce using rule 35 (if_stmt -> IF test COLON suite .)
+    NAME            reduce using rule 35 (if_stmt -> IF test COLON suite .)
+    NUMBER          reduce using rule 35 (if_stmt -> IF test COLON suite .)
+    STRING          reduce using rule 35 (if_stmt -> IF test COLON suite .)
+    LPAR            reduce using rule 35 (if_stmt -> IF test COLON suite .)
+    DEDENT          reduce using rule 35 (if_stmt -> IF test COLON suite .)
 
-    flow_stmt                      shift and go to state 14
-    comparison                     shift and go to state 30
-    expr_stmt                      shift and go to state 28
-    if_stmt                        shift and go to state 29
-    small_stmt                     shift and go to state 7
-    stmts                          shift and go to state 94
-    testlist                       shift and go to state 23
-    stmt                           shift and go to state 95
-    testlist_multi                 shift and go to state 25
-    simple_stmt                    shift and go to state 22
-    power                          shift and go to state 21
-    test                           shift and go to state 17
-    return_stmt                    shift and go to state 10
-    atom                           shift and go to state 8
-    funcdef                        shift and go to state 27
-    compound_stmt                  shift and go to state 19
-    small_stmts                    shift and go to state 33
 
 state 92
 
-    (10) declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE .
+    (12) image_decl -> IMAGE NAME NAME ASSIGN STRING . NEWLINE
 
-    NEWLINE         reduce using rule 10 (declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
-    IMAGE           reduce using rule 10 (declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
-    IF              reduce using rule 10 (declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
-    DEF             reduce using rule 10 (declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
-    RETURN          reduce using rule 10 (declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
-    PLUS            reduce using rule 10 (declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
-    MINUS           reduce using rule 10 (declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
-    NAME            reduce using rule 10 (declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
-    NUMBER          reduce using rule 10 (declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
-    STRING          reduce using rule 10 (declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
-    LPAR            reduce using rule 10 (declaration -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+    NEWLINE         shift and go to state 99
 
 
 state 93
 
-    (14) varargslist -> varargslist COMMA NAME .
+    (13) character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR . STRING named_params RPAR NEWLINE
 
-    RPAR            reduce using rule 14 (varargslist -> varargslist COMMA NAME .)
-    COMMA           reduce using rule 14 (varargslist -> varargslist COMMA NAME .)
+    STRING          shift and go to state 100
 
 
 state 94
 
-    (32) suite -> NEWLINE INDENT stmts . DEDENT
-    (33) stmts -> stmts . stmt
-    (16) stmt -> . simple_stmt
-    (17) stmt -> . compound_stmt
-    (18) simple_stmt -> . small_stmts NEWLINE
-    (19) simple_stmt -> . small_stmts SEMICOLON NEWLINE
-    (28) compound_stmt -> . if_stmt
-    (29) compound_stmt -> . funcdef
-    (20) small_stmts -> . small_stmts SEMICOLON small_stmt
-    (21) small_stmts -> . small_stmt
-    (30) if_stmt -> . IF test COLON suite
-    (11) funcdef -> . DEF NAME parameters COLON suite
-    (22) small_stmt -> . flow_stmt
-    (23) small_stmt -> . expr_stmt
-    (26) flow_stmt -> . return_stmt
-    (24) expr_stmt -> . testlist ASSIGN testlist
-    (25) expr_stmt -> . testlist
-    (27) return_stmt -> . RETURN testlist
-    (52) testlist -> . testlist_multi COMMA
-    (53) testlist -> . testlist_multi
-    (54) testlist_multi -> . testlist_multi COMMA test
-    (55) testlist_multi -> . test
-    (56) test -> . comparison
-    (35) comparison -> . comparison PLUS comparison
-    (36) comparison -> . comparison MINUS comparison
-    (37) comparison -> . comparison MULT comparison
-    (38) comparison -> . comparison DIV comparison
-    (39) comparison -> . comparison LT comparison
-    (40) comparison -> . comparison EQ comparison
-    (41) comparison -> . comparison GT comparison
-    (42) comparison -> . PLUS comparison
-    (43) comparison -> . MINUS comparison
-    (44) comparison -> . power
-    (45) power -> . atom
-    (46) power -> . atom trailer
-    (47) atom -> . NAME
-    (48) atom -> . NUMBER
-    (49) atom -> . STRING
-    (50) atom -> . LPAR testlist RPAR
+    (62) arglist -> arglist COMMA argument .
 
-    DEDENT          shift and go to state 96
-    IF              shift and go to state 18
-    DEF             shift and go to state 13
-    RETURN          shift and go to state 11
-    PLUS            shift and go to state 16
-    MINUS           shift and go to state 12
-    NAME            shift and go to state 31
-    NUMBER          shift and go to state 9
-    STRING          shift and go to state 20
-    LPAR            shift and go to state 6
+    RPAR            reduce using rule 62 (arglist -> arglist COMMA argument .)
+    COMMA           reduce using rule 62 (arglist -> arglist COMMA argument .)
 
-    flow_stmt                      shift and go to state 14
-    comparison                     shift and go to state 30
-    expr_stmt                      shift and go to state 28
-    if_stmt                        shift and go to state 29
-    small_stmt                     shift and go to state 7
-    testlist                       shift and go to state 23
-    stmt                           shift and go to state 97
-    testlist_multi                 shift and go to state 25
-    simple_stmt                    shift and go to state 22
-    power                          shift and go to state 21
-    test                           shift and go to state 17
-    return_stmt                    shift and go to state 10
-    atom                           shift and go to state 8
-    funcdef                        shift and go to state 27
-    compound_stmt                  shift and go to state 19
-    small_stmts                    shift and go to state 33
 
 state 95
 
-    (34) stmts -> stmt .
+    (19) varargslist -> varargslist COMMA . NAME
 
-    DEDENT          reduce using rule 34 (stmts -> stmt .)
-    IF              reduce using rule 34 (stmts -> stmt .)
-    DEF             reduce using rule 34 (stmts -> stmt .)
-    RETURN          reduce using rule 34 (stmts -> stmt .)
-    PLUS            reduce using rule 34 (stmts -> stmt .)
-    MINUS           reduce using rule 34 (stmts -> stmt .)
-    NAME            reduce using rule 34 (stmts -> stmt .)
-    NUMBER          reduce using rule 34 (stmts -> stmt .)
-    STRING          reduce using rule 34 (stmts -> stmt .)
-    LPAR            reduce using rule 34 (stmts -> stmt .)
+    NAME            shift and go to state 101
 
 
 state 96
 
-    (32) suite -> NEWLINE INDENT stmts DEDENT .
+    (18) parameters -> LPAR varargslist RPAR .
 
-    ENDMARKER       reduce using rule 32 (suite -> NEWLINE INDENT stmts DEDENT .)
-    NEWLINE         reduce using rule 32 (suite -> NEWLINE INDENT stmts DEDENT .)
-    IF              reduce using rule 32 (suite -> NEWLINE INDENT stmts DEDENT .)
-    DEF             reduce using rule 32 (suite -> NEWLINE INDENT stmts DEDENT .)
-    RETURN          reduce using rule 32 (suite -> NEWLINE INDENT stmts DEDENT .)
-    PLUS            reduce using rule 32 (suite -> NEWLINE INDENT stmts DEDENT .)
-    MINUS           reduce using rule 32 (suite -> NEWLINE INDENT stmts DEDENT .)
-    NAME            reduce using rule 32 (suite -> NEWLINE INDENT stmts DEDENT .)
-    NUMBER          reduce using rule 32 (suite -> NEWLINE INDENT stmts DEDENT .)
-    STRING          reduce using rule 32 (suite -> NEWLINE INDENT stmts DEDENT .)
-    LPAR            reduce using rule 32 (suite -> NEWLINE INDENT stmts DEDENT .)
-    DEDENT          reduce using rule 32 (suite -> NEWLINE INDENT stmts DEDENT .)
+    COLON           reduce using rule 18 (parameters -> LPAR varargslist RPAR .)
 
 
 state 97
 
-    (33) stmts -> stmts stmt .
+    (16) funcdef -> DEF NAME parameters COLON suite .
 
-    DEDENT          reduce using rule 33 (stmts -> stmts stmt .)
-    IF              reduce using rule 33 (stmts -> stmts stmt .)
-    DEF             reduce using rule 33 (stmts -> stmts stmt .)
-    RETURN          reduce using rule 33 (stmts -> stmts stmt .)
-    PLUS            reduce using rule 33 (stmts -> stmts stmt .)
-    MINUS           reduce using rule 33 (stmts -> stmts stmt .)
-    NAME            reduce using rule 33 (stmts -> stmts stmt .)
-    NUMBER          reduce using rule 33 (stmts -> stmts stmt .)
-    STRING          reduce using rule 33 (stmts -> stmts stmt .)
-    LPAR            reduce using rule 33 (stmts -> stmts stmt .)
+    ENDMARKER       reduce using rule 16 (funcdef -> DEF NAME parameters COLON suite .)
+    NEWLINE         reduce using rule 16 (funcdef -> DEF NAME parameters COLON suite .)
+    IF              reduce using rule 16 (funcdef -> DEF NAME parameters COLON suite .)
+    DEF             reduce using rule 16 (funcdef -> DEF NAME parameters COLON suite .)
+    RETURN          reduce using rule 16 (funcdef -> DEF NAME parameters COLON suite .)
+    PLUS            reduce using rule 16 (funcdef -> DEF NAME parameters COLON suite .)
+    MINUS           reduce using rule 16 (funcdef -> DEF NAME parameters COLON suite .)
+    NAME            reduce using rule 16 (funcdef -> DEF NAME parameters COLON suite .)
+    NUMBER          reduce using rule 16 (funcdef -> DEF NAME parameters COLON suite .)
+    STRING          reduce using rule 16 (funcdef -> DEF NAME parameters COLON suite .)
+    LPAR            reduce using rule 16 (funcdef -> DEF NAME parameters COLON suite .)
+    DEDENT          reduce using rule 16 (funcdef -> DEF NAME parameters COLON suite .)
+
+
+state 98
+
+    (37) suite -> NEWLINE INDENT . stmts DEDENT
+    (38) stmts -> . stmts stmt
+    (39) stmts -> . stmt
+    (21) stmt -> . simple_stmt
+    (22) stmt -> . compound_stmt
+    (23) simple_stmt -> . small_stmts NEWLINE
+    (24) simple_stmt -> . small_stmts SEMICOLON NEWLINE
+    (33) compound_stmt -> . if_stmt
+    (34) compound_stmt -> . funcdef
+    (25) small_stmts -> . small_stmts SEMICOLON small_stmt
+    (26) small_stmts -> . small_stmt
+    (35) if_stmt -> . IF test COLON suite
+    (16) funcdef -> . DEF NAME parameters COLON suite
+    (27) small_stmt -> . flow_stmt
+    (28) small_stmt -> . expr_stmt
+    (31) flow_stmt -> . return_stmt
+    (29) expr_stmt -> . testlist ASSIGN testlist
+    (30) expr_stmt -> . testlist
+    (32) return_stmt -> . RETURN testlist
+    (57) testlist -> . testlist_multi COMMA
+    (58) testlist -> . testlist_multi
+    (59) testlist_multi -> . testlist_multi COMMA test
+    (60) testlist_multi -> . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
+
+    IF              shift and go to state 22
+    DEF             shift and go to state 16
+    RETURN          shift and go to state 14
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
+
+    flow_stmt                      shift and go to state 17
+    comparison                     shift and go to state 32
+    expr_stmt                      shift and go to state 30
+    if_stmt                        shift and go to state 31
+    small_stmt                     shift and go to state 10
+    stmts                          shift and go to state 102
+    testlist                       shift and go to state 25
+    stmt                           shift and go to state 103
+    testlist_multi                 shift and go to state 27
+    simple_stmt                    shift and go to state 20
+    power                          shift and go to state 24
+    test                           shift and go to state 21
+    return_stmt                    shift and go to state 13
+    atom                           shift and go to state 11
+    funcdef                        shift and go to state 29
+    compound_stmt                  shift and go to state 35
+    small_stmts                    shift and go to state 36
+
+state 99
+
+    (12) image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .
+
+    NEWLINE         reduce using rule 12 (image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+    IMAGE           reduce using rule 12 (image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+    DEFINE          reduce using rule 12 (image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+    IF              reduce using rule 12 (image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+    DEF             reduce using rule 12 (image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+    RETURN          reduce using rule 12 (image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+    PLUS            reduce using rule 12 (image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+    MINUS           reduce using rule 12 (image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+    NAME            reduce using rule 12 (image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+    NUMBER          reduce using rule 12 (image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+    STRING          reduce using rule 12 (image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+    LPAR            reduce using rule 12 (image_decl -> IMAGE NAME NAME ASSIGN STRING NEWLINE .)
+
+
+state 100
+
+    (13) character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING . named_params RPAR NEWLINE
+    (14) named_params -> . COLON NAME ASSIGN STRING
+    (15) named_params -> .
+
+    COLON           shift and go to state 105
+    RPAR            reduce using rule 15 (named_params -> .)
+
+    named_params                   shift and go to state 104
+
+state 101
+
+    (19) varargslist -> varargslist COMMA NAME .
+
+    RPAR            reduce using rule 19 (varargslist -> varargslist COMMA NAME .)
+    COMMA           reduce using rule 19 (varargslist -> varargslist COMMA NAME .)
+
+
+state 102
+
+    (37) suite -> NEWLINE INDENT stmts . DEDENT
+    (38) stmts -> stmts . stmt
+    (21) stmt -> . simple_stmt
+    (22) stmt -> . compound_stmt
+    (23) simple_stmt -> . small_stmts NEWLINE
+    (24) simple_stmt -> . small_stmts SEMICOLON NEWLINE
+    (33) compound_stmt -> . if_stmt
+    (34) compound_stmt -> . funcdef
+    (25) small_stmts -> . small_stmts SEMICOLON small_stmt
+    (26) small_stmts -> . small_stmt
+    (35) if_stmt -> . IF test COLON suite
+    (16) funcdef -> . DEF NAME parameters COLON suite
+    (27) small_stmt -> . flow_stmt
+    (28) small_stmt -> . expr_stmt
+    (31) flow_stmt -> . return_stmt
+    (29) expr_stmt -> . testlist ASSIGN testlist
+    (30) expr_stmt -> . testlist
+    (32) return_stmt -> . RETURN testlist
+    (57) testlist -> . testlist_multi COMMA
+    (58) testlist -> . testlist_multi
+    (59) testlist_multi -> . testlist_multi COMMA test
+    (60) testlist_multi -> . test
+    (61) test -> . comparison
+    (40) comparison -> . comparison PLUS comparison
+    (41) comparison -> . comparison MINUS comparison
+    (42) comparison -> . comparison MULT comparison
+    (43) comparison -> . comparison DIV comparison
+    (44) comparison -> . comparison LT comparison
+    (45) comparison -> . comparison EQ comparison
+    (46) comparison -> . comparison GT comparison
+    (47) comparison -> . PLUS comparison
+    (48) comparison -> . MINUS comparison
+    (49) comparison -> . power
+    (50) power -> . atom
+    (51) power -> . atom trailer
+    (52) atom -> . NAME
+    (53) atom -> . NUMBER
+    (54) atom -> . STRING
+    (55) atom -> . LPAR testlist RPAR
+
+    DEDENT          shift and go to state 106
+    IF              shift and go to state 22
+    DEF             shift and go to state 16
+    RETURN          shift and go to state 14
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 15
+    NAME            shift and go to state 33
+    NUMBER          shift and go to state 12
+    STRING          shift and go to state 23
+    LPAR            shift and go to state 9
+
+    flow_stmt                      shift and go to state 17
+    comparison                     shift and go to state 32
+    expr_stmt                      shift and go to state 30
+    if_stmt                        shift and go to state 31
+    small_stmt                     shift and go to state 10
+    testlist                       shift and go to state 25
+    stmt                           shift and go to state 107
+    testlist_multi                 shift and go to state 27
+    simple_stmt                    shift and go to state 20
+    power                          shift and go to state 24
+    test                           shift and go to state 21
+    return_stmt                    shift and go to state 13
+    atom                           shift and go to state 11
+    funcdef                        shift and go to state 29
+    compound_stmt                  shift and go to state 35
+    small_stmts                    shift and go to state 36
+
+state 103
+
+    (39) stmts -> stmt .
+
+    DEDENT          reduce using rule 39 (stmts -> stmt .)
+    IF              reduce using rule 39 (stmts -> stmt .)
+    DEF             reduce using rule 39 (stmts -> stmt .)
+    RETURN          reduce using rule 39 (stmts -> stmt .)
+    PLUS            reduce using rule 39 (stmts -> stmt .)
+    MINUS           reduce using rule 39 (stmts -> stmt .)
+    NAME            reduce using rule 39 (stmts -> stmt .)
+    NUMBER          reduce using rule 39 (stmts -> stmt .)
+    STRING          reduce using rule 39 (stmts -> stmt .)
+    LPAR            reduce using rule 39 (stmts -> stmt .)
+
+
+state 104
+
+    (13) character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params . RPAR NEWLINE
+
+    RPAR            shift and go to state 108
+
+
+state 105
+
+    (14) named_params -> COLON . NAME ASSIGN STRING
+
+    NAME            shift and go to state 109
+
+
+state 106
+
+    (37) suite -> NEWLINE INDENT stmts DEDENT .
+
+    ENDMARKER       reduce using rule 37 (suite -> NEWLINE INDENT stmts DEDENT .)
+    NEWLINE         reduce using rule 37 (suite -> NEWLINE INDENT stmts DEDENT .)
+    IF              reduce using rule 37 (suite -> NEWLINE INDENT stmts DEDENT .)
+    DEF             reduce using rule 37 (suite -> NEWLINE INDENT stmts DEDENT .)
+    RETURN          reduce using rule 37 (suite -> NEWLINE INDENT stmts DEDENT .)
+    PLUS            reduce using rule 37 (suite -> NEWLINE INDENT stmts DEDENT .)
+    MINUS           reduce using rule 37 (suite -> NEWLINE INDENT stmts DEDENT .)
+    NAME            reduce using rule 37 (suite -> NEWLINE INDENT stmts DEDENT .)
+    NUMBER          reduce using rule 37 (suite -> NEWLINE INDENT stmts DEDENT .)
+    STRING          reduce using rule 37 (suite -> NEWLINE INDENT stmts DEDENT .)
+    LPAR            reduce using rule 37 (suite -> NEWLINE INDENT stmts DEDENT .)
+    DEDENT          reduce using rule 37 (suite -> NEWLINE INDENT stmts DEDENT .)
+
+
+state 107
+
+    (38) stmts -> stmts stmt .
+
+    DEDENT          reduce using rule 38 (stmts -> stmts stmt .)
+    IF              reduce using rule 38 (stmts -> stmts stmt .)
+    DEF             reduce using rule 38 (stmts -> stmts stmt .)
+    RETURN          reduce using rule 38 (stmts -> stmts stmt .)
+    PLUS            reduce using rule 38 (stmts -> stmts stmt .)
+    MINUS           reduce using rule 38 (stmts -> stmts stmt .)
+    NAME            reduce using rule 38 (stmts -> stmts stmt .)
+    NUMBER          reduce using rule 38 (stmts -> stmts stmt .)
+    STRING          reduce using rule 38 (stmts -> stmts stmt .)
+    LPAR            reduce using rule 38 (stmts -> stmts stmt .)
+
+
+state 108
+
+    (13) character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR . NEWLINE
+
+    NEWLINE         shift and go to state 110
+
+
+state 109
+
+    (14) named_params -> COLON NAME . ASSIGN STRING
+
+    ASSIGN          shift and go to state 111
+
+
+state 110
+
+    (13) character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .
+
+    NEWLINE         reduce using rule 13 (character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .)
+    IMAGE           reduce using rule 13 (character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .)
+    DEFINE          reduce using rule 13 (character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .)
+    IF              reduce using rule 13 (character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .)
+    DEF             reduce using rule 13 (character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .)
+    RETURN          reduce using rule 13 (character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .)
+    PLUS            reduce using rule 13 (character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .)
+    MINUS           reduce using rule 13 (character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .)
+    NAME            reduce using rule 13 (character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .)
+    NUMBER          reduce using rule 13 (character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .)
+    STRING          reduce using rule 13 (character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .)
+    LPAR            reduce using rule 13 (character_decl -> DEFINE NAME ASSIGN CHARACTER LPAR STRING named_params RPAR NEWLINE .)
+
+
+state 111
+
+    (14) named_params -> COLON NAME ASSIGN . STRING
+
+    STRING          shift and go to state 112
+
+
+state 112
+
+    (14) named_params -> COLON NAME ASSIGN STRING .
+
+    RPAR            reduce using rule 14 (named_params -> COLON NAME ASSIGN STRING .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: reduce/reduce conflict in state 15 resolved using rule (file_input -> NEWLINE)
-WARNING: rejected rule (declarations -> declarations NEWLINE) in state 15
+WARNING: reduce/reduce conflict in state 18 resolved using rule (file_input -> NEWLINE)
+WARNING: rejected rule (declarations -> declarations NEWLINE) in state 18
