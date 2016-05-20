@@ -12,6 +12,8 @@ tokens = (
     'IMAGE',
     'DEFINE',
     'CHARACTER',
+    'LABEL',
+    'SCENE',
     'DEF',
     'IF',
     'NAME',
@@ -68,6 +70,8 @@ RESERVED = {
   "image": "IMAGE",
   "define": "DEFINE",
   "Character": "CHARACTER",
+  "label": "LABEL",
+  "scene": "SCENE",
   "def": "DEF",
   "if": "IF",
   "return": "RETURN",
@@ -331,7 +335,7 @@ def Assign(left, right):
 ## NB: compound_stmt in single_input is followed by extra NEWLINE!
 # file_input: (NEWLINE | stmt)* ENDMARKER
 def p_file_input_end(p):
-    """file_input_end : declarations file_input ENDMARKER"""
+    """file_input_end : declarations labels file_input ENDMARKER"""
     p[0] = ast.Stmt(p[1])
 def p_file_input(p):
     """file_input : file_input NEWLINE
@@ -376,6 +380,19 @@ def p_named_params(p):
     """named_params : COMMA NAME ASSIGN STRING
                     | """
     p[0] = {p[2]: p[4]} if len(p) > 1 else {}
+
+
+def p_labels(p):
+    """labels : labels NEWLINE
+              | labels label
+              | NEWLINE
+              | label """
+    p[0] = list(flatten(p[1:]))
+
+def p_label(p):
+    """label : LABEL NAME COLON NEWLINE INDENT SCENE NAME NAME NEWLINE DEDENT
+    """
+    p[0] = ('label', p[2])
 
 
 # funcdef: [decorators] 'def' NAME parameters ':' suite
@@ -701,6 +718,11 @@ define s = Character("Sylvie")
 define s = Character("Sylvie", color="#c8ffc8")
 define s = Character('Sylvie', color="#c8ffc8")
 #define m = Character('Me', color="#c8c8ff")
+
+# The game starts here.
+label start:
+    scene bg lecturehall
+
 print("LET'S TRY THIS \\OUT")
 #Comment here
 """
