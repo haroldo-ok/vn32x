@@ -46,7 +46,7 @@ def t_NUMBER(t):
     return t
 
 def t_STRING(t):
-    r'"([^\\"]+|\\"|\\\\)*"'  # I think this is right ...
+    r'("([^\\"]+|\\"|\\\\)*"|\'([^\\\']+|\\\'|\\\\)*\')'  # I think this is right ...
     t.value=t.value[1:-1].decode("string-escape") # .swapcase() # for fun
     return t
 
@@ -699,7 +699,7 @@ image bg lecturehall = "lecturehall.jpg"
 image bg uni = "uni.jpg"
 define s = Character("Sylvie")
 define s = Character("Sylvie", color="#c8ffc8")
-#define s = Character("Sylvie", color="#c8ffc8")
+define s = Character('Sylvie', color="#c8ffc8")
 #define m = Character('Me', color="#c8c8ff")
 print("LET'S TRY THIS \\OUT")
 #Comment here
