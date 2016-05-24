@@ -7,3 +7,5 @@
 /build
 /tool/bin
 *.pyc
+/tool/parser.out
+/tool/parsetab.py
