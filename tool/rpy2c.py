@@ -390,9 +390,24 @@ def p_labels(p):
     p[0] = list(flatten(p[1:]))
 
 def p_label(p):
-    """label : LABEL NAME COLON NEWLINE INDENT SCENE NAME NAME NEWLINE DEDENT
+    """label : LABEL NAME COLON NEWLINE INDENT dialog_cmds DEDENT
     """
     p[0] = ('label', p[2])
+
+def p_dialog_cmds(p):
+    """dialog_cmds : dialog_cmds NEWLINE
+                   | dialog_cmds dialog_cmd
+                   | NEWLINE
+                   | dialog_cmd """
+    p[0] = list(flatten(p[1:]))
+
+def p_dialog_cmd(p):
+    """dialog_cmd : scene_cmd"""
+    p[0] = p[1]
+
+def p_scene_cmd(p):
+    """scene_cmd : SCENE NAME NAME NEWLINE"""
+
 
 
 # funcdef: [decorators] 'def' NAME parameters ':' suite
@@ -688,6 +703,14 @@ class CharacterDecl(object):
 
     def __repr__(self):
         return "Character {name} {char_name} {params}".format(**self.__dict__)
+
+class SceneCmd(object):
+    def __init__(self, name, state):
+        self.name = name
+        self.state = state
+
+    def __repr__(self):
+        return "Scene {name} {state}".format(**self.__dict__)
 
 
 ###### Code generation ######
