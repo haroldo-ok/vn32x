@@ -336,7 +336,7 @@ def Assign(left, right):
 # file_input: (NEWLINE | stmt)* ENDMARKER
 def p_file_input_end(p):
     """file_input_end : declarations labels ENDMARKER"""
-    p[0] = ast.Stmt(p[1])
+    p[0] = RpyScript(p[1], p[2])
 
 
 def p_declarations(p):
@@ -377,7 +377,7 @@ def p_labels(p):
 def p_label(p):
     """label : LABEL NAME COLON NEWLINE INDENT dialog_cmds DEDENT
     """
-    p[0] = ('label', p[2])
+    p[0] = Label(p[2], p[6])
 
 def p_dialog_cmds(p):
     """dialog_cmds : dialog_cmds NEWLINE
@@ -392,6 +392,7 @@ def p_dialog_cmd(p):
 
 def p_scene_cmd(p):
     """scene_cmd : SCENE NAME NAME NEWLINE"""
+    p[0] = SceneCmd(p[2], p[3])
 
 
 
@@ -426,6 +427,15 @@ def flatten(l):
             yield el
 
 
+class RpyScript(object):
+    def __init__(self, declarations, labels):
+        self.declarations = declarations
+        self.labels = labels
+
+    def __repr__(self):
+        return "RpyScript {declarations} {labels}".format(**self.__dict__)
+
+
 class ImageDecl(object):
     def __init__(self, name, state, image):
         self.name = name
@@ -444,6 +454,16 @@ class CharacterDecl(object):
 
     def __repr__(self):
         return "Character {name} {char_name} {params}".format(**self.__dict__)
+
+
+class Label(object):
+    def __init__(self, name, commands):
+        self.name = name
+        self.commands = commands
+
+    def __repr__(self):
+        return "Label {name} {commands}".format(**self.__dict__)
+
 
 class SceneCmd(object):
     def __init__(self, name, state):
