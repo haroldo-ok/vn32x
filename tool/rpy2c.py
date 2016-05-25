@@ -425,8 +425,9 @@ def p_menu_opts(p):
     p[0] = list(flatten(p[1:]))
 
 def p_menu_opt(p):
-    """menu_opt : STRING COLON NEWLINE"""
-    p[0] = MenuOpt(p[1])
+    """menu_opt : STRING COLON NEWLINE INDENT dialog_cmds DEDENT
+                | STRING COLON NEWLINE """
+    p[0] = MenuOpt(p[1], p[5] if len(p) > 4 else None)
 
 
 
@@ -533,11 +534,12 @@ class MenuCmd(object):
 
 
 class MenuOpt(object):
-    def __init__(self, text):
+    def __init__(self, text, commands):
         self.text = text
+        self.commands = commands
 
     def __repr__(self):
-        return "Opt {text}".format(**self.__dict__)
+        return "Opt {text} {commands}".format(**self.__dict__)
 
 
 ###### Code generation ######
@@ -577,6 +579,7 @@ label start:
     m "Yes..."
     menu:
         "It's a story with pictures.":
+            "Text inside a menu option."
         "It's a hentai game.":
 
 label another:
