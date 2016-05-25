@@ -14,6 +14,7 @@ tokens = (
     'CHARACTER',
     'LABEL',
     'SCENE',
+    'MENU',
     'DEF',
     'IF',
     'NAME',
@@ -72,6 +73,7 @@ RESERVED = {
   "Character": "CHARACTER",
   "label": "LABEL",
   "scene": "SCENE",
+  "menu": "MENU",
   "def": "DEF",
   "if": "IF",
   "return": "RETURN",
@@ -388,7 +390,8 @@ def p_dialog_cmds(p):
 
 def p_dialog_cmd(p):
     """dialog_cmd : scene_cmd
-                  | say_cmd """
+                  | say_cmd
+                  | menu_cmd """
     p[0] = p[1]
 
 def p_scene_cmd(p):
@@ -408,6 +411,19 @@ def p_character_ref(p):
     """character_ref : NAME"""
     p[0] = CharacterRef(p[1])
 
+def p_menu_cmd(p):
+    """menu_cmd : MENU COLON NEWLINE INDENT menu_opts DEDENT"""
+    p[1] = MenuCmd(p[5])
+
+def p_menu_opts(p):
+    """menu_opts : menu_opts NEWLINE
+                 | menu_opts menu_opt
+                 | NEWLINE
+                 | menu_opt """
+    p[0] = list(flatten(p[1:]))
+
+def p_menu_opt(p):
+    """menu_opt : STRING COLON NEWLINE"""
 
 
 
@@ -505,6 +521,14 @@ class SayCmd(object):
         return "Say {character} {text}".format(**self.__dict__)
 
 
+class MenuCmd(object):
+    def __init__(self, options):
+        self.options = options
+
+    def __repr__(self):
+        return "Say {options}".format(**self.__dict__)
+
+
 ###### Code generation ######
 
 from compiler import misc, syntax, pycodegen
@@ -540,6 +564,16 @@ label start:
     "Well, professor Eileen's lecture was interesting."
     "Sylvie" "Oh, hi, do we walk home together?"
     m "Yes..."
+    menu:
+        "It's a story with pictures.":
+
+
+
+
+    "Sylvie" "Oh, hi, do we walk home together?"
+
+label another:
+    "This is a test."
 
 #Comment here
 """
