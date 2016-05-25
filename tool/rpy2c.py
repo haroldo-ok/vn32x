@@ -14,6 +14,8 @@ tokens = (
     'CHARACTER',
     'LABEL',
     'SCENE',
+    'MENU',
+    'JUMP',
     'DEF',
     'IF',
     'NAME',
@@ -72,6 +74,8 @@ RESERVED = {
   "Character": "CHARACTER",
   "label": "LABEL",
   "scene": "SCENE",
+  "menu": "MENU",
+  "jump": "JUMP",
   "def": "DEF",
   "if": "IF",
   "return": "RETURN",
@@ -236,11 +240,13 @@ def indentation_filter(tokens):
         prev_was_ws = False
         if token.must_indent:
             # The current depth must be larger than the previous level
-            if not (depth > levels[-1]):
-                raise IndentationError("expected an indented block")
-
-            levels.append(depth)
-            yield INDENT(token.lineno)
+            if depth > levels[-1]:
+                levels.append(depth)
+                yield INDENT(token.lineno)
+            else:
+                while levels and depth < levels[-1]:
+                    yield DEDENT(token.lineno)
+                    levels.pop()
 
         elif token.at_line_start:
             # Must be on the same level or one of the previous levels
@@ -387,13 +393,48 @@ def p_dialog_cmds(p):
     p[0] = list(flatten(p[1:]))
 
 def p_dialog_cmd(p):
-    """dialog_cmd : scene_cmd"""
+    """dialog_cmd : scene_cmd
+                  | say_cmd
+                  | menu_cmd
+                  | jump_cmd """
     p[0] = p[1]
 
 def p_scene_cmd(p):
     """scene_cmd : SCENE NAME NAME NEWLINE"""
     p[0] = SceneCmd(p[2], p[3])
 
+def p_say_cmd(p):
+    """say_cmd : STRING NEWLINE
+               | STRING STRING NEWLINE
+               | character_ref STRING NEWLINE """
+    if len(p) == 2:
+        p[0] = SayCmd(None, p[1])
+    else:
+        p[0] = SayCmd(p[1], p[2])
+
+def p_character_ref(p):
+    """character_ref : NAME"""
+    p[0] = CharacterRef(p[1])
+
+def p_menu_cmd(p):
+    """menu_cmd : MENU COLON NEWLINE INDENT menu_opts DEDENT"""
+    p[0] = MenuCmd(p[5])
+
+def p_menu_opts(p):
+    """menu_opts : menu_opts NEWLINE
+                 | menu_opts menu_opt
+                 | NEWLINE
+                 | menu_opt """
+    p[0] = list(flatten(p[1:]))
+
+def p_menu_opt(p):
+    """menu_opt : STRING COLON NEWLINE INDENT dialog_cmds DEDENT
+                | STRING COLON NEWLINE """
+    p[0] = MenuOpt(p[1], p[5] if len(p) > 4 else None)
+
+def p_jump_cmd(p):
+    """jump_cmd : JUMP NAME NEWLINE"""
+    p[0] = JumpCmd(p[2])
 
 
 
@@ -456,6 +497,14 @@ class CharacterDecl(object):
         return "Character {name} {char_name} {params}".format(**self.__dict__)
 
 
+class CharacterRef(object):
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return "Ref {name}".format(**self.__dict__)
+
+
 class Label(object):
     def __init__(self, name, commands):
         self.name = name
@@ -472,6 +521,40 @@ class SceneCmd(object):
 
     def __repr__(self):
         return "Scene {name} {state}".format(**self.__dict__)
+
+
+class SayCmd(object):
+    def __init__(self, character, text):
+        self.character = character
+        self.text = text
+
+    def __repr__(self):
+        return "Say {character} {text}".format(**self.__dict__)
+
+
+class MenuCmd(object):
+    def __init__(self, options):
+        self.options = options
+
+    def __repr__(self):
+        return "Menu {options}".format(**self.__dict__)
+
+
+class MenuOpt(object):
+    def __init__(self, text, commands):
+        self.text = text
+        self.commands = commands
+
+    def __repr__(self):
+        return "Opt {text} {commands}".format(**self.__dict__)
+
+
+class JumpCmd(object):
+    def __init__(self, label):
+        self.label = label
+
+    def __repr__(self):
+        return "Jump {label}".format(**self.__dict__)
 
 
 ###### Code generation ######
@@ -506,6 +589,19 @@ define s = Character('Sylvie', color="#c8ffc8")
 # The game starts here.
 label start:
     scene bg lecturehall
+    "Well, professor Eileen's lecture was interesting."
+    "Sylvie" "Oh, hi, do we walk home together?"
+    m "Yes..."
+    menu:
+        "It's a story with pictures.":
+            "Text inside a menu option."
+            jump vn
+
+        "It's a hentai game.":
+            jump hentai
+
+label another:
+    "This is a test."
 
 #Comment here
 """
