@@ -15,6 +15,7 @@ tokens = (
     'LABEL',
     'SCENE',
     'MENU',
+    'JUMP',
     'DEF',
     'IF',
     'NAME',
@@ -74,6 +75,7 @@ RESERVED = {
   "label": "LABEL",
   "scene": "SCENE",
   "menu": "MENU",
+  "jump": "JUMP",
   "def": "DEF",
   "if": "IF",
   "return": "RETURN",
@@ -393,7 +395,8 @@ def p_dialog_cmds(p):
 def p_dialog_cmd(p):
     """dialog_cmd : scene_cmd
                   | say_cmd
-                  | menu_cmd """
+                  | menu_cmd
+                  | jump_cmd """
     p[0] = p[1]
 
 def p_scene_cmd(p):
@@ -428,6 +431,10 @@ def p_menu_opt(p):
     """menu_opt : STRING COLON NEWLINE INDENT dialog_cmds DEDENT
                 | STRING COLON NEWLINE """
     p[0] = MenuOpt(p[1], p[5] if len(p) > 4 else None)
+
+def p_jump_cmd(p):
+    """jump_cmd : JUMP NAME NEWLINE"""
+    p[0] = JumpCmd(p[2])
 
 
 
@@ -542,6 +549,14 @@ class MenuOpt(object):
         return "Opt {text} {commands}".format(**self.__dict__)
 
 
+class JumpCmd(object):
+    def __init__(self, label):
+        self.label = label
+
+    def __repr__(self):
+        return "Jump {label}".format(**self.__dict__)
+
+
 ###### Code generation ######
 
 from compiler import misc, syntax, pycodegen
@@ -580,7 +595,10 @@ label start:
     menu:
         "It's a story with pictures.":
             "Text inside a menu option."
+            jump vn
+
         "It's a hentai game.":
+            jump hentai
 
 label another:
     "This is a test."
