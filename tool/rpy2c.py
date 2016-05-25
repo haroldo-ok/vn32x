@@ -238,11 +238,13 @@ def indentation_filter(tokens):
         prev_was_ws = False
         if token.must_indent:
             # The current depth must be larger than the previous level
-            if not (depth > levels[-1]):
-                raise IndentationError("expected an indented block")
-
-            levels.append(depth)
-            yield INDENT(token.lineno)
+            if depth > levels[-1]:
+                levels.append(depth)
+                yield INDENT(token.lineno)
+            else:
+                while levels and depth < levels[-1]:
+                    yield DEDENT(token.lineno)
+                    levels.pop()
 
         elif token.at_line_start:
             # Must be on the same level or one of the previous levels
@@ -413,7 +415,7 @@ def p_character_ref(p):
 
 def p_menu_cmd(p):
     """menu_cmd : MENU COLON NEWLINE INDENT menu_opts DEDENT"""
-    p[1] = MenuCmd(p[5])
+    p[0] = MenuCmd(p[5])
 
 def p_menu_opts(p):
     """menu_opts : menu_opts NEWLINE
@@ -424,6 +426,7 @@ def p_menu_opts(p):
 
 def p_menu_opt(p):
     """menu_opt : STRING COLON NEWLINE"""
+    p[0] = MenuOpt(p[1])
 
 
 
@@ -526,7 +529,15 @@ class MenuCmd(object):
         self.options = options
 
     def __repr__(self):
-        return "Say {options}".format(**self.__dict__)
+        return "Menu {options}".format(**self.__dict__)
+
+
+class MenuOpt(object):
+    def __init__(self, text):
+        self.text = text
+
+    def __repr__(self):
+        return "Opt {text}".format(**self.__dict__)
 
 
 ###### Code generation ######
@@ -566,11 +577,7 @@ label start:
     m "Yes..."
     menu:
         "It's a story with pictures.":
-
-
-
-
-    "Sylvie" "Oh, hi, do we walk home together?"
+        "It's a hentai game.":
 
 label another:
     "This is a test."
