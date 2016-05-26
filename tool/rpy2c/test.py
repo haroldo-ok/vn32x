@@ -33,7 +33,7 @@ class TestParser(unittest.TestCase):
         #Comment here
         """
 
-        tree = rpy_parser.GardenSnakeParser().parse(textwrap.dedent(code))
+        tree = rpy_parser.RpyParser().parse(textwrap.dedent(code))
         print(tree)
 
 
