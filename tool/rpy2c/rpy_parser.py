@@ -313,6 +313,7 @@ class IndentLexer(object):
 #import yacc
 
 import collections
+from rpy_ast import *
 
 # I use the Python AST
 from compiler import ast
@@ -443,7 +444,7 @@ def p_error(p):
     raise SyntaxError(p)
 
 
-class GardenSnakeParser(object):
+class RpyParser(object):
     def __init__(self, lexer = None):
         if lexer is None:
             lexer = IndentLexer()
@@ -467,155 +468,3 @@ def flatten(l):
         else:
             yield el
 
-
-class RpyScript(object):
-    def __init__(self, declarations, labels):
-        self.declarations = declarations
-        self.labels = labels
-
-    def __repr__(self):
-        return "RpyScript {declarations} {labels}".format(**self.__dict__)
-
-
-class ImageDecl(object):
-    def __init__(self, name, state, image):
-        self.name = name
-        self.state = state
-        self.image = image
-
-    def __repr__(self):
-        return "Image {name} {state} {image}".format(**self.__dict__)
-
-
-class CharacterDecl(object):
-    def __init__(self, name, char_name, params):
-        self.name = name
-        self.char_name = char_name
-        self.params = params
-
-    def __repr__(self):
-        return "Character {name} {char_name} {params}".format(**self.__dict__)
-
-
-class CharacterRef(object):
-    def __init__(self, name):
-        self.name = name
-
-    def __repr__(self):
-        return "Ref {name}".format(**self.__dict__)
-
-
-class Label(object):
-    def __init__(self, name, commands):
-        self.name = name
-        self.commands = commands
-
-    def __repr__(self):
-        return "Label {name} {commands}".format(**self.__dict__)
-
-
-class SceneCmd(object):
-    def __init__(self, name, state):
-        self.name = name
-        self.state = state
-
-    def __repr__(self):
-        return "Scene {name} {state}".format(**self.__dict__)
-
-
-class SayCmd(object):
-    def __init__(self, character, text):
-        self.character = character
-        self.text = text
-
-    def __repr__(self):
-        return "Say {character} {text}".format(**self.__dict__)
-
-
-class MenuCmd(object):
-    def __init__(self, options):
-        self.options = options
-
-    def __repr__(self):
-        return "Menu {options}".format(**self.__dict__)
-
-
-class MenuOpt(object):
-    def __init__(self, text, commands):
-        self.text = text
-        self.commands = commands
-
-    def __repr__(self):
-        return "Opt {text} {commands}".format(**self.__dict__)
-
-
-class JumpCmd(object):
-    def __init__(self, label):
-        self.label = label
-
-    def __repr__(self):
-        return "Jump {label}".format(**self.__dict__)
-
-
-###### Code generation ######
-
-from compiler import misc, syntax, pycodegen
-
-class GardenSnakeCompiler(object):
-    def __init__(self):
-        self.parser = GardenSnakeParser()
-    def compile(self, code, filename="<string>"):
-        tree = self.parser.parse(code)
-        print  tree
-        misc.set_filename(filename, tree)
-        syntax.check(tree)
-        gen = pycodegen.ModuleCodeGenerator(tree)
-        code = gen.getCode()
-        return code
-
-####### Test code #######
-
-compile = GardenSnakeCompiler().compile
-
-code = r"""
-# Declare images used by this game.
-image bg lecturehall = "lecturehall.jpg"
-image bg uni = "uni.jpg"
-define s = Character("Sylvie")
-define s = Character("Sylvie", color="#c8ffc8")
-define s = Character('Sylvie', color="#c8ffc8")
-#define m = Character('Me', color="#c8c8ff")
-
-# The game starts here.
-label start:
-    scene bg lecturehall
-    "Well, professor Eileen's lecture was interesting."
-    "Sylvie" "Oh, hi, do we walk home together?"
-    m "Yes..."
-    menu:
-        "It's a story with pictures.":
-            "Text inside a menu option."
-            jump vn
-
-        "It's a hentai game.":
-            jump hentai
-
-label another:
-    "This is a test."
-
-#Comment here
-"""
-
-# Set up the GardenSnake run-time environment
-def print_(*args):
-    print "-->", " ".join(map(str,args))
-
-globals()["print"] = print_
-
-tree = GardenSnakeParser().parse(code)
-print tree
-
-#compiled_code = compile(code)
-
-#exec compiled_code in globals()
-print "Done"
