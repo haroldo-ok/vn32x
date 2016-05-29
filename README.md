@@ -15,12 +15,15 @@ Implemented so far
 * Joypad input;
 * Word wrapping for the text boxes;
 * Menus;
-* Some image decompression caching to speed up image rendering.
+* Some image decompression caching to speed up image rendering;
+* Create an easy to use library to implement the graphical novels.
+
+In progress
+-----------
+* Implement a tool to automatically generate C source code from Ren'Py scripts.
 
 Not implemented, but planned
 ----------------------------
 
-* Create an easy to use library to implement the graphical novels;
-* Implement a tool to automatically generate C source code from Ren'Py scripts;
 * Digital audio playback;
 * A visual editor for the scripts (maybe as a separate project?).
