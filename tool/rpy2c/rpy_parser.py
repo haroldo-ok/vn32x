@@ -454,7 +454,7 @@ class RpyParser(object):
     def parse(self, code):
         self.lexer.input(code)
         result = self.parser.parse(lexer = self.lexer)
-        return ast.Module(None, result)
+        return result
 
 
 def flatten(l):
