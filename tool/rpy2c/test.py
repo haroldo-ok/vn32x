@@ -1,5 +1,6 @@
 import unittest
-import rpy_parser, textwrap
+import textwrap, io
+import rpy_parser, rpy_ast, rpy_codegen
 
 class TestParser(unittest.TestCase):
 
@@ -34,7 +35,18 @@ class TestParser(unittest.TestCase):
         """
 
         tree = rpy_parser.RpyParser().parse(textwrap.dedent(code))
-        print(tree)
+        self.assertIsInstance(tree, rpy_ast.RpyScript)
+
+
+
+class TestCodeGen(unittest.TestCase):
+
+    def test_empty(self):
+        script = rpy_ast.RpyScript([], [])
+        with io.StringIO() as out:
+            rpy_codegen.CGenerator(out).generate(script)
+            self.assertEqual('', out.getvalue())
+
 
 
 if __name__ == '__main__':
