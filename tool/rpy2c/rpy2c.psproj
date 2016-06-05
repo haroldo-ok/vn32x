@@ -15,14 +15,18 @@ FileName=$[Project-Path]rpy_ast.py
 
 [Project\ChildNodes\Node0\ChildNodes\Node1]
 ClassName=TProjectFileNode
-FileName=$[Project-Path]rpy_parser.py
+FileName=$[Project-Path]rpy_codegen.py
 
 [Project\ChildNodes\Node0\ChildNodes\Node2]
+ClassName=TProjectFileNode
+FileName=$[Project-Path]rpy_parser.py
+
+[Project\ChildNodes\Node0\ChildNodes\Node3]
 ClassName=TProjectFileNode
 FileName=$[Project-Path]test.py
 
 [Project\ChildNodes\Node0\ChildNodes]
-Count=3
+Count=4
 
 [Project\ChildNodes\Node1]
 ClassName=TProjectRunConfiguationsNode
