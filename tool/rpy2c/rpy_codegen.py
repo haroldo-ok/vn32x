@@ -9,8 +9,16 @@ class CGenerator(object):
         return method(script)
 
     def generate_RpyScript(self, script):
-        label_codes = map(self.generate, script.labels)
-        return '\n'.join(['#include "script.h"'] + label_codes)
+        label_forwards = ['extern void *vn_%s();' % x.name for x in script.labels]
+        label_functions = map(self.generate, script.labels)
+
+        code_lists = [
+            ['#include "script.h"'],
+            label_forwards,
+            label_functions
+        ]
+
+        return '\n\n'.join(('\n'.join(x) for x in code_lists if x)) + '\n'
 
     def generate_Label(self, label):
         return self.prepare_template(r"""

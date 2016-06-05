@@ -44,7 +44,7 @@ class TestCodeGen(unittest.TestCase):
     def test_empty(self):
         script = rpy_ast.RpyScript([], [])
         c_code = rpy_codegen.CGenerator().generate(script)
-        self.assertEqual('#include "script.h"', c_code)
+        self.assertEqual('#include "script.h"\n', c_code)
 
     def test_one_label(self):
         script = rpy_ast.RpyScript([], [
@@ -52,6 +52,8 @@ class TestCodeGen(unittest.TestCase):
         ])
         c_code = rpy_codegen.CGenerator().generate(script)
         self.assertSameCode(r"""
+        extern void *vn_test_label();
+
         void *vn_test_label() {
         }
         """, c_code)
@@ -63,6 +65,9 @@ class TestCodeGen(unittest.TestCase):
         ])
         c_code = rpy_codegen.CGenerator().generate(script)
         self.assertSameCode(r"""
+        extern void *vn_test_foo();
+        extern void *vn_test_bar();
+
         void *vn_test_foo() {
         }
         void *vn_test_bar() {
@@ -75,10 +80,16 @@ class TestCodeGen(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def prepareCode(self, code):
-        return self.RX_LEADING_TRAILING_BLANKS.sub(r'\1', self.RX_INCLUDES.sub('', code))
+        steps = [
+            (self.RX_INCLUDES, ''),
+            (self.RX_BLANK_LINES, '\n'),
+            (self.RX_LEADING_TRAILING_BLANKS, r'\1')
+        ]
+        return reduce(lambda s, cmd: cmd[0].sub(cmd[1], s), steps, code)
 
     RX_LEADING_TRAILING_BLANKS = re.compile(r'^\s*(.*?)\s*$', re.MULTILINE)
     RX_INCLUDES = re.compile(r'^#include .*$', re.MULTILINE)
+    RX_BLANK_LINES = re.compile(r'\n\s*\n+')
 
 
 
