@@ -43,14 +43,8 @@ class TestCodeGen(unittest.TestCase):
 
     def test_empty(self):
         script = rpy_ast.RpyScript([], [])
-        with io.StringIO() as out:
-            rpy_codegen.CGenerator(out).generate(script)
-            self.assertEqual('', out.getvalue())
-
-    def test_empty(self):
-        script = rpy_ast.RpyScript([], [])
         c_code = rpy_codegen.CGenerator().generate(script)
-        self.assertEqual('', c_code)
+        self.assertEqual('#include "script.h"', c_code)
 
     def test_one_label(self):
         script = rpy_ast.RpyScript([], [
@@ -81,9 +75,10 @@ class TestCodeGen(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def prepareCode(self, code):
-        return self.RX_LEADING_TRAILING_BLANKS.sub(r'\1', code)
+        return self.RX_LEADING_TRAILING_BLANKS.sub(r'\1', self.RX_INCLUDES.sub('', code))
 
     RX_LEADING_TRAILING_BLANKS = re.compile(r'^\s*(.*?)\s*$', re.MULTILINE)
+    RX_INCLUDES = re.compile(r'^#include .*$', re.MULTILINE)
 
 
 

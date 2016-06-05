@@ -10,7 +10,7 @@ class CGenerator(object):
 
     def generate_RpyScript(self, script):
         label_codes = map(self.generate, script.labels)
-        return '\n'.join(label_codes)
+        return '\n'.join(['#include "script.h"'] + label_codes)
 
     def generate_Label(self, label):
         return self.prepare_template(r"""
