@@ -1,5 +1,5 @@
 import unittest
-import textwrap, io
+import textwrap, io, re
 import rpy_parser, rpy_ast, rpy_codegen
 
 class TestParser(unittest.TestCase):
@@ -46,6 +46,45 @@ class TestCodeGen(unittest.TestCase):
         with io.StringIO() as out:
             rpy_codegen.CGenerator(out).generate(script)
             self.assertEqual('', out.getvalue())
+
+    def test_empty(self):
+        script = rpy_ast.RpyScript([], [])
+        c_code = rpy_codegen.CGenerator().generate(script)
+        self.assertEqual('', c_code)
+
+    def test_one_label(self):
+        script = rpy_ast.RpyScript([], [
+            rpy_ast.Label('test_label', [])
+        ])
+        c_code = rpy_codegen.CGenerator().generate(script)
+        self.assertSameCode(r"""
+        void *vn_test_label() {
+        }
+        """, c_code)
+
+    def test_two_labels(self):
+        script = rpy_ast.RpyScript([], [
+            rpy_ast.Label('test_foo', []),
+            rpy_ast.Label('test_bar', [])
+        ])
+        c_code = rpy_codegen.CGenerator().generate(script)
+        self.assertSameCode(r"""
+        void *vn_test_foo() {
+        }
+        void *vn_test_bar() {
+        }
+        """, c_code)
+
+    def assertSameCode(self, expected, actual):
+        expected = self.prepareCode(expected)
+        actual = self.prepareCode(actual)
+        self.assertEqual(expected, actual)
+
+    def prepareCode(self, code):
+        return self.RX_LEADING_TRAILING_BLANKS.sub(r'\1', code)
+
+    RX_LEADING_TRAILING_BLANKS = re.compile(r'^\s*(.*?)\s*$', re.MULTILINE)
+
 
 
 
