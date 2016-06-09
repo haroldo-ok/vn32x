@@ -51,6 +51,7 @@ class TestParser(unittest.TestCase):
         self.assertFalse(tree.declarations)
         self.assertEquals(1, len(tree.labels))
         self.assertEquals(3, len(tree.labels[0].commands))
+        self.assertEquals("Well, professor Eileen's lecture was interesting.", tree.labels[0].commands[0].text)
 
 
 

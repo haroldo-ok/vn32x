@@ -414,7 +414,7 @@ def p_say_cmd(p):
     """say_cmd : STRING NEWLINE
                | STRING STRING NEWLINE
                | character_ref STRING NEWLINE """
-    if len(p) == 2:
+    if len(p) == 3:
         p[0] = SayCmd(None, p[1])
     else:
         p[0] = SayCmd(p[1], p[2])
