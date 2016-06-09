@@ -8,7 +8,7 @@ def main (argv):
     opts = parser.parse_args()
 
     with open(os.path.abspath(opts.source_rpy), 'rt') as f:
-        source = ''.join(f.readlines())
+        source = ''.join(f.readlines()).replace('\t', ' ')
         tree = rpy_parser.RpyParser().parse(source)
 
 

@@ -342,8 +342,12 @@ def Assign(left, right):
 ## NB: compound_stmt in single_input is followed by extra NEWLINE!
 # file_input: (NEWLINE | stmt)* ENDMARKER
 def p_file_input_end(p):
-    """file_input_end : declarations labels ENDMARKER"""
-    p[0] = RpyScript(p[1], p[2])
+    """file_input_end : declarations labels ENDMARKER
+                      | labels ENDMARKER """
+    if len(p) == 2:
+        p[0] = RpyScript([], p[1])
+    else:
+        p[0] = RpyScript(p[1], p[2])
 
 
 def p_declarations(p):

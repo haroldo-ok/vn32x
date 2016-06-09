@@ -37,6 +37,17 @@ class TestParser(unittest.TestCase):
         tree = rpy_parser.RpyParser().parse(textwrap.dedent(code))
         self.assertIsInstance(tree, rpy_ast.RpyScript)
 
+    def test_simple_code(self):
+        code = r"""
+        label start:
+            "Well, professor Eileen's lecture was interesting."
+            "Sylvie" "Oh, hi, do we walk home together?"
+            m "Yes..."
+        """
+
+        tree = rpy_parser.RpyParser().parse(textwrap.dedent(code))
+        self.assertIsInstance(tree, rpy_ast.RpyScript)
+
 
 
 class TestCodeGen(unittest.TestCase):
