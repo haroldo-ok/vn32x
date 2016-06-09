@@ -74,6 +74,21 @@ class TestCodeGen(unittest.TestCase):
         }
         """, c_code)
 
+    def test_say(self):
+        script = rpy_ast.RpyScript([], [
+            rpy_ast.Label('test_something', [
+                rpy_ast.SayCmd(None, "Okay, let's see.")
+            ]),
+        ])
+        c_code = rpy_codegen.CGenerator().generate(script)
+        self.assertSameCode(r"""
+        extern void *vn_test_something();
+
+        void *vn_test_something() {
+        vnText("Okay, let's see.");
+        }
+        """, c_code)
+
     def assertSameCode(self, expected, actual):
         expected = self.prepareCode(expected)
         actual = self.prepareCode(actual)

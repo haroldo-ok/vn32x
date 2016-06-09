@@ -21,10 +21,18 @@ class CGenerator(object):
         return '\n\n'.join(('\n'.join(x) for x in code_lists if x)) + '\n'
 
     def generate_Label(self, label):
+        commands = map(self.generate, label.commands);
+
         return self.prepare_template(r"""
         void *vn_%s() {
+            %s
         }
-        """) % label.name
+        """) % (label.name, '\n\t'.join(commands))
+
+    def generate_SayCmd(self, say):
+        return self.prepare_template(r"""
+        vnText("%s");
+        """ % say.text)
 
     def prepare_template(self, template):
         return textwrap.dedent(template).strip()
