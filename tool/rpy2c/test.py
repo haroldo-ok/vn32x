@@ -46,7 +46,11 @@ class TestParser(unittest.TestCase):
         """
 
         tree = rpy_parser.RpyParser().parse(textwrap.dedent(code))
+
         self.assertIsInstance(tree, rpy_ast.RpyScript)
+        self.assertFalse(tree.declarations)
+        self.assertEquals(1, len(tree.labels))
+        self.assertEquals(3, len(tree.labels[0].commands))
 
 
 

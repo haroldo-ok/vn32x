@@ -344,9 +344,11 @@ def Assign(left, right):
 def p_file_input_end(p):
     """file_input_end : declarations labels ENDMARKER
                       | labels ENDMARKER """
-    if len(p) == 2:
+    if len(p) == 3:
+        # Just labels
         p[0] = RpyScript([], p[1])
     else:
+        # Declarations and labels
         p[0] = RpyScript(p[1], p[2])
 
 
