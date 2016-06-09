@@ -34,7 +34,10 @@ class CGenerator(object):
     def generate_SayCmd(self, say):
         return self.prepare_template(r"""
         vnText("%s");
-        """ % say.text)
+        """ % self.escape_string(say.text))
 
     def prepare_template(self, template):
         return textwrap.dedent(template).strip()
+
+    def escape_string(self, string):
+        return string.replace('"', r'\"')
