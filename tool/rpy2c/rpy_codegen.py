@@ -26,6 +26,8 @@ class CGenerator(object):
         return self.prepare_template(r"""
         void *vn_%s() {
             %s
+
+            return vn_start;
         }
         """) % (label.name, '\n\t'.join(commands))
 

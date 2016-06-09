@@ -55,6 +55,7 @@ class TestCodeGen(unittest.TestCase):
         extern void *vn_test_label();
 
         void *vn_test_label() {
+            return vn_start;
         }
         """, c_code)
 
@@ -69,8 +70,10 @@ class TestCodeGen(unittest.TestCase):
         extern void *vn_test_bar();
 
         void *vn_test_foo() {
+            return vn_start;
         }
         void *vn_test_bar() {
+            return vn_start;
         }
         """, c_code)
 
@@ -85,7 +88,8 @@ class TestCodeGen(unittest.TestCase):
         extern void *vn_test_something();
 
         void *vn_test_something() {
-        vnText("Okay, let's see.");
+            vnText("Okay, let's see.");
+            return vn_start;
         }
         """, c_code)
 
