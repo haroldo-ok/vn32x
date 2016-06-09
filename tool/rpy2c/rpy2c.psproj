@@ -23,10 +23,14 @@ FileName=$[Project-Path]rpy_parser.py
 
 [Project\ChildNodes\Node0\ChildNodes\Node3]
 ClassName=TProjectFileNode
+FileName=$[Project-Path]rpy2c.py
+
+[Project\ChildNodes\Node0\ChildNodes\Node4]
+ClassName=TProjectFileNode
 FileName=$[Project-Path]test.py
 
 [Project\ChildNodes\Node0\ChildNodes]
-Count=4
+Count=5
 
 [Project\ChildNodes\Node1]
 ClassName=TProjectRunConfiguationsNode
@@ -53,8 +57,31 @@ WorkingDirectory=$[ActiveScript-Dir]
 ShortCut=0
 MessagesFormat=$[FileName] $[LineNumber]
 
+[Project\ChildNodes\Node1\ChildNodes\Node1]
+ClassName=TProjectRunConfiguationNode
+Name=Test Rpy2c
+
+[Project\ChildNodes\Node1\ChildNodes\Node1\RunConfig]
+ScriptName=C:\Users\Haroldo\Projetos\32x\vn32x\tool\rpy2c\rpy2c.py
+EngineType=peRemote
+ReinitializeBeforeRun=TRUE
+Parameters=../../script/script.rpy ../../generated
+WorkingDir=$[ActiveScript-Dir]
+WriteOutputToFile=FALSE
+OutputFileName=$[ActiveScript-NoExt].log
+AppendToFile=FALSE
+
+[Project\ChildNodes\Node1\ChildNodes\Node1\RunConfig\ExternalRun]
+Caption=External Run
+Description=Run script using an external Python Interpreter
+ApplicationName=$[PythonExe-Short]
+Parameters=$[ActiveScript-Short]
+WorkingDirectory=$[ActiveScript-Dir]
+ShortCut=0
+MessagesFormat=$[FileName] $[LineNumber]
+
 [Project\ChildNodes\Node1\ChildNodes]
-Count=1
+Count=2
 
 [Project\ChildNodes]
 Count=2
