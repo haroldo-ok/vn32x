@@ -24,6 +24,6 @@ In progress
 
 Not implemented, but planned
 ----------------------------
-
+* An easy to use installer;
 * Digital audio playback;
 * A visual editor for the scripts (maybe as a separate project?).
