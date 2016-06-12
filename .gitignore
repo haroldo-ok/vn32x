@@ -10,3 +10,5 @@
 /tool/rpy2c/parser.out
 /tool/rpy2c/parsetab.py
 /generated/*
+/parsetab.py
+/parser.out

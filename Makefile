@@ -1,5 +1,6 @@
 SRCDIR := src
 OBJDIR := build
+RPYDIR := script
 GENDIR := generated
 IMGDIR := img
 	
@@ -28,6 +29,9 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 $(OBJDIR)/%.o : $(GENDIR)/%.c
 	sh-elf-gcc -c -O2 -I$(SRCDIR) -o $@ $<
 
+$(GENDIR)/%.c : $(RPYDIR)/script.rpy
+	rpy2c $< $(GENDIR) 
+
 $(OBJDIR)/%.apx : $(IMGDIR)/%.png
 	sixpack.exe -image -pack -v -target 32x -codec aplib -format l8 -q 256 -o $@ $<
 
@@ -38,7 +42,7 @@ $(OBJDIR)/%.apg : $(IMGDIR)/%.png
 $(OBJDIR)/%.bmf : $(IMGDIR)/src/%.fnt
 	font_conv $@ $<
 	
-all: $(OBJS)
+all: $(OBJS) $(GENDIR)/generated_script.c
 	sh-elf-ld -T $(SRCDIR)/32x.ld -e _start --oformat binary -o generated.32x $(OBJS)
 	
 $(OBJS): | $(RSCS) $(OBJDIR)
