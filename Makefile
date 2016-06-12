@@ -1,5 +1,6 @@
 SRCDIR := src
 OBJDIR := build
+GENDIR := generated
 IMGDIR := img
 	
 RSCS := $(addprefix $(OBJDIR)/,\
@@ -35,7 +36,7 @@ $(OBJDIR)/%.bmf : $(IMGDIR)/src/%.fnt
 	font_conv $@ $<
 	
 all: $(OBJS)
-	sh-elf-ld -T $(SRCDIR)/32x.ld -e _start --oformat binary -o test_aplib.32x $(OBJS)
+	sh-elf-ld -T $(SRCDIR)/32x.ld -e _start --oformat binary -o test_manual.32x $(OBJS)
 	
 $(OBJS): | $(RSCS) $(OBJDIR)
 
@@ -46,4 +47,4 @@ $(OBJDIR):
 	
 clean:
 	rm -rf $(OBJDIR)
-	rm test_aplib.32x
+	rm *.32x
