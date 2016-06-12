@@ -1,8 +1,7 @@
 print r'C:\Util\renpy-6.99.10-sdk\the_question\game\script.rpy'
 
 import sys
-sys.path.insert(0,"../..")
-from ply import *
+from ply import lex, yacc
 
 ##### Lexer ######
 #import lex
