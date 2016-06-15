@@ -17,6 +17,7 @@ class TestParser(unittest.TestCase):
         # The game starts here.
         label start:
             scene bg lecturehall
+            show sylvie normal
             "Well, professor Eileen's lecture was interesting."
             "Sylvie" "Oh, hi, do we walk home together?"
             m "Yes..."

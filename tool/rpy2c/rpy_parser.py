@@ -13,6 +13,7 @@ tokens = (
     'CHARACTER',
     'LABEL',
     'SCENE',
+    'SHOW',
     'MENU',
     'JUMP',
     'DEF',
@@ -73,6 +74,7 @@ RESERVED = {
   "Character": "CHARACTER",
   "label": "LABEL",
   "scene": "SCENE",
+  "show": "SHOW",
   "menu": "MENU",
   "jump": "JUMP",
   "def": "DEF",
@@ -400,6 +402,7 @@ def p_dialog_cmds(p):
 
 def p_dialog_cmd(p):
     """dialog_cmd : scene_cmd
+                  | show_cmd
                   | say_cmd
                   | menu_cmd
                   | jump_cmd """
@@ -408,6 +411,10 @@ def p_dialog_cmd(p):
 def p_scene_cmd(p):
     """scene_cmd : SCENE NAME NAME NEWLINE"""
     p[0] = SceneCmd(p[2], p[3])
+
+def p_show_cmd(p):
+    """show_cmd : SHOW NAME NAME NEWLINE"""
+    p[0] = ShowCmd(p[2], p[3])
 
 def p_say_cmd(p):
     """say_cmd : STRING NEWLINE
