@@ -13,13 +13,13 @@ def main (argv):
 
         dest_path = os.path.abspath(opts.destination_folder)
 
+        # Generates the .mk file
+        mk_code = rpy_codegen.MkIncludeGenerator().generate(tree)
+        with open(os.path.join(dest_path, 'include.mk'), 'wt') as outf:
+            outf.write(mk_code)
+
         # Generates the .c file
         c_code = rpy_codegen.CGenerator().generate(tree)
-        with open(os.path.join(dest_path, 'generated_script.c'), 'wt') as outf:
-            outf.write(c_code)
-
-        # Generates the .mk file
-        mk_code = rpy_codegen.CGenerator().generate(tree)
         with open(os.path.join(dest_path, 'generated_script.c'), 'wt') as outf:
             outf.write(c_code)
 

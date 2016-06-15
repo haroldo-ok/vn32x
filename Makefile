@@ -59,4 +59,5 @@ $(OBJDIR):
 	
 clean:
 	rm -rf $(OBJDIR)
+	rm $(GENDIR)/*
 	rm *.32x
