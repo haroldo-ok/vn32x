@@ -153,15 +153,26 @@ class TestMkIncludeGenerator(CodeGenTestCase):
     def test_empty(self):
         script = rpy_ast.RpyScript([], [])
         mk_code = rpy_codegen.MkIncludeGenerator().generate(script)
-        self.assertEqual('', mk_code)
+        self.assertSameCode('IMGS :=', mk_code)
 
     def test_one_image(self):
-        script = rpy_ast.RpyScript([], [])
+        script = rpy_ast.RpyScript([
+            rpy_ast.ImageDecl('bg', 'lecturehall', 'lecturehall.jpg')
+        ], [])
         mk_code = rpy_codegen.MkIncludeGenerator().generate(script)
         self.assertSameCode("""
-        IMGS := $(addprefix $(OBJDIR)/,\
-                lecturehall.
-        """.strip(), mk_code)
+        IMGS := $(addprefix $(OBJDIR)/, lecturehall.apg)
+        """, mk_code)
+
+    def test_two_images(self):
+        script = rpy_ast.RpyScript([
+            rpy_ast.ImageDecl('bg', 'lecturehall', 'lecturehall.jpg'),
+            rpy_ast.ImageDecl('bg', 'uni', 'uni.jpg')
+        ], [])
+        mk_code = rpy_codegen.MkIncludeGenerator().generate(script)
+        self.assertSameCode("""
+        IMGS := $(addprefix $(OBJDIR)/, lecturehall.apg uni.apg)
+        """, mk_code)
 
 
 

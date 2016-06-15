@@ -1,4 +1,5 @@
-import textwrap
+import textwrap, os
+import rpy_ast
 
 class CGenerator(object):
     """Generates the main .c file from the AST"""
@@ -53,4 +54,16 @@ class MkIncludeGenerator(object):
         pass
 
     def generate(self, script):
-        return ''
+        return textwrap.dedent("""
+        IMGS := %s
+        """ % self.generate_image_list(script))
+
+    def generate_image_list(self, script):
+        images = [os.path.splitext(o.image)[0] + '.apg' for o in script.declarations if isinstance(o, rpy_ast.ImageDecl)]
+
+        if not images:
+            return ''
+
+        return textwrap.dedent(r"""
+        $(addprefix $(OBJDIR)/, %s)
+        """.strip()) % ' '.join(images)
