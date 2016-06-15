@@ -55,7 +55,28 @@ class TestParser(unittest.TestCase):
 
 
 
-class TestCodeGen(unittest.TestCase):
+class CodeGenTestCase(unittest.TestCase):
+
+    def assertSameCode(self, expected, actual):
+        expected = self.prepareCode(expected)
+        actual = self.prepareCode(actual)
+        self.assertEqual(expected, actual)
+
+    def prepareCode(self, code):
+        steps = [
+            (self.RX_INCLUDES, ''),
+            (self.RX_BLANK_LINES, '\n'),
+            (self.RX_LEADING_TRAILING_BLANKS, r'\1')
+        ]
+        return reduce(lambda s, cmd: cmd[0].sub(cmd[1], s), steps, code)
+
+    RX_LEADING_TRAILING_BLANKS = re.compile(r'^\s*(.*?)\s*$', re.MULTILINE)
+    RX_INCLUDES = re.compile(r'^#include .*$', re.MULTILINE)
+    RX_BLANK_LINES = re.compile(r'\n\s*\n+')
+
+
+
+class TestCGenerator(CodeGenTestCase):
 
     def test_empty(self):
         script = rpy_ast.RpyScript([], [])
@@ -125,22 +146,33 @@ class TestCodeGen(unittest.TestCase):
         }
         """, c_code)
 
-    def assertSameCode(self, expected, actual):
-        expected = self.prepareCode(expected)
-        actual = self.prepareCode(actual)
-        self.assertEqual(expected, actual)
 
-    def prepareCode(self, code):
-        steps = [
-            (self.RX_INCLUDES, ''),
-            (self.RX_BLANK_LINES, '\n'),
-            (self.RX_LEADING_TRAILING_BLANKS, r'\1')
-        ]
-        return reduce(lambda s, cmd: cmd[0].sub(cmd[1], s), steps, code)
 
-    RX_LEADING_TRAILING_BLANKS = re.compile(r'^\s*(.*?)\s*$', re.MULTILINE)
-    RX_INCLUDES = re.compile(r'^#include .*$', re.MULTILINE)
-    RX_BLANK_LINES = re.compile(r'\n\s*\n+')
+class TestMkIncludeGenerator(CodeGenTestCase):
+
+    def test_empty(self):
+        script = rpy_ast.RpyScript([], [])
+        mk_code = rpy_codegen.MkIncludeGenerator().generate(script)
+        self.assertSameCode('IMGS :=', mk_code)
+
+    def test_one_image(self):
+        script = rpy_ast.RpyScript([
+            rpy_ast.ImageDecl('bg', 'lecturehall', 'lecturehall.jpg')
+        ], [])
+        mk_code = rpy_codegen.MkIncludeGenerator().generate(script)
+        self.assertSameCode("""
+        IMGS := $(addprefix $(OBJDIR)/, lecturehall.apg)
+        """, mk_code)
+
+    def test_two_images(self):
+        script = rpy_ast.RpyScript([
+            rpy_ast.ImageDecl('bg', 'lecturehall', 'lecturehall.jpg'),
+            rpy_ast.ImageDecl('bg', 'uni', 'uni.jpg')
+        ], [])
+        mk_code = rpy_codegen.MkIncludeGenerator().generate(script)
+        self.assertSameCode("""
+        IMGS := $(addprefix $(OBJDIR)/, lecturehall.apg uni.apg)
+        """, mk_code)
 
 
 
