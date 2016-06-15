@@ -13,6 +13,8 @@ OBJS := $(addprefix $(OBJDIR)/,\
 	sh2_crt0.o\
 	aplib_decrunch.o image.o\
 	gfx.o text.o menu.o vn_engine.o generated_script.o main.o)
+	
+include $(GENDIR)/include.mk
 
 $(OBJDIR)/m68k_%.o : $(SRCDIR)/m68k_%.s
 	m68k-elf-as -m68000 --register-prefix-optional -o $@ $<
@@ -32,6 +34,9 @@ $(OBJDIR)/%.o : $(GENDIR)/%.c
 $(GENDIR)/%.c : $(RPYDIR)/script.rpy
 	rpy2c $< $(GENDIR) 
 
+$(GENDIR)/%.mk : $(RPYDIR)/script.rpy
+	rpy2c $< $(GENDIR) 
+
 $(OBJDIR)/%.apx : $(IMGDIR)/%.png
 	sixpack.exe -image -pack -v -target 32x -codec aplib -format l8 -q 256 -o $@ $<
 
@@ -42,7 +47,7 @@ $(OBJDIR)/%.apg : $(IMGDIR)/%.png
 $(OBJDIR)/%.bmf : $(IMGDIR)/src/%.fnt
 	font_conv $@ $<
 	
-all: $(OBJS) $(GENDIR)/generated_script.c
+all: $(GENDIR)/generated_script.c $(GENDIR)/include.mk $(OBJS) 
 	sh-elf-ld -T $(SRCDIR)/32x.ld -e _start --oformat binary -o generated.32x $(OBJS)
 	
 $(OBJS): | $(RSCS) $(OBJDIR)
