@@ -144,6 +144,25 @@ class TestCGenerator(unittest.TestCase):
 
 
 
+class TestMkIncludeGenerator(unittest.TestCase):
+
+    def test_empty(self):
+        script = rpy_ast.RpyScript([], [])
+        mk_code = rpy_codegen.MkIncludeGenerator().generate(script)
+        self.assertEqual('', mk_code)
+
+    def test_one_image(self):
+        return
+
+        script = rpy_ast.RpyScript([], [])
+        mk_code = rpy_codegen.MkIncludeGenerator().generate(script)
+        self.assertEqual("""
+        IMGS := $(addprefix $(OBJDIR)/,\
+                lecturehall.
+        """.strip(), mk_code)
+
+
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,6 +1,8 @@
 import textwrap
 
 class CGenerator(object):
+    """Generates the main .c file from the AST"""
+
     def __init__(self):
         pass
 
@@ -41,3 +43,14 @@ class CGenerator(object):
 
     def escape_string(self, string):
         return string.replace('"', r'\"')
+
+
+
+class MkIncludeGenerator(object):
+    """Generates a Makefile .mk include from the AST."""
+
+    def __init__(self):
+        pass
+
+    def generate(self, script):
+        return ''
