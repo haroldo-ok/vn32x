@@ -12,7 +12,7 @@ class RpyScript(object):
         return [o for o in self.declarations if isinstance(o, ImageDecl)]
 
     def image_names(self):
-        return without_duplicates(os.path.splitext(o.image)[0] for o in self.images())
+        return without_duplicates(o.image_name() for o in self.images())
 
 
 class ImageDecl(object):
@@ -23,6 +23,9 @@ class ImageDecl(object):
 
     def __repr__(self):
         return "Image {name} {state} {image}".format(**self.__dict__)
+
+    def image_name(self):
+        return os.path.splitext(self.image)[0];
 
 
 class CharacterDecl(object):

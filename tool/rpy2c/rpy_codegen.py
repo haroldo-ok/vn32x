@@ -12,14 +12,16 @@ class CGenerator(object):
         return method(script)
 
     def generate_RpyScript(self, script):
-        images = script.image_names()
-        image_files = [];
+        image_files = ['extern uint16 vg_%s[];' % n for n in script.image_names()]
+        image_images = ['const uint16 *vi_%s_%s = vg_%s;' % (n.name, n.state, n.image_name()) for n in script.images()]
 
         label_forwards = ['extern void *vn_%s();' % x.name for x in script.labels]
         label_functions = map(self.generate, script.labels)
 
         code_lists = [
             ['#include "script.h"'],
+            image_files,
+            image_images,
             label_forwards,
             label_functions
         ]
