@@ -156,6 +156,22 @@ class TestCGenerator(CodeGenTestCase):
         const uint16 *vi_bg_lecturehall = vg_lecturehall;
         """, c_code)
 
+    def test_scene(self):
+        script = rpy_ast.RpyScript([], [
+            rpy_ast.Label('test_scene', [
+                rpy_ast.SceneCmd('bg', 'lecturehall')
+            ]),
+        ])
+        c_code = rpy_codegen.CGenerator().generate(script)
+        self.assertSameCode(r"""
+        extern void *vn_test_scene();
+
+        void *vn_test_scene() {
+            vnScene(vi_bg_lecturehall);
+            return vn_start;
+        }
+        """, c_code)
+
 
 
 class TestMkIncludeGenerator(CodeGenTestCase):
