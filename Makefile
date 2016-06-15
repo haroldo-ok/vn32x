@@ -11,7 +11,7 @@ RSCS := $(addprefix $(OBJDIR)/,\
 
 OBJS := $(addprefix $(OBJDIR)/,\
 	sh2_crt0.o\
-	aplib_decrunch.o image.o\
+	aplib_decrunch.o image.o generated_images.o\
 	gfx.o text.o menu.o vn_engine.o generated_script.o main.o)
 	
 include $(GENDIR)/include.mk
@@ -23,6 +23,9 @@ $(OBJDIR)/m68k_%.bin : $(OBJDIR)/m68k_%.o
 	m68k-elf-ld -T$(SRCDIR)/md.ld --oformat binary -o $@ $<
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.s
+	sh-elf-as -o $@ $<
+
+$(OBJDIR)/%.o : $(GENDIR)/%.s
 	sh-elf-as -o $@ $<
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c

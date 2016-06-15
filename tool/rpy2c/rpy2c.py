@@ -23,6 +23,11 @@ def main (argv):
         with open(os.path.join(dest_path, 'generated_script.c'), 'wt') as outf:
             outf.write(c_code)
 
+        # Generates the .s file
+        s_code = rpy_codegen.ImageAsmGenerator().generate(tree)
+        with open(os.path.join(dest_path, 'generated_images.s'), 'wt') as outf:
+            outf.write(s_code)
+
 
 if __name__ == '__main__':
     main(sys.argv)
