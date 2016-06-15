@@ -173,6 +173,22 @@ class TestCGenerator(CodeGenTestCase):
         }
         """, c_code)
 
+    def test_show(self):
+        script = rpy_ast.RpyScript([], [
+            rpy_ast.Label('test_show', [
+                rpy_ast.ShowCmd('bg', 'lecturehall')
+            ]),
+        ])
+        c_code = rpy_codegen.CGenerator().generate(script)
+        self.assertSameCode(r"""
+        extern void *vn_test_show();
+
+        void *vn_test_show() {
+            vnShow(vi_bg_lecturehall);
+            return vn_start;
+        }
+        """, c_code)
+
 
 
 class TestMkIncludeGenerator(CodeGenTestCase):
