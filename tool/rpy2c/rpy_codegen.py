@@ -67,3 +67,28 @@ class MkIncludeGenerator(object):
         return textwrap.dedent(r"""
         $(addprefix $(OBJDIR)/, %s)
         """.strip()) % ' '.join(images)
+
+
+
+class ImageAsmGenerator(object):
+    """Generates an .s assembly  from the AST, pointing to the images."""
+
+    def __init__(self):
+        pass
+
+    def generate(self, script):
+        images = [os.path.splitext(o.image)[0] for o in script.declarations if isinstance(o, rpy_ast.ImageDecl)]
+        img_globals = ['.globl _vg_%s' % i for i in images]
+        img_includes = [textwrap.dedent(r"""
+        _vg_%s:
+        .incbin "build/%s.apg"
+        """) % (i, i) for i in images]
+
+        return textwrap.dedent("""
+        .text
+
+        %s
+
+        %s
+
+        """) % ('\n'.join(img_globals), '\n\n'.join(img_includes))

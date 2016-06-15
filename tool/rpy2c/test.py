@@ -176,6 +176,48 @@ class TestMkIncludeGenerator(CodeGenTestCase):
 
 
 
+class TestImageAsmGenerator(CodeGenTestCase):
+
+    def test_empty(self):
+        script = rpy_ast.RpyScript([], [])
+        asm_code = rpy_codegen.ImageAsmGenerator().generate(script)
+        self.assertSameCode('.text', asm_code)
+
+    def test_one_image(self):
+        script = rpy_ast.RpyScript([
+            rpy_ast.ImageDecl('bg', 'lecturehall', 'lecturehall.jpg')
+        ], [])
+        asm_code = rpy_codegen.ImageAsmGenerator().generate(script)
+        self.assertSameCode(r"""
+        .text
+
+        .globl _vg_lecturehall
+
+        _vg_lecturehall:
+        .incbin "build/lecturehall.apg"
+        """, asm_code)
+
+    def test_two_images(self):
+        script = rpy_ast.RpyScript([
+            rpy_ast.ImageDecl('bg', 'lecturehall', 'lecturehall.jpg'),
+            rpy_ast.ImageDecl('bg', 'uni', 'uni.jpg')
+        ], [])
+        asm_code = rpy_codegen.ImageAsmGenerator().generate(script)
+        self.assertSameCode(r"""
+        .text
+
+        .globl _vg_lecturehall
+        .globl _vg_uni
+
+        _vg_lecturehall:
+        .incbin "build/lecturehall.apg"
+
+        _vg_uni:
+        .incbin "build/uni.apg"
+        """, asm_code)
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
