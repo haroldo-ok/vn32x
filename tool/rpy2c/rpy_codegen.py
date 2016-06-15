@@ -44,6 +44,16 @@ class CGenerator(object):
         vnText("%s");
         """ % self.escape_string(say.text))
 
+    def generate_SceneCmd(self, scene):
+        return self.prepare_template(r"""
+        vnScene(vi_%s_%s);
+        """ % (scene.name, scene.state))
+
+    def generate_ShowCmd(self, show):
+        return self.prepare_template(r"""
+        vnShow(vi_%s_%s);
+        """ % (show.name, show.state))
+
     def prepare_template(self, template):
         return textwrap.dedent(template).strip()
 

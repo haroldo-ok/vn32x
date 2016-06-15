@@ -64,6 +64,15 @@ class SceneCmd(object):
         return "Scene {name} {state}".format(**self.__dict__)
 
 
+class ShowCmd(object):
+    def __init__(self, name, state):
+        self.name = name
+        self.state = state
+
+    def __repr__(self):
+        return "Show {name} {state}".format(**self.__dict__)
+
+
 class SayCmd(object):
     def __init__(self, character, text):
         self.character = character

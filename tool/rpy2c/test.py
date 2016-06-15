@@ -17,6 +17,7 @@ class TestParser(unittest.TestCase):
         # The game starts here.
         label start:
             scene bg lecturehall
+            show sylvie normal
             "Well, professor Eileen's lecture was interesting."
             "Sylvie" "Oh, hi, do we walk home together?"
             m "Yes..."
@@ -154,6 +155,38 @@ class TestCGenerator(CodeGenTestCase):
         self.assertSameCode(r"""
         extern uint16 vg_lecturehall[];
         const uint16 *vi_bg_lecturehall = vg_lecturehall;
+        """, c_code)
+
+    def test_scene(self):
+        script = rpy_ast.RpyScript([], [
+            rpy_ast.Label('test_scene', [
+                rpy_ast.SceneCmd('bg', 'lecturehall')
+            ]),
+        ])
+        c_code = rpy_codegen.CGenerator().generate(script)
+        self.assertSameCode(r"""
+        extern void *vn_test_scene();
+
+        void *vn_test_scene() {
+            vnScene(vi_bg_lecturehall);
+            return vn_start;
+        }
+        """, c_code)
+
+    def test_show(self):
+        script = rpy_ast.RpyScript([], [
+            rpy_ast.Label('test_show', [
+                rpy_ast.ShowCmd('bg', 'lecturehall')
+            ]),
+        ])
+        c_code = rpy_codegen.CGenerator().generate(script)
+        self.assertSameCode(r"""
+        extern void *vn_test_show();
+
+        void *vn_test_show() {
+            vnShow(vi_bg_lecturehall);
+            return vn_start;
+        }
         """, c_code)
 
 
