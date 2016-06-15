@@ -44,10 +44,14 @@ $(OBJDIR)/%.apg : $(IMGDIR)/%.png
 	sixpack.exe -image -pack -v -target 32x -codec aplib -format l8 -q 256 -o $@tmp $<
 	apg $@ $< $@tmp
 
+$(OBJDIR)/%.apg : $(RPYDIR)/%.png
+	sixpack.exe -image -pack -v -target 32x -codec aplib -format l8 -q 256 -o $@tmp $<
+	apg $@ $< $@tmp
+
 $(OBJDIR)/%.bmf : $(IMGDIR)/src/%.fnt
 	font_conv $@ $<
 	
-all: $(GENDIR)/generated_script.c $(GENDIR)/include.mk $(OBJS) 
+all: $(GENDIR)/generated_script.c $(GENDIR)/include.mk $(IMGS) $(OBJS) 
 	sh-elf-ld -T $(SRCDIR)/32x.ld -e _start --oformat binary -o generated.32x $(OBJS)
 	
 $(OBJS): | $(RSCS) $(OBJDIR)
