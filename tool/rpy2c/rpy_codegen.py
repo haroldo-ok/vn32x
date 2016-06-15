@@ -12,6 +12,9 @@ class CGenerator(object):
         return method(script)
 
     def generate_RpyScript(self, script):
+        images = script.image_names()
+        image_files = [];
+
         label_forwards = ['extern void *vn_%s();' % x.name for x in script.labels]
         label_functions = map(self.generate, script.labels)
 
@@ -59,7 +62,7 @@ class MkIncludeGenerator(object):
         """ % self.generate_image_list(script))
 
     def generate_image_list(self, script):
-        images = [os.path.splitext(o.image)[0] + '.apg' for o in script.declarations if isinstance(o, rpy_ast.ImageDecl)]
+        images = [n + '.apg' for n in script.image_names()]
 
         if not images:
             return ''
@@ -77,7 +80,7 @@ class ImageAsmGenerator(object):
         pass
 
     def generate(self, script):
-        images = [os.path.splitext(o.image)[0] for o in script.declarations if isinstance(o, rpy_ast.ImageDecl)]
+        images = script.image_names()
         img_globals = ['.globl _vg_%s' % i for i in images]
         img_includes = [textwrap.dedent(r"""
         _vg_%s:

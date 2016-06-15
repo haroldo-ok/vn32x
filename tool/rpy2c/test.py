@@ -146,6 +146,16 @@ class TestCGenerator(CodeGenTestCase):
         }
         """, c_code)
 
+    def test_one_image(self):
+        script = rpy_ast.RpyScript([
+            rpy_ast.ImageDecl('bg', 'lecturehall', 'lecturehall.jpg')
+        ], [])
+        c_code = rpy_codegen.CGenerator().generate(script)
+        self.assertSameCode(r"""
+        extern uint16 vg_lecturehall[];
+        const uint16 *vi_bg_lecturehall = vg_lecturehall;
+        """, c_code)
+
 
 
 class TestMkIncludeGenerator(CodeGenTestCase):

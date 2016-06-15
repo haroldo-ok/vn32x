@@ -1,3 +1,5 @@
+import os
+
 class RpyScript(object):
     def __init__(self, declarations, labels):
         self.declarations = declarations
@@ -5,6 +7,12 @@ class RpyScript(object):
 
     def __repr__(self):
         return "RpyScript {declarations} {labels}".format(**self.__dict__)
+
+    def images(self):
+        return [o for o in self.declarations if isinstance(o, ImageDecl)]
+
+    def image_names(self):
+        return without_duplicates(os.path.splitext(o.image)[0] for o in self.images())
 
 
 class ImageDecl(object):
@@ -85,3 +93,12 @@ class JumpCmd(object):
 
     def __repr__(self):
         return "Jump {label}".format(**self.__dict__)
+
+
+def without_duplicates(seq):
+    """Returns a copy of the list with duplicates removed while preserving order.
+    As seen in http://stackoverflow.com/questions/480214/how-do-you-remove-duplicates-from-a-list-in-python-whilst-preserving-order
+    """
+    seen = set()
+    seen_add = seen.add
+    return [x for x in seq if not (x in seen or seen_add(x))]
