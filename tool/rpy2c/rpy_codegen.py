@@ -12,11 +12,16 @@ class CGenerator(object):
         return method(script)
 
     def generate_RpyScript(self, script):
+        image_files = ['extern uint16 vg_%s[];' % n for n in script.image_names()]
+        image_images = ['const uint16 *vi_%s_%s = vg_%s;' % (n.name, n.state, n.image_name()) for n in script.images()]
+
         label_forwards = ['extern void *vn_%s();' % x.name for x in script.labels]
         label_functions = map(self.generate, script.labels)
 
         code_lists = [
             ['#include "script.h"'],
+            image_files,
+            image_images,
             label_forwards,
             label_functions
         ]
@@ -59,7 +64,7 @@ class MkIncludeGenerator(object):
         """ % self.generate_image_list(script))
 
     def generate_image_list(self, script):
-        images = [os.path.splitext(o.image)[0] + '.apg' for o in script.declarations if isinstance(o, rpy_ast.ImageDecl)]
+        images = [n + '.apg' for n in script.image_names()]
 
         if not images:
             return ''
@@ -67,3 +72,28 @@ class MkIncludeGenerator(object):
         return textwrap.dedent(r"""
         $(addprefix $(OBJDIR)/, %s)
         """.strip()) % ' '.join(images)
+
+
+
+class ImageAsmGenerator(object):
+    """Generates an .s assembly  from the AST, pointing to the images."""
+
+    def __init__(self):
+        pass
+
+    def generate(self, script):
+        images = script.image_names()
+        img_globals = ['.globl _vg_%s' % i for i in images]
+        img_includes = [textwrap.dedent(r"""
+        _vg_%s:
+        .incbin "build/%s.apg"
+        """) % (i, i) for i in images]
+
+        return textwrap.dedent("""
+        .text
+
+        %s
+
+        %s
+
+        """) % ('\n'.join(img_globals), '\n\n'.join(img_includes))
