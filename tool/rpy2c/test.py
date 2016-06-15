@@ -55,7 +55,7 @@ class TestParser(unittest.TestCase):
 
 
 
-class TestCodeGen(unittest.TestCase):
+class TestCGenerator(unittest.TestCase):
 
     def test_empty(self):
         script = rpy_ast.RpyScript([], [])
