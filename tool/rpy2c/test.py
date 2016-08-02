@@ -207,10 +207,12 @@ class TestCGenerator(CodeGenTestCase):
         extern void *vn_test_menu();
 
         void *vn_test_menu() {
+            int mn_choice, mn_option_1, mn_option_2;
+
             initMenu();
-            int mn_option_1 = addMenuItem("First option");
-            int mn_option_2 = addMenuItem("Second option");
-            int mn_choice = vnMenu();
+            mn_option_1 = addMenuItem("First option");
+            mn_option_2 = addMenuItem("Second option");
+            mn_choice = vnMenu();
 
         	if (mn_choice == mn_option_1) {
         		return vn_here;

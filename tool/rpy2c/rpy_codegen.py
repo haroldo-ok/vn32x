@@ -5,6 +5,7 @@ class CGenerator(object):
     """Generates the main .c file from the AST"""
 
     def __init__(self):
+        self.local_variables = set()
         pass
 
     def generate(self, script):
@@ -29,15 +30,18 @@ class CGenerator(object):
         return '\n\n'.join(('\n'.join(x) for x in code_lists if x)) + '\n'
 
     def generate_Label(self, label):
-        commands = map(self.generate, label.commands);
+        self.local_variables.clear()
+
+        commands = map(self.generate, label.commands)
+        variable_decl = ('int %s;\n\n\t' % ', '.join(sorted(self.local_variables))) if self.local_variables else ''
 
         return self.prepare_template(r"""
         void *vn_%s() {
-            %s
+            %s%s
 
             return vn_start;
         }
-        """) % (label.name, '\n\t'.join(commands))
+        """) % (label.name, variable_decl, '\n\t'.join(commands))
 
     def generate_SayCmd(self, say):
         return self.prepare_template(r"""
@@ -54,11 +58,49 @@ class CGenerator(object):
         vnShow(vi_%s_%s);
         """ % (show.name, show.state))
 
+    def generate_JumpCmd(self, jump):
+        return self.prepare_template(r"""
+        return vn_%s;
+        """ % (jump.label))
+
+    def generate_MenuCmd(self, menu):
+        self.register_local_variable('mn_choice')
+
+        option_number = 1
+        options_decl = []
+        options_cond = []
+
+        for o in menu.options:
+            option_var = 'mn_option_%d' % option_number
+            self.register_local_variable(option_var)
+            options_decl.append(
+                    '%s = addMenuItem("%s");' % (option_var, self.escape_string(o.text)))
+
+            commands = map(self.generate, o.commands)
+            options_cond.append(self.prepare_template(r"""
+            if (mn_choice == %s) {
+                %s
+            }
+            """ % (option_var, '\n\t'.join(commands))));
+
+            option_number += 1
+
+        return self.prepare_template(r"""
+        initMenu();
+        %s
+        mn_choice = vnMenu();
+
+        %s
+        """ % ('\n\t'.join(options_decl), ' else '.join(options_cond)))
+
     def prepare_template(self, template):
         return textwrap.dedent(template).strip()
 
     def escape_string(self, string):
         return string.replace('"', r'\"')
+
+    def register_local_variable(self, name):
+        self.local_variables.add(name)
 
 
 
