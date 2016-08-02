@@ -189,6 +189,41 @@ class TestCGenerator(CodeGenTestCase):
         }
         """, c_code)
 
+    def test_menu(self):
+        script = rpy_ast.RpyScript([], [
+            rpy_ast.Label('test_menu', [
+                rpy_ast.MenuCmd([
+                    rpy_ast.MenuOpt('First option', [
+                        rpy_ast.JumpCmd('here')
+                    ]),
+                    rpy_ast.MenuOpt('Second option', [
+                        rpy_ast.JumpCmd('there')
+                    ])
+                ])
+            ]),
+        ])
+        c_code = rpy_codegen.CGenerator().generate(script)
+        self.assertSameCode(r"""
+        extern void *vn_test_menu();
+
+        void *vn_test_menu() {
+            int mn_choice, mn_option_1, mn_option_2;
+
+            initMenu();
+            mn_option_1 = addMenuItem("First option");
+            mn_option_2 = addMenuItem("Second option");
+            mn_choice = vnMenu();
+
+        	if (mn_choice == mn_option_1) {
+        		return vn_here;
+        	} else if (mn_choice == mn_option_2) {
+        		return vn_there;
+        	}
+
+            return vn_start;
+        }
+        """, c_code)
+
 
 
 class TestMkIncludeGenerator(CodeGenTestCase):
