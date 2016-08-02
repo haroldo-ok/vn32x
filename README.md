@@ -16,14 +16,15 @@ Implemented so far
 * Word wrapping for the text boxes;
 * Menus;
 * Some image decompression caching to speed up image rendering;
-* Create an easy to use library to implement the graphical novels.
+* Create an easy to use library to implement the graphical novels;
+* Implement a tool to automatically generate C source code from Ren'Py scripts.
 
 In progress
 -----------
-* Implement a tool to automatically generate C source code from Ren'Py scripts.
+* An easy to use installer.
 
 Not implemented, but planned
 ----------------------------
-* An easy to use installer;
+* Better error handling;
 * Digital audio playback;
 * A visual editor for the scripts (maybe as a separate project?).
