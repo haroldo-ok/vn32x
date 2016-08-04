@@ -1,8 +1,15 @@
-VN32X v0.0.2
+VN32X v0.2.0
 ============
 
 This is a tool for creating graphic novels for the Sega 32X.
 Work in progress.
+
+So far, it contains:
+* A C library for making visual novels;
+* Another C library to interface the VN library with the 32X hardware;
+* A tool to convert PNG images to a format compatible with the 32X;
+* A transpiler that translates a subset of the Ren'py scripting language to a C file (plus a few includes) that uses the VN library;
+* A Makefile that takes care of coordinating all of that.
 
 Implemented so far
 ------------------
