@@ -10,6 +10,8 @@ So far, it contains:
 * A tool to convert PNG images to a format compatible with the 32X;
 * A transpiler that translates a subset of the Ren'py scripting language to a C file (plus a few includes) that uses the VN library;
 * A Makefile that takes care of coordinating all of that.
+ 
+In order to compile the library and the generated sources, you will need a C cross compiler for 32X; you can find one on http://sebastianmihai.com/main.php?t=106&n=Sega-32x-development-Eight-Queens
 
 Implemented so far
 ------------------
