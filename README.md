@@ -28,10 +28,11 @@ Implemented so far
 
 In progress
 -----------
-* An easy to use installer.
+* An easy to use installer;
+* A visual editor for the scripts; see https://github.com/haroldo-ok/BlocklyVN32X;
 
 Not implemented, but planned
 ----------------------------
 * Better error handling;
-* Digital audio playback;
-* A visual editor for the scripts (maybe as a separate project?).
+* Digital audio playback.
+
