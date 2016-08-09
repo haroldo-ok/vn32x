@@ -30,8 +30,8 @@ Implemented so far
 
 In progress
 -----------
-* An easy to use installer;
-* A visual editor for the scripts; see https://github.com/haroldo-ok/BlocklyVN32X;
+* An easy to use installer; see https://github.com/haroldo-ok/vn32x/releases/download/v0.2.0-alpha/vn32x-portable-0.2.0.7z for a 'portable' version;
+* A visual editor for the scripts; see https://github.com/haroldo-ok/BlocklyVN32X for a work-in-progress;
 
 Not implemented, but planned
 ----------------------------
