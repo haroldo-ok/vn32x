@@ -36,5 +36,10 @@ In progress
 Not implemented, but planned
 ----------------------------
 * Better error handling;
+* Support for variables;
+* Support for conditionals;
+* Support for a limited Python subset;
+* More than one character on screen;
+* Documentation and tutorials;
 * Digital audio playback.
 
