@@ -36,10 +36,12 @@ In progress
 Not implemented, but planned
 ----------------------------
 * Better error handling;
+* Correcting bug where the parser freaks out on empty lines;
 * Support for variables;
 * Support for conditionals;
-* Support for a limited Python subset;
+* Support for a (limited) Python subset;
 * More than one character on screen;
+* Support for hicolor images;
 * Documentation and tutorials;
 * Digital audio playback.
 
