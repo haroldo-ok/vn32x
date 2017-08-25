@@ -34,12 +34,6 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 $(OBJDIR)/%.o : $(GENDIR)/%.c
 	sh-elf-gcc -c -O2 -I$(SRCDIR) -o $@ $<
 
-$(GENDIR)/%.c : $(RPYDIR)/script.rpy
-	rpy2c $< $(GENDIR) 
-
-$(GENDIR)/%.mk : $(RPYDIR)/script.rpy
-	rpy2c $< $(GENDIR) 
-
 $(OBJDIR)/%.apx : $(IMGDIR)/%.png
 	sixpack.exe -image -pack -v -target 32x -codec aplib -format l8 -q 256 -o $@ $<
 
