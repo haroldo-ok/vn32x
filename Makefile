@@ -59,7 +59,7 @@ $(OBJDIR):
 	mkdir $(OBJDIR)
 	
 run:
-	$(EMULATOR) generated.32x
+	-$(EMULATOR) generated.32x
 	
 clean:
 	rm -rf $(OBJDIR)
