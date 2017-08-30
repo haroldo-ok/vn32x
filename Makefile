@@ -64,4 +64,5 @@ run:
 clean:
 	rm -rf $(OBJDIR)
 	rm $(GENDIR)/*
+	rm $(RPYDIR)/*
 	rm *.32x
