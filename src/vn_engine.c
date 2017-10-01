@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
+
 #include "32x.h"
 #include "gfx.h"
 #include "text.h"
@@ -93,6 +97,16 @@ void vnText(char *text) {
 			while (readJoypad1() & SEGA_CTRL_A);
 		}		
 	}	
+}
+
+void vnTextF(char *format, ...) {
+	va_list aptr;
+	
+	char buffer[80];
+	
+	va_start(aptr, format);
+	vsprintf(buffer, format, aptr);
+	va_end(aptr);
 }
 
 uint8 vnMenu() {

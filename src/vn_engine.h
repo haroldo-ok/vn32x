@@ -7,6 +7,7 @@ extern void initVN();
 extern void swapBuffers();
 extern void vnScene(uint16 *apg);
 extern void vnText(char *text);
+extern void vnTextF(char *format, ...);
 extern uint8 vnMenu();
 
 typedef void * (*scriptFunction)();
