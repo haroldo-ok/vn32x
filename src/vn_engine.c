@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdarg.h>
-#include <string.h>
 
 #include "32x.h"
 #include "gfx.h"

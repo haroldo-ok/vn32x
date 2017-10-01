@@ -99,6 +99,9 @@ SECTIONS
     _bstart = . ;
     *(.shbss)
     *(.bss)
+	_end = .;
+	__end__ = _end;
+	PROVIDE (end = _end);
     *(COMMON)
     *(.eh_fram)
     *(.eh_frame)
