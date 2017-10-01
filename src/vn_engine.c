@@ -104,7 +104,6 @@ void vnTextF(char *format, ...) {
 	char buffer[80];
 	
 	va_start(aptr, format);
-	vsprintf(buffer, format, aptr);
 	va_end(aptr);
 }
 

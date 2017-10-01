@@ -14,9 +14,6 @@ OBJS := $(addprefix $(OBJDIR)/,\
 	aplib_decrunch.o image.o generated_images.o\
 	gfx.o text.o menu.o vn_engine.o generated_script.o main.o)
 	
-LIBC :=  $(addprefix $(SRCDIR)/,\
-	libc.a libgcc.a)
-	
 include $(GENDIR)/include.mk
 
 $(OBJDIR)/m68k_%.o : $(SRCDIR)/m68k_%.s
@@ -58,7 +55,7 @@ $(OBJDIR)/%.bmf : $(IMGDIR)/src/%.fnt
 	font_conv $@ $<
 	
 all: $(GENDIR)/generated_script.c $(GENDIR)/include.mk $(IMGS) $(OBJS) 
-	sh-elf-ld -T $(SRCDIR)/32x.ld -e _start --oformat binary -o generated.32x $(OBJS) $(LIBC)
+	sh-elf-ld -T $(SRCDIR)/32x.ld -e _start --oformat binary -o generated.32x $(OBJS)
 	
 $(OBJS): | $(RSCS) $(OBJDIR)
 
