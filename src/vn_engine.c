@@ -68,6 +68,15 @@ void drawBG() {
 	}
 }
 
+int strlen(char *s) {
+	int len = 0;
+	while (*s) {
+		len++;
+		s++;
+	}
+	return len;
+}
+
 void vnScene(uint16 *apg) {
 	backgroundImage = apg;
 }
@@ -101,7 +110,7 @@ void vnText(char *text) {
 void vnTextF(char *format, ...) {
 	va_list aptr;
 	
-	char buffer[80];
+	char buffer[strlen(format)];
 	
 	va_start(aptr, format);
 	va_end(aptr);
