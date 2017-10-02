@@ -13,6 +13,11 @@ So far, it contains:
  
 In order to compile the library and the generated sources, you will need a C cross compiler for 32X; you can find one on http://sebastianmihai.com/main.php?t=106&n=Sega-32x-development-Eight-Queens
 
+Manual
+------
+
+A manual can be found at: https://github.com/haroldo-ok/vn32x/blob/master/MANUAL.md
+
 Implemented so far
 ------------------
 
