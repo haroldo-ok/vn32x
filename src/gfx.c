@@ -38,7 +38,7 @@ int setupLineTable() {
 }
 
 /** Very simple and naive cache scheme */
-unsigned char *cachedImage(unsigned char *compressed, vu16 size) {
+unsigned char *cachedImage(unsigned char *compressed, uint16 size) {
 	cacheEntry *entry;
 	unsigned char *nextFree;
 	int i;
@@ -73,7 +73,7 @@ unsigned char *cachedImage(unsigned char *compressed, vu16 size) {
 	return nextFree;
 }
 
-void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
+void drawApgImage(int x, int y, uint16 *apg, char semiTransparent) {
 	vu16 *frameBuffer16 = &MARS_FRAMEBUFFER;
 	int i, j;
 	vu16 width = apg[0];
@@ -81,7 +81,7 @@ void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
 	int transparency = apg[2];
 	int palSize = apg[3];
 	vu16 *pal = apg + 4;
-	vu16 *image = pal + palSize;
+	unsigned char *image = (unsigned char *) (pal + palSize);
 	
 	unsigned char *srcLin, *srcCol;
 	vu16 *dstLin, *dstCol;
@@ -94,7 +94,7 @@ void drawApgImage(int x, int y, vu16 *apg, char semiTransparent) {
 		return;
 	}
 
-	srcLin = cachedImage(image, width * height);
+	srcLin = cachedImage((unsigned char *) image, width * height);
 	dstLin = frameBuffer16 + 0x100;	
 	visibleW = width;
 	visibleH = height;

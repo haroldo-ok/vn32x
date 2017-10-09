@@ -16,7 +16,7 @@ int blinkControl;
 uint16 *backgroundImage;
 uint16 *actorImage;
 
-extern vu16 bedday[], pose[], text_frame[], next_page_icon[]; // TEMP
+extern uint16 bedday[], pose[], text_frame[], next_page_icon[]; // TEMP
 
 void initVN() {
 	currentFB = 0;

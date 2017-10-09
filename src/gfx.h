@@ -8,7 +8,7 @@
 
 void initGfx();
 int setupLineTable();
-void drawApgImage(int x, int y, vu16 *apg, char semiTransparent);
+void drawApgImage(int x, int y, uint16 *apg, char semiTransparent);
 void translucentRectangle(int x, int y, int width, int height, vu16 color);
 uint16 imageWidth(uint16 *apg);
 uint16 imageHeight(uint16 *apg);
