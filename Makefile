@@ -41,12 +41,12 @@ $(OBJDIR)/%.apg : $(OBJDIR)/%.png
 	sixpack.exe -image -pack -v -target 32x -codec aplib -format l8 -q 256 -o $@tmp $<
 	apg $@ $< $@tmp
 
-$(OBJDIR)/%.png : $(IMGDIR)/%.png
+$(OBJDIR)/%.png : $(IMGDIR)/%.png $(OBJDIR)
 	cp $< $@tmp
 	pngnq -f -e.tmp $@tmp
 	cp $@tmp.tmp $@
 
-$(OBJDIR)/%.png : $(RPYDIR)/%.png
+$(OBJDIR)/%.png : $(RPYDIR)/%.png $(OBJDIR)
 	cp $< $@tmp
 	pngnq -f -e.tmp $@tmp
 	cp $@tmp.tmp $@
