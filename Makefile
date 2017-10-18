@@ -42,10 +42,14 @@ $(OBJDIR)/%.apg : $(OBJDIR)/%.png
 	apg $@ $< $@tmp
 
 $(OBJDIR)/%.png : $(IMGDIR)/%.png
-	cp $< $@
+	cp $< $@tmp
+	pngnq -f -e.tmp $@tmp
+	cp $@tmp.tmp $@
 
 $(OBJDIR)/%.png : $(RPYDIR)/%.png
-	cp $< $@
+	cp $< $@tmp
+	pngnq -f -e.tmp $@tmp
+	cp $@tmp.tmp $@
 
 $(OBJDIR)/%.bmf : $(IMGDIR)/src/%.fnt
 	font_conv $@ $<
