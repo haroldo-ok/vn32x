@@ -1,6 +1,6 @@
 #include "gfx.h"
 
-#define CACHE_SIZE (128*1024)
+#define CACHE_SIZE (140*1024)
 #define CACHE_END (tempImgBuffer + CACHE_SIZE)
 #define CACHE_ENTRY_COUNT 8
 
