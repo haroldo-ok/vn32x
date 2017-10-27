@@ -11,7 +11,6 @@ uint16 currentFB;
 uint16 joy;
 
 char *textToDisplay, *nextText;
-int blinkControl;
 
 uint16 *backgroundImage;
 uint16 *actorImage;
@@ -21,7 +20,6 @@ extern uint16 bedday[], pose[], text_frame[], next_page_icon[]; // TEMP
 void initVN() {
 	currentFB = 0;
 	textToDisplay = 0;
-	blinkControl = 0;
 
 	initGfx();
 	initMenu();
@@ -38,6 +36,11 @@ void initVN() {
 	actorImage = 0;
 }
 
+void waitVBlank() {
+	while (MARS_VDP_FBCTL & MARS_VDP_VBLK) {}
+	while (!(MARS_VDP_FBCTL & MARS_VDP_VBLK)) {}
+}
+
 void swapBuffers() {
 	MARS_VDP_FBCTL = currentFB ^ 1;
 	while ((MARS_VDP_FBCTL & MARS_VDP_FS) == currentFB) {}
@@ -52,10 +55,12 @@ void readJoy() {
 	joy = readJoypad1();
 }
 
-void drawBG() {
+void displayCurrentFrame() {
 	setupLineTable();
-	swapBuffers();
-	
+	swapBuffers();	
+}
+
+void drawBG() {
 	if (backgroundImage) {
 		drawApgImage(0, 0, backgroundImage, 0);					
 	}
@@ -117,23 +122,41 @@ void vnShow(uint16 *apg) {
 }
 
 void vnText(char *text) {
-	for (textToDisplay = text; textToDisplay;) {
-		drawBG();
+	int needRedraw = 1;
+	int blinkControl;
 	
-		drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
-		
-		if ((blinkControl & 0x03) < 2) {
-			drawApgImage(FBF_WIDTH - 24, FBF_HEIGHT - 20, next_page_icon, 1);			
-		}
-		blinkControl++;	
+	for (textToDisplay = text; textToDisplay;) {
+		if (needRedraw) {
+			// Prepare two frames in advance (with and without the blinking cursor)
+			for (blinkControl = 0; blinkControl < 2; blinkControl++) {
+				drawBG();
+			
+				drawApgImage(0, FBF_HEIGHT - 80, text_frame, 1);
+				
+				if (blinkControl) {
+					drawApgImage(FBF_WIDTH - 24, FBF_HEIGHT - 20, next_page_icon, 1);			
+				}
 
-		drawText("Test", 8, 126, 0);
-		nextText = drawWrappedText(textToDisplay, 8, 142, 304, 48, 0x7FFF);
+				drawText("Test", 8, 126, 0);
+				nextText = drawWrappedText(textToDisplay, 8, 142, 304, 48, 0x7FFF);
+
+				displayCurrentFrame();				
+			}
+
+			needRedraw = 0;
+		}
+		
+		if (blinkControl > 30) {
+			displayCurrentFrame();
+			blinkControl = 0;
+		}
+		blinkControl++;
 
 		readJoy();
 		if (joy & SEGA_CTRL_A) {
 			textToDisplay = nextText;
 			while (readJoypad1() & SEGA_CTRL_A);
+			needRedraw = 1;
 		}		
 	}	
 }
@@ -208,5 +231,7 @@ uint8 vnMenu() {
 				menuCursor = 1;
 			}
 		}
+		
+		displayCurrentFrame();
 	}
 }
