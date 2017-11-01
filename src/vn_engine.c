@@ -11,6 +11,7 @@ uint16 currentFB;
 uint16 joy;
 
 char *textToDisplay, *nextText;
+char *characterName;
 
 uint16 *backgroundImage;
 uint16 *actorImage;
@@ -34,6 +35,7 @@ void initVN() {
 	
 	backgroundImage = 0;
 	actorImage = 0;
+	characterName = "";
 }
 
 void waitVBlank() {
@@ -121,6 +123,10 @@ void vnShow(uint16 *apg) {
 	actorImage = apg;
 }
 
+void vnChar(char *charName) {
+	characterName = charName;
+}
+
 void vnText(char *text) {
 	int needRedraw = 1;
 	int blinkControl;
@@ -137,7 +143,7 @@ void vnText(char *text) {
 					drawApgImage(FBF_WIDTH - 24, FBF_HEIGHT - 20, next_page_icon, 1);			
 				}
 
-				drawText("Test", 8, 126, 0);
+				drawText(characterName, 8, 126, 0);
 				nextText = drawWrappedText(textToDisplay, 8, 142, 304, 48, 0x7FFF);
 
 				displayCurrentFrame();				
