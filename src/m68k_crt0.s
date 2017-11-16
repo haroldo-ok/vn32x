@@ -21,13 +21,13 @@
 
 | Standard MegaDrive ROM header at 0x100
 
-        .ascii  "SEGA 32X Example"      /* SEGA must be the first four chars for TMSS */
-        .ascii  "(C)2011         "
-        .ascii  "Example startup "      /* export name */
-        .ascii  "code for 32X    "
+        .ascii  "SEGA 32X - VN32X"      /* SEGA must be the first four chars for TMSS */
+        .ascii  "(C)2017         "
+        .ascii  "Powered by Block"      /* export name */
+        .ascii  "lyVN32X         "
         .ascii  "                "
-        .ascii  "Example startup "      /* domestic (Japanese) name */
-        .ascii  "code for 32X    "
+        .ascii  "Powered by Block"      /* domestic (Japanese) name */
+        .ascii  "lyVN32X         "
         .ascii  "                "
         .ascii  "GM MK-0000 -00"
         .word   0x0000                  /* checksum - not needed */
