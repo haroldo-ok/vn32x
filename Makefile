@@ -56,6 +56,7 @@ $(OBJDIR)/%.bmf : $(IMGDIR)/src/%.fnt
 	
 all: $(GENDIR)/generated_script.c $(GENDIR)/include.mk $(IMGS) $(OBJS) 
 	sh-elf-ld -T $(SRCDIR)/32x.ld -e _start -Map generated.mapfile --oformat binary -o generated.32x $(OBJS)
+	rom-pad generated.32x
 	
 $(OBJS): | $(RSCS) $(OBJDIR)
 
